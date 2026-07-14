@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/BackEnd/">
+    <Project Path="BackEnd/AppDeMensagem.Application/AppDeMensagem.Application.csproj" />
+    <Project Path="BackEnd/AppDeMensagem.Domain/AppDeMensagem.Domain.csproj" />
+    <Project Path="BackEnd/AppDeMensagem.Infrastructure/AppDeMensagem.Infrastructure.csproj" />
+    <Project Path="BackEnd/AppDeMensagem.WebApi/AppDeMensagem.WebApi.csproj" />
+  </Folder>
+  <Folder Name="/FrontEnd/">
+    <Project Path="FrontEnd/AppDeMensagem.Blazor/AppDeMensagem.Blazor.csproj" />
+  </Folder>
+</Solution>

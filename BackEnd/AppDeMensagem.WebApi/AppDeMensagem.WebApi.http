@@ -1,0 +1,6 @@
+@AppDeMensagem.WebApi_HostAddress = http://localhost:5160
+
+GET {{AppDeMensagem.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
