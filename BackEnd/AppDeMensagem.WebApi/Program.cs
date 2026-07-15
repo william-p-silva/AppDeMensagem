@@ -1,3 +1,6 @@
+using AppDeMensagem.Domain.Entity;
+using AppDeMensagem.Domain.Enum;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,3 +24,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

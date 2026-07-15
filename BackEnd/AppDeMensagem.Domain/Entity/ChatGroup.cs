@@ -8,12 +8,15 @@ public class ChatGroup : Chat
     public ChatGroup(Guid user_id)
     {
         UserChat userChat = new UserChat(user_id, Chat_ID, isAdmin: true);
-        UsersChat.Add(userChat);
+        AddParticipant(userChat);
     }
 
     public void AddPeopleInChat(Guid user_id)
     {
+        if (UsersChat.Any(uc => uc.User_ID == user_id))
+            throw new InvalidOperationException("The user is already in the chat. ");
+
         UserChat userChat = new UserChat(user_id, Chat_ID, isAdmin: false);
-        UsersChat.Add(userChat);
+        AddParticipant(userChat);
     }
 }

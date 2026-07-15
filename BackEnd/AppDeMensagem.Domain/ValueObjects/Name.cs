@@ -1,5 +1,7 @@
 ﻿
 
+using System.Text.RegularExpressions;
+
 namespace AppDeMensagem.Domain.ValueObjects;
 
 public sealed record Name
@@ -13,9 +15,9 @@ public sealed record Name
         if (string.IsNullOrWhiteSpace(textName))
             throw new ArgumentNullException("The name cannot be null. ", nameof(textName));
 
-        bool isLetters = textName.All(char.IsLetter);
-        if (!isLetters) throw new ArgumentException("The name is invalid. ", nameof(textName));
-
+        string padrao = @"^[a-zA-ZÀ-ÿ\s'-]+$";
+        if(!Regex.IsMatch(textName, padrao))
+            throw new ArgumentException("The name cannot be null. ", nameof(textName));
         return new Name(textName);
     }
 }

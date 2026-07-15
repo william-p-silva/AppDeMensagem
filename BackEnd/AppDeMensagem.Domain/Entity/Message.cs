@@ -23,6 +23,7 @@ public class Message
         if(chat_id == Guid.Empty) 
             throw new ArgumentNullException("The id chat cannot be null. ", nameof(chat_id));
 
+        Message_ID = Guid.NewGuid();
         Text = text;
         SendTime = DateTime.UtcNow; 
         Status = StatusMessage.Sent;

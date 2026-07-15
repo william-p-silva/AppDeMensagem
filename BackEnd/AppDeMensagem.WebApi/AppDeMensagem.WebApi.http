@@ -1,6 +1,10 @@
 @AppDeMensagem.WebApi_HostAddress = http://localhost:5160
 
-GET {{AppDeMensagem.WebApi_HostAddress}}/weatherforecast/
+POST {{AppDeMensagem.WebApi_HostAddress}}/teste/
 Accept: application/json
-
+{
+  "email": "william@gmail.com",
+  "nome": "William José",
+  "senha": "213"
+}
 ###

@@ -12,7 +12,9 @@ public class Usuario
     public string PasswordHash { get; private set; }
     public PerfilUser UserProfile { get; private set; }
 
-    public ICollection<UserChat> UsersChat { get; private set; }
+    private readonly List<UserChat> _usersChat = new List<UserChat>();
+
+    public IReadOnlyCollection<UserChat> UsersChat => _usersChat.AsReadOnly();
 
 
     protected Usuario() { }

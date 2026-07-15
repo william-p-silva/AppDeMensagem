@@ -8,8 +8,11 @@ public abstract class Chat
     public Guid Chat_ID { get; private set; }
     public DateTime Created { get; private set; }
 
-    public ICollection<Message> Messages { get; private set; } = new List<Message>();
-    public ICollection<UserChat> UsersChat { get; private set; } = new List<UserChat>();
+    private readonly List<Message> _messages = new List<Message>();
+    private readonly List<UserChat> _usersChat = new List<UserChat>();
+
+    public IReadOnlyCollection<Message> Messages => _messages.AsReadOnly();
+    public IReadOnlyCollection<UserChat> UsersChat => _usersChat.AsReadOnly();
 
 
     public Chat()
@@ -18,9 +21,14 @@ public abstract class Chat
         Created = DateTime.UtcNow;
     }
 
+    protected void AddParticipant(UserChat userChat)
+    {
+        _usersChat.Add(userChat);
+    }
+
     public void SendMessage(string text)
     {
         Message msg = new Message(Chat_ID, text);
-        Messages.Add(msg);
+        _messages.Add(msg);
     }
 }

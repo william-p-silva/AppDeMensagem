@@ -17,4 +17,8 @@
     <PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppDeMensagem.Domain\AppDeMensagem.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

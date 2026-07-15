@@ -20,6 +20,7 @@ public class UserChat
         if (chat_id == Guid.Empty)
             throw new ArgumentNullException("The id chat cannot be null. ", nameof(chat_id));
 
+        UserChat_ID = Guid.NewGuid();
         User_ID = user_id;
         Chat_ID = chat_id;
         IsAdmin = isAdmin;
