@@ -26,9 +26,14 @@ public abstract class Chat
         _usersChat.Add(userChat);
     }
 
-    public void SendMessage(string text)
+    public void SendMessage(UserChat sender, string text)
     {
-        Message msg = new Message(Chat_ID, text);
+        if(!UsersChat.Any(uc => uc.User_ID == sender.User_ID))
+            throw new InvalidOperationException("The user or the chat does not match");
+        if (!UsersChat.Any(uc => uc.Chat_ID == sender.Chat_ID))
+            throw new InvalidOperationException("The user or the chat does not match");
+
+        Message msg = new Message(this, sender, text);
         _messages.Add(msg);
     }
 }

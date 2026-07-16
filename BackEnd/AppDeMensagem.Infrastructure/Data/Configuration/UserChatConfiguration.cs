@@ -20,7 +20,7 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
         builder.HasOne(uc => uc.Usuario)
             .WithMany(u => u.UsersChat)
             .HasForeignKey(uc => uc.User_ID)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(uc => uc.Chat)
             .WithMany(c => c.UsersChat)

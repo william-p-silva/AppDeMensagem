@@ -36,5 +36,9 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
         builder.Property(u => u.UserProfile)
             .IsRequired()
             .HasConversion<string>();
+
+        builder.Navigation(u => u.UsersChat)
+            .HasField("_usersChat")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

@@ -19,8 +19,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
 
         builder.Property(m => m.SendTime)
             .IsRequired()
-            .HasColumnType("datetime2")
-            .HasDefaultValueSql("GETUTCDATE()");
+            .HasColumnType("datetime2");
 
         builder.Property(m => m.Status)
             .HasConversion<string>()
@@ -29,6 +28,15 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
         builder.HasOne(m => m.Chat)
             .WithMany(c => c.Messages)
             .HasForeignKey(m => m.Chat_ID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Navigation(m => m.Sender)
+            .HasField("_messages")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.HasOne(m => m.Sender)
+            .WithMany(uc => uc.Messages)
+            .HasForeignKey(m => m.Sender_ID)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

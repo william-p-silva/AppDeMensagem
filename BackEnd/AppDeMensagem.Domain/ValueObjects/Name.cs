@@ -11,6 +11,7 @@ public sealed record Name
     public string TextName { get; }
 
     private Name(string textName) {  TextName = textName; }
+    protected Name() { }
 
     public static Name Create(string textName)
     {

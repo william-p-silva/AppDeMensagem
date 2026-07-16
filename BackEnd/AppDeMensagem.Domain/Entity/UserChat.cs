@@ -8,8 +8,12 @@ public class UserChat
     public Guid Chat_ID { get; private set; }
     public bool IsAdmin { get; private set; }
 
+    private readonly List<Message> _messages = new List<Message>();
+
     public Chat Chat { get; private set; }
     public Usuario Usuario { get; private set; }
+    public IReadOnlyCollection<Message> Messages => _messages.AsReadOnly();
+
 
     protected UserChat() { }
 

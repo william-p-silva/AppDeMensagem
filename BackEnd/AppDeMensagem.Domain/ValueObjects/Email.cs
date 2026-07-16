@@ -9,6 +9,7 @@ public sealed record Email
     public string Endereco { get; }
 
     private Email(string endereco) { Endereco = endereco; }
+    protected Email() { }
 
     public static Email Create(string email)
     {

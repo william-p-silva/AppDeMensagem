@@ -7,26 +7,29 @@ public class Message
 {
     public Guid Message_ID { get; private set; }
     public Guid Chat_ID { get; private set; }
+    public Guid Sender_ID { get; private set; }
     public string Text { get; private set; }
     public DateTime SendTime { get; private set; }
     public StatusMessage Status { get; private set; }
 
+    public UserChat Sender { get; private set; }
     public Chat Chat { get; private set; }
 
     protected Message() { }
 
     public Message(
-        Guid chat_id, string text)
+        Chat chat, UserChat sender, string text)
     {
         if (string.IsNullOrWhiteSpace(text)) 
-            throw new ArgumentNullException("The text cannot be null. ", nameof(text));
-        if(chat_id == Guid.Empty) 
-            throw new ArgumentNullException("The id chat cannot be null. ", nameof(chat_id));
+            throw new InvalidOperationException("The text cannot be null. ");
 
         Message_ID = Guid.NewGuid();
         Text = text;
         SendTime = DateTime.UtcNow; 
         Status = StatusMessage.Sent;
-        Chat_ID = chat_id;
+        Chat_ID = chat.Chat_ID;
+        Sender_ID = sender.User_ID;
+        Sender = sender;
+        Chat = chat;
     }
 }
