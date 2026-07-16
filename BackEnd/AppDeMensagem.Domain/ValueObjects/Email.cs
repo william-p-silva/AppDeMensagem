@@ -12,10 +12,11 @@ public sealed record Email
 
     public static Email Create(string email)
     {
-        if (string.IsNullOrWhiteSpace(email)) throw new ArgumentException("Email Inválido. ");
+        if (string.IsNullOrWhiteSpace(email) || email.Count() >= 251) 
+            throw new ArgumentException("Email invalid. ");
 
         EmailAddressAttribute validator = new();
-        if (!validator.IsValid(email)) throw new ArgumentException("Email Inválido");
+        if (!validator.IsValid(email)) throw new ArgumentException("Email invalid. ");
 
         return new Email(email);
     } 

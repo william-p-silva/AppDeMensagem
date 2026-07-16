@@ -11,21 +11,21 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
 {
     public void Configure(EntityTypeBuilder<Usuario> builder)
     {
-        builder.ToTable("Usuarios");
+        builder.ToTable("Users");
 
         builder.HasKey(u => u.User_ID);
 
         builder.Property(u => u.PasswordHash).IsRequired();
 
-        builder.Property(u => u.Email)
+        builder.Property(u => u.EmailAddress)
             .HasConversion(
-                emailVo => emailVo.Endereco, 
+                emailVo => emailVo.Endereco,
                 dbValue => Email.Create(dbValue))
             .HasColumnName("Email")
             .IsRequired()
             .HasMaxLength(250);
 
-        builder.Property(u => u.Name)
+        builder.Property(u => u.UserName)
             .HasConversion(
                 nameVo => nameVo.TextName,
                 dbValue => Name.Create(dbValue))
