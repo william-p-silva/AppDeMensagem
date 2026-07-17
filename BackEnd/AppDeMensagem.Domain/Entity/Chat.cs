@@ -1,5 +1,6 @@
 ﻿
 using AppDeMensagem.Domain.Enum;
+using System.Reflection;
 
 namespace AppDeMensagem.Domain.Entity;
 
@@ -7,6 +8,7 @@ public abstract class Chat
 {
     public Guid Chat_ID { get; private set; }
     public DateTime Created { get; private set; }
+    public bool Ativo { get; private set; }
 
     private readonly List<Message> _messages = new List<Message>();
     private readonly List<UserChat> _usersChat = new List<UserChat>();
@@ -14,15 +16,19 @@ public abstract class Chat
     public IReadOnlyCollection<Message> Messages => _messages.AsReadOnly();
     public IReadOnlyCollection<UserChat> UsersChat => _usersChat.AsReadOnly();
 
-
-    public Chat()
+    protected Chat () { }
+    public Chat(bool ativo = true)
     {
         Chat_ID = Guid.NewGuid();
         Created = DateTime.UtcNow;
+        Ativo = ativo;
     }
 
     protected void AddParticipant(UserChat userChat)
     {
+        if(userChat.Chat_ID != Chat_ID)
+            throw new InvalidOperationException("The chat does not match");
+
         _usersChat.Add(userChat);
     }
 

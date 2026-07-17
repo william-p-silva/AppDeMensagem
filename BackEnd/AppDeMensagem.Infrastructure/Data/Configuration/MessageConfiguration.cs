@@ -30,10 +30,6 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .HasForeignKey(m => m.Chat_ID)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Navigation(m => m.Sender)
-            .HasField("_messages")
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
-
         builder.HasOne(m => m.Sender)
             .WithMany(uc => uc.Messages)
             .HasForeignKey(m => m.Sender_ID)

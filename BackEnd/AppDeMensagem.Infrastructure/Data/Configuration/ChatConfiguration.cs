@@ -14,6 +14,9 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
 
         builder.HasKey(c => c.Chat_ID);
 
+        builder.Property(c => c.Ativo)
+            .IsRequired();
+
         builder.HasDiscriminator<string>("ChatType")
             .HasValue<ChatPrivate>("Private")
             .HasValue<ChatGroup>("Group");
