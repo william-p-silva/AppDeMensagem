@@ -1,5 +1,3 @@
-using AppDeMensagem.Domain.Entity;
-using AppDeMensagem.Domain.Enum;
 using AppDeMensagem.Infrastructure.Data.Context;
 using AppDeMensagem.WebApi.Dependecies;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +28,11 @@ app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "AppDeMensagem API v1");
+    });
 }
 
 app.UseHttpsRedirection();
@@ -41,7 +44,7 @@ app.MapControllers();
 app.Run();
 
 // Criar uma nova Migration:
-// dotnet ef migrations add init --project ..\AppDeMensagem.Infrastructure 
+// dotnet ef migrations add init --project ..\AppDeMensagem.Infrastructure
 //
 // Atualizar o banco manualmente (Caso não queira depender do auto-migrate):
-// dotnet ef database update --project ..\AppDeMensagem.Infrastructure  
+// dotnet ef database update --project ..\AppDeMensagem.Infrastructure

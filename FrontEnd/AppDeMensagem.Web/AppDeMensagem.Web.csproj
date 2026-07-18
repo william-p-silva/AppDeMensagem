@@ -12,4 +12,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.10" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppDeMensagem.Core\AppDeMensagem.Core.csproj" />
+    <ProjectReference Include="..\AppDeMensagem.Feature\AppDeMensagem.Feature.csproj" />
+    <ProjectReference Include="..\AppDeMensagem.Shared\AppDeMensagem.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -10,6 +10,9 @@
     <Project Path="BackEnd/AppDeMensagem.WebApi/AppDeMensagem.WebApi.csproj" />
   </Folder>
   <Folder Name="/FrontEnd/">
-    <Project Path="FrontEnd/AppDeMensagem.Blazor/AppDeMensagem.Blazor.csproj" />
+    <Project Path="FrontEnd/AppDeMensagem.Core/AppDeMensagem.Core.csproj" Id="b3af2f61-1c09-4c9d-9d78-a8bd476c845f" />
+    <Project Path="FrontEnd/AppDeMensagem.Feature/AppDeMensagem.Feature.csproj" Id="05957a4a-d1e1-4a0e-8f05-e6620caac437" />
+    <Project Path="FrontEnd/AppDeMensagem.Shared/AppDeMensagem.Shared.csproj" Id="6d1f9f78-4c53-4c1e-9b88-4fa2f57ed127" />
+    <Project Path="FrontEnd/AppDeMensagem.Web/AppDeMensagem.Web.csproj" Id="a900a4d9-a49d-40b7-b744-55d4cc2998ef" />
   </Folder>
 </Solution>

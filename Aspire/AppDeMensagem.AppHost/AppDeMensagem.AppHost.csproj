@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\AppDeMensagem.WebApi\AppDeMensagem.WebApi.csproj" />
-    <ProjectReference Include="..\..\FrontEnd\AppDeMensagem.Blazor\AppDeMensagem.Blazor.csproj" />
+    <ProjectReference Include="..\..\FrontEnd\AppDeMensagem.Web\AppDeMensagem.Web.csproj" />
   </ItemGroup>
 
 </Project>
