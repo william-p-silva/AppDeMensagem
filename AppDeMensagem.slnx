@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Aspire/">
+    <Project Path="Aspire/AppDeMensagem.AppHost/AppDeMensagem.AppHost.csproj" Id="fc1fa0b0-ac5b-428f-adf1-dcaf00477f16" />
+    <Project Path="Aspire/AppDeMensagem.ServiceDefaults/AppDeMensagem.ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/BackEnd/">
     <Project Path="BackEnd/AppDeMensagem.Application/AppDeMensagem.Application.csproj" />
     <Project Path="BackEnd/AppDeMensagem.Domain/AppDeMensagem.Domain.csproj" />

@@ -1,0 +1,16 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.2.4">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>7083b0c6-d59f-4ece-8a71-65cc06c64cee</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BackEnd\AppDeMensagem.WebApi\AppDeMensagem.WebApi.csproj" />
+    <ProjectReference Include="..\..\FrontEnd\AppDeMensagem.Blazor\AppDeMensagem.Blazor.csproj" />
+  </ItemGroup>
+
+</Project>

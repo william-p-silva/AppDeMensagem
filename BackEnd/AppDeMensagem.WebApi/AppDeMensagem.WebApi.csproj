@@ -15,10 +15,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.10" />
-    <PackageReference Include="Microsoft.OpenApi" Version="3.9.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Aspire\AppDeMensagem.ServiceDefaults\AppDeMensagem.ServiceDefaults.csproj" />
     <ProjectReference Include="..\AppDeMensagem.Domain\AppDeMensagem.Domain.csproj" />
     <ProjectReference Include="..\AppDeMensagem.Infrastructure\AppDeMensagem.Infrastructure.csproj" />
   </ItemGroup>

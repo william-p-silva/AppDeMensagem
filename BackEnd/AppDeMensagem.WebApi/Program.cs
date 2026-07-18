@@ -1,9 +1,12 @@
 using AppDeMensagem.Domain.Entity;
 using AppDeMensagem.Domain.Enum;
 using AppDeMensagem.Infrastructure.Data.Context;
+using AppDeMensagem.WebApi.Dependecies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 // ============================================================================
 // 1. CONFIGURAÇÃO DE INFRAESTRUTURA DE DADOS (SQL Server 2025 Developer)
@@ -13,13 +16,16 @@ var conecctionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(conecctionString, x => x.MigrationsAssembly("AppDeMensagem.Infrastructure")));
 
-
+builder.Services.AddProjectDependecies(builder.Configuration);
 
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
 
 if (app.Environment.IsDevelopment())
 {
