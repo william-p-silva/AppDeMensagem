@@ -1,5 +1,6 @@
 using AppDeMensagem.Infrastructure.Data.Context;
 using AppDeMensagem.WebApi.Dependecies;
+using AppDeMensagem.WebApi.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapDefaultEndpoints();
 

@@ -3,6 +3,7 @@
 using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Domain.Entity;
 using AppDeMensagem.Domain.Enum;
+using AppDeMensagem.Domain.ValueObjects;
 using AppDeMensagem.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +44,8 @@ public class UserRepository(AppDbContext context) : IUserRepository
 
     public async Task<Usuario?> FindByEmail(string email)
     {
-        return await context.Users.FirstOrDefaultAsync(x => x.EmailAddress.Endereco == email);
+        var emailVo = Email.Create(email);
+
+        return await context.Users.FirstOrDefaultAsync(x => x.EmailAddress == emailVo);
     }
 }
