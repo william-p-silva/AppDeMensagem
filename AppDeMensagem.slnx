@@ -15,4 +15,7 @@
     <Project Path="FrontEnd/AppDeMensagem.Shared/AppDeMensagem.Shared.csproj" Id="6d1f9f78-4c53-4c1e-9b88-4fa2f57ed127" />
     <Project Path="FrontEnd/AppDeMensagem.Web/AppDeMensagem.Web.csproj" Id="a900a4d9-a49d-40b7-b744-55d4cc2998ef" />
   </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/BackEnd/AppDeMensagem.UnitTest/AppDeMensagem.UnitTest.csproj" Id="7db9c549-0961-4a9c-9eaf-97acf898a5fb" />
+  </Folder>
 </Solution>
