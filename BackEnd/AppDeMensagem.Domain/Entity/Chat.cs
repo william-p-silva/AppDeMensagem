@@ -1,6 +1,4 @@
 ﻿
-using AppDeMensagem.Domain.Enum;
-using System.Reflection;
 
 namespace AppDeMensagem.Domain.Entity;
 

@@ -1,7 +1,7 @@
 ﻿
 namespace AppDeMensagem.Domain.Entity;
 
-public class UserChat
+public class UserChat 
 {
     public Guid UserChat_ID { get; private set; }
     public Guid User_ID { get; private set; }
@@ -17,12 +17,12 @@ public class UserChat
 
     protected UserChat() { }
 
-    public UserChat(Guid user_id, Guid chat_id, bool isAdmin)
+    public UserChat(Guid user_id, Guid chat_id, bool isAdmin) 
     {
         if(user_id == Guid.Empty) 
-            throw new ArgumentNullException("The id user cannot be null. ", nameof(user_id));
+            throw new ArgumentNullException(nameof(user_id), "The id user cannot be null. ");
         if (chat_id == Guid.Empty)
-            throw new ArgumentNullException("The id chat cannot be null. ", nameof(chat_id));
+            throw new ArgumentNullException(nameof(user_id), "The id chat cannot be null. ");
 
         UserChat_ID = Guid.NewGuid();
         User_ID = user_id;

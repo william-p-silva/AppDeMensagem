@@ -5,7 +5,7 @@ namespace AppDeMensagem.Domain.Entity;
 public class ChatGroup : Chat
 {
     protected ChatGroup() { }
-    public ChatGroup(Guid user_id)
+    public ChatGroup(Guid user_id) : base(true)
     {
         UserChat userChat = new UserChat(user_id, Chat_ID, isAdmin: true);
         AddParticipant(userChat);

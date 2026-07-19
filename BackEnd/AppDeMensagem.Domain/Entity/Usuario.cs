@@ -22,7 +22,7 @@ public class Usuario
         string email, string userName, string passwordHash, PerfilUser userProfile)
     {
         if (string.IsNullOrWhiteSpace(passwordHash))
-            throw new ArgumentNullException("The password cannot be null. ", nameof(passwordHash));
+            throw new ArgumentNullException(nameof(passwordHash), "The password cannot be null. ");
 
         User_ID = Guid.NewGuid();
         EmailAddress = Email.Create(email);

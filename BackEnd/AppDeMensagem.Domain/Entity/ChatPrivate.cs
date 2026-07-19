@@ -7,7 +7,7 @@ namespace AppDeMensagem.Domain.Entity;
 public class ChatPrivate : Chat
 {
     protected ChatPrivate() { }
-    public ChatPrivate(Guid user1_id, Guid user2_id)
+    public ChatPrivate(Guid user1_id, Guid user2_id) : base(true)
     {
         if (user1_id == user2_id)
             throw new InvalidOperationException("The user cannot create chat with himself. ");
