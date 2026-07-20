@@ -1,6 +1,4 @@
-﻿
-
-using AppDeMensagem.Application.DTOs.User;
+﻿using AppDeMensagem.Application.DTOs.User;
 using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Application.Interfaces.Security;
 using AppDeMensagem.Application.UseCases.User;
@@ -11,7 +9,7 @@ using AppDeMensagem.UnitTest.Fixtures;
 using Moq;
 using Xunit.Sdk;
 
-namespace AppDeMensagem.UnitTest.Tests.UserTests;
+namespace AppDeMensagem.UnitTest.Tests.UseCaseTests.UserTests;
 
 public class RegisterUserTest
 {

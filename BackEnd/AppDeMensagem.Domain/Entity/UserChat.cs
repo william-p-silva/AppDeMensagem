@@ -17,16 +17,18 @@ public class UserChat
 
     protected UserChat() { }
 
-    public UserChat(Guid user_id, Guid chat_id, bool isAdmin) 
+    public UserChat(Usuario user, Chat chat, bool isAdmin) 
     {
-        if(user_id == Guid.Empty) 
-            throw new ArgumentNullException(nameof(user_id), "The id user cannot be null. ");
-        if (chat_id == Guid.Empty)
-            throw new ArgumentNullException(nameof(user_id), "The id chat cannot be null. ");
+        if(user is null) 
+            throw new ArgumentNullException("The user cannot be null. ");
+        if (chat is null)
+            throw new ArgumentNullException("The chat cannot be null. ");
 
         UserChat_ID = Guid.NewGuid();
-        User_ID = user_id;
-        Chat_ID = chat_id;
+        User_ID = user.User_ID;
+        Chat_ID = chat.Chat_ID;
         IsAdmin = isAdmin;
+        Chat = chat;
+        Usuario = user;
     }
 }

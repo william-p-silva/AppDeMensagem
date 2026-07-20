@@ -9,7 +9,11 @@ namespace AppDeMensagem.Infrastructure.Data.Respository;
 
 public class ChatRepository(AppDbContext context) : IChatRepository
 {
-    
+    public async Task AddAsync(Chat chat)
+    {
+        await context.Chats.AddAsync(chat);
+    }
+
     public Task<Chat?> GetByIdWithParticipantsAsync(Guid chatId)
     {
         return context.Chats
