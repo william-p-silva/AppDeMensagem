@@ -1,5 +1,4 @@
-﻿
-using AppDeMensagem.Application.DTOs.User;
+﻿using AppDeMensagem.Application.DTOs.User.Request;
 using AppDeMensagem.Domain.Entity;
 using AppDeMensagem.Domain.Enum;
 

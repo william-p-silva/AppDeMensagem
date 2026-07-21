@@ -5,7 +5,6 @@ using AppDeMensagem.Application.UseCases.Chat.Create;
 using AppDeMensagem.Application.UseCases.User;
 using AppDeMensagem.Infrastructure.Data.Respository;
 using AppDeMensagem.Infrastructure.Data.Security;
-using AppDeMensagem.Infrastructure.Data.temp;
 using AppDeMensagem.WebApi.Services.Chat;
 
 
@@ -21,11 +20,12 @@ internal static class DependencyInjectionConfig
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IChatRepository, ChatRepository>();
         services.AddScoped<IChatNotificationService, SignalRChatNotificationService>();
+        services.AddScoped<ITokenService, TokenService>();
 
         // UseCases
         // User
         services.AddScoped<RegisterUseCase>();
-
+        services.AddScoped<LoginUseCase>();
         // Chat
         services.AddScoped<CreateChatPrivateUseCase>();
 

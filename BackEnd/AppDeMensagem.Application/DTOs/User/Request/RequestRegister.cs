@@ -1,7 +1,6 @@
-﻿
-using AppDeMensagem.Domain.Enum;
+﻿using AppDeMensagem.Domain.Enum;
 
-namespace AppDeMensagem.Application.DTOs.User;
+namespace AppDeMensagem.Application.DTOs.User.Request;
 
 public sealed record RequestRegister
 {

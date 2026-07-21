@@ -1,4 +1,4 @@
-﻿using AppDeMensagem.Application.DTOs.User;
+﻿using AppDeMensagem.Application.DTOs.User.Request;
 using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Application.Interfaces.Security;
 using AppDeMensagem.Application.UseCases.User;
