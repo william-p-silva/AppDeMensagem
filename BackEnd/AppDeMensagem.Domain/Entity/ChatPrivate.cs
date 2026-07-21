@@ -7,13 +7,19 @@ namespace AppDeMensagem.Domain.Entity;
 public class ChatPrivate : Chat
 {
     protected ChatPrivate() { }
-    public ChatPrivate(Usuario user1, Usuario user2) : base(true)
+    public ChatPrivate(Usuario userPrimary, Usuario userSecond) : base(true)
     {
-        if (user1.User_ID == user2.User_ID)
+        if (userPrimary.User_ID == userSecond.User_ID)
             throw new InvalidOperationException("The user cannot create chat with himself. ");
+        if (userPrimary.UserProfile == PerfilUser.Deleted)
+            throw new ArgumentException("The user primary deleted. ");
+        if (userSecond.UserProfile == PerfilUser.Deleted)
+        {
+            throw new ArgumentException("The user second deleted. ");
+        }
 
-        UserChat userChat1 = new UserChat(user1, this, isAdmin: false);
-        UserChat userChat2 = new UserChat(user2, this, isAdmin: false);
+        UserChat userChat1 = new UserChat(userPrimary, this, isAdmin: false);
+        UserChat userChat2 = new UserChat(userSecond, this, isAdmin: false);
 
         AddParticipant(userChat1);
         AddParticipant(userChat2);

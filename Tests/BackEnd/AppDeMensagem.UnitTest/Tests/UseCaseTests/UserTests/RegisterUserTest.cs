@@ -19,7 +19,7 @@ public class RegisterUserTest
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
     [Fact]
-    public async Task ReturnSuccess_OfValidData()
+    public async Task ReturnSuccess_DadosValidos()
     {
         //Arrange
         string emailFake = "testvalid@gmail.com";
@@ -56,7 +56,7 @@ public class RegisterUserTest
     }
 
     [Fact]
-    public async Task ReturnSuccess_OfInvalidData()
+    public async Task DeveGerarExcecao_EmailInvalido()
     {
         //Arrange
         string emailFake = "testvalidgmail.com";
@@ -92,7 +92,7 @@ public class RegisterUserTest
     }
 
     [Fact]
-    public async Task ReturnSuccess_OfUserExistent()
+    public async Task DeveGerarExcecao_UserExistente()
     {
         //Arrange
         string emailFake = "testvalid@gmail.com";
