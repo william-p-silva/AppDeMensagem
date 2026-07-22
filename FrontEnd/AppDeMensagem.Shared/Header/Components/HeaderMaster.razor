@@ -1,0 +1,19 @@
+@using AppDeMensagem.Shared.Header.Models
+@using Microsoft.AspNetCore.Components.Routing
+@using Shared.Header.Services
+
+
+<header class="bg-zinc-300 p-4 text-lg h-26 w-full ">
+	<nav>
+		<ul class="">
+			@foreach(LinksHeader link in nav.ListLinks)
+			{
+				<li><NavLink href="@link.route">@link.label</NavLink></li>
+			}
+		</ul>
+	</nav>
+</header>
+
+@code{
+	private NavServices nav = new();
+}

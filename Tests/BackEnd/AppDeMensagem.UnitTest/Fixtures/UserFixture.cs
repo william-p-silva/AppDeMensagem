@@ -38,4 +38,16 @@ internal class UserFixture
             Profile = profile
         };
     }
+
+    public RequestLogin CreateRequestLogin(
+        string email,
+        string password
+        )
+    {
+        return new RequestLogin
+        {
+            Email = email,
+            Password = password
+        };
+    }
 }
