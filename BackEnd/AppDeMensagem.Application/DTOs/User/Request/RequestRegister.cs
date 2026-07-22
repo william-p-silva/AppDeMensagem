@@ -6,6 +6,7 @@ public sealed record RequestRegister
 {
     public string Email { get; set; }
     public string Name { get; set; }
-    public string PassoWord { get; set; }
+    public string PassWord { get; set; }
+    public string ConfirmPassword { get; set; }
     public PerfilUser Profile { get; set; }
 }

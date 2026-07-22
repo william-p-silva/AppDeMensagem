@@ -8,15 +8,19 @@ namespace AppDeMensagem.Feature.Auth.Services;
 public class LoginService(HttpService httpService)
 {
     private readonly HttpService _httpService = httpService;
+
+    public LoginUserModel ModelUser { get; set; } = new();
     public List<string> ErrorLogin { get; set; } = new List<string>();
 
-    public async Task<bool> LogarUser(LoginUserModel request)
+    public async Task<bool> LogarUser()
     {        
-        var response = await _httpService.PostAsync<LoginUserModel, ResponseLoginUserModel>("User/post/login", request);
+        var response = await _httpService.PostAsync<LoginUserModel, ResponseLoginUserModel>("User/post/login", ModelUser);
+
         if (_httpService.Error.Count > 0)
         {
             ErrorLogin.Add(_httpService.Error.Last());
         }
+
         return response?.Success ?? false;
     }
 }

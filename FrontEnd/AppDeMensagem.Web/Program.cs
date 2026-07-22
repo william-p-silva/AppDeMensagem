@@ -16,5 +16,6 @@ builder.Services.AddHttpClient<HttpService>(client =>
 });
 
 builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<CadastroService>();
 
 await builder.Build().RunAsync();

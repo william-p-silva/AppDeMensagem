@@ -16,7 +16,7 @@ public class RegisterUseCase(
         if (userExist is not null)
             throw new ArgumentException("User already registed. ", nameof(request.Email));
 
-        string hash = passwordHasher.HashPassword(request.PassoWord);
+        string hash = passwordHasher.HashPassword(request.PassWord);
 
         Usuario user = new Usuario(
             email: request.Email,
