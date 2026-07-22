@@ -3,17 +3,21 @@
 @using Shared.Header.Services
 
 
-<header class="bg-zinc-300 p-4 text-lg h-26 w-full ">
-	<nav>
-		<ul class="">
-			@foreach(LinksHeader link in nav.ListLinks)
+<header class="bg-zinc-300 p-2 text-lg h-26 w-full flex items-center justify-between">
+	<div class="w-15 h-15 rounded-full bg-blue-500 ">
+	</div>
+	<nav class="flex items-end h-full">
+		<ul class="flex gap-4 ">
+			@foreach (LinksHeader link in nav.AuthLinks)
 			{
-				<li><NavLink href="@link.route">@link.label</NavLink></li>
+				<li class="bg-zinc-400 p-1 rounded-lg text-center hover:bg-zinc-500 transition-all duration-300 cursor-pointer">
+					<NavLink href="@link.route">@link.label</NavLink>
+				</li>
 			}
 		</ul>
 	</nav>
 </header>
 
-@code{
+@code {
 	private NavServices nav = new();
 }
