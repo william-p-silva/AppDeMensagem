@@ -1,0 +1,39 @@
+﻿@using AppDeMensagem.Feature.Auth.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+
+
+<EditForm Model="modelUser" OnValidSubmit="HandleSubmit" class="flex h-screen w-full flex-col items-center justify-center">
+	<div class="flex w-[90%] flex-col justify-center gap-6 p-2 md:w-[80%]">
+		<DataAnnotationsValidator />
+
+		<div class="flex flex-col gap-2 text-zinc-500">
+			<label class="font-bold text-zinc-500">E-mail: </label>
+			<InputText @bind-Value="modelUser.Email" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
+			<ValidationMessage For="@(() => modelUser.Email)" class="text-red-500" />
+		</div>
+
+		<div class="flex flex-col gap-2 text-zinc-500">
+			<label class="font-bold">Senha: </label>
+			<InputText @bind-Value="modelUser.Password" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
+			<ValidationMessage For="@(() => modelUser.Password)" class="text-red-500" />
+		</div>
+		<div class="flex w-full justify-center">
+			<button type="submit" class="w-full cursor-pointer rounded-lg bg-zinc-500 p-2 transition-all duration-300 hover:bg-zinc-600">
+				Salvar
+			</button>
+		</div>
+	</div>
+<div class="flex flex-col justify-center text-center text-zinc-500">
+	<p>Não tem uma conta? <NavLink href="/cadastro" class="text-blue-300">Cadastre-se aqui!</NavLink></p>
+	<NavLink href="/" class="text-blue-300">Voltar a tela home</NavLink>
+</div>
+</EditForm>
+
+@code {
+	private LoginUserModel modelUser = new();
+
+	private void HandleSubmit()
+	{
+	}
+}

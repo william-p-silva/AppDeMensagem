@@ -1,0 +1,48 @@
+@using AppDeMensagem.Feature.Auth.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+
+
+
+<EditForm Model="modelCadastro" OnValidSubmit="HandleSubmit" class="flex h-screen w-full flex-col items-center justify-center">
+	<div class="flex w-[90%] flex-col justify-center gap-6 p-2 md:w-[80%]">
+		<DataAnnotationsValidator />
+
+		<div class="flex flex-col gap-2 text-zinc-500">
+			<label class="font-bold text-zinc-500">E-mail: </label>
+			<InputText @bind-Value="modelCadastro.Email" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
+			<ValidationMessage For="@(() => modelCadastro.Email)" class="text-red-500" />
+		</div>
+
+		<div class="flex flex-col gap-2 text-zinc-500">
+			<label class="font-bold">Senha: </label>
+			<InputText @bind-Value="modelCadastro.Password" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
+			<ValidationMessage For="@(() => modelCadastro.Password)" class="text-red-500" />
+		</div>
+
+		<div class="flex flex-col gap-2 text-zinc-500">
+			<label class="font-bold">Confirme sua Senha: </label>
+			<InputText @bind-Value="modelCadastro.ConfirmPassword" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
+			<ValidationMessage For="@(() => modelCadastro.ConfirmPassword)" class="text-red-500" />
+		</div>
+
+		<div class="flex w-full justify-center">
+			<button type="submit" class="w-full cursor-pointer rounded-lg bg-zinc-500 p-2 transition-all duration-300 hover:bg-zinc-600">
+				Salvar
+			</button>
+		</div>
+		<div class="flex flex-col justify-center text-center text-zinc-500">
+			<p>Já tem uma conta? <NavLink href="/login" class="text-blue-300">Faça login aqui!</NavLink></p>
+			<NavLink href="/" class="text-blue-300">Voltar a tela home</NavLink>
+		</div>
+	</div>
+</EditForm>
+
+@code {
+	private CadastroUserModel modelCadastro = new();
+
+	private void HandleSubmit()
+	{
+
+	}
+}
