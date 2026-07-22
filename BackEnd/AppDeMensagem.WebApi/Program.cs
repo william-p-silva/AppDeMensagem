@@ -56,6 +56,16 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazor", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // ============================================================================
 // 4. CONTROLLERS E DOCUMENTAÇÃO DA API
 // ============================================================================
@@ -90,6 +100,8 @@ builder.Services.AddOpenApi(options =>
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+
+app.UseCors("AllowBlazor");
 
 app.UseMiddleware<ExceptionMiddleware>();
 

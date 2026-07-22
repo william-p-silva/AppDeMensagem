@@ -1,7 +1,9 @@
 ﻿@using AppDeMensagem.Feature.Auth.Models
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
-
+@using Auth.Services
+@inject LoginService LoginService
+@inject NavigationManager navigation
 
 <EditForm Model="modelUser" OnValidSubmit="HandleSubmit" class="flex h-screen w-full flex-col items-center justify-center">
 	<div class="flex w-[90%] flex-col justify-center gap-6 p-2 md:w-[80%]">
@@ -24,16 +26,34 @@
 			</button>
 		</div>
 	</div>
-<div class="flex flex-col justify-center text-center text-zinc-500">
-	<p>Não tem uma conta? <NavLink href="/cadastro" class="text-blue-300">Cadastre-se aqui!</NavLink></p>
-	<NavLink href="/" class="text-blue-300">Voltar a tela home</NavLink>
-</div>
+	<div class="flex flex-col justify-center text-center text-zinc-500">
+		<p>Não tem uma conta? <NavLink href="/cadastro" class="text-blue-300">Cadastre-se aqui!</NavLink></p>
+		<NavLink href="/" class="text-blue-300">Voltar a tela home</NavLink>
+	</div>
+	<div>
+		<div class="text-red-500">
+			@foreach (string erro in LoginService.ErrorLogin)
+			{
+				<p>@erro</p>
+			}
+		</div>
+	</div>
 </EditForm>
 
 @code {
 	private LoginUserModel modelUser = new();
 
-	private void HandleSubmit()
+	private async Task HandleSubmit()
 	{
+		LoginService.ErrorLogin.Clear();
+		var result = await LoginService.LogarUser(modelUser);
+		if (result)
+		{
+			navigation.NavigateTo("/user");
+		}
+		else
+		{
+			LoginService.ErrorLogin.Add("Ocorreu algum erro no login");
+		}
 	}
 }
