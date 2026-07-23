@@ -21,8 +21,8 @@ public class TokenService(IConfiguration configuration) : ITokenService
 
         var claims = new List<Claim>{
             new Claim(ClaimTypes.NameIdentifier, user.User_ID.ToString()),
-            new Claim(ClaimTypes.Email, user.EmailAddress.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName.ToString()),
+            new Claim(ClaimTypes.Email, user.EmailAddress.Endereco.ToString()),
+            new Claim(ClaimTypes.Name, user.UserName.TextName.ToString()),
             new Claim(ClaimTypes.Role, user.UserProfile.ToString())
         };
 

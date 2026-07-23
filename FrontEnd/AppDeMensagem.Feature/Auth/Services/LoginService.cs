@@ -1,5 +1,6 @@
 ﻿
 
+using AppDeMensagem.Core.Configuration;
 using AppDeMensagem.Core.Http;
 using AppDeMensagem.Feature.Auth.Models;
 
@@ -20,6 +21,14 @@ public class LoginService(HttpService httpService)
         {
             ErrorLogin.Add(_httpService.Error.Last());
         }
+        if (response.Data is null)
+        {
+            ErrorLogin.Add("Ocorreu um erro no login. ");
+            return false;
+        }
+
+        Authentication auth = new Authentication(
+            email: response.Data.Email, name: response.Data.Name, profile: response.Data.Profile);
 
         return response?.Success ?? false;
     }

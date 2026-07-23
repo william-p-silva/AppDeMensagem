@@ -1,8 +1,7 @@
-﻿@using Microsoft.AspNetCore.Components.Forms
-@using Microsoft.AspNetCore.Components.Routing
-@using Auth.Services
+﻿@using Auth.Services
 @inject LoginService LoginService
 @inject NavigationManager navigation
+@inject AuthenticationStateProvider authStateProvider
 
 <div class="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 shadow-xl">
 
@@ -16,10 +15,10 @@
 			  OnValidSubmit="HandleSubmit"
 			  class="flex flex-col gap-5"
 			  OnInvalidSubmit="@(() =>
-					  {
-						  LoginService.ErrorLogin.Clear();
-						  LoginService.ErrorLogin.Add("Preencha todos os campos corretamente.");
-					  })">
+							  {
+								  LoginService.ErrorLogin.Clear();
+								  LoginService.ErrorLogin.Add("Preencha todos os campos corretamente.");
+							  })">
 
 		<DataAnnotationsValidator />
 
@@ -75,7 +74,17 @@
 		var result = await LoginService.LogarUser();
 		if (result)
 		{
-			navigation.NavigateTo("/user");
+
+			if (authStateProvider is CustomAuthStateProvider customAuth)
+			{
+				// Força o Blazor a rodar o GetAuthenticationStateAsync() novamente
+				customAuth.NotifyUserAuthenticationState();
+			}
+
+			await Task.Yield();
+
+			navigation.NavigateTo("/user/home");
+
 		}
 		else
 		{

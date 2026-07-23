@@ -25,8 +25,8 @@ public class LoginUseCase(
 
         return new ResponseLogin
         {
-            Email = user.EmailAddress.Endereco,
-            Name = user.UserName.TextName,
+            Email = user.EmailAddress.Endereco.ToString(),
+            Name = user.UserName.TextName.ToString(),
             Profile = user.UserProfile.ToString(),
             Token = token
         };

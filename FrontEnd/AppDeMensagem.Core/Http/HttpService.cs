@@ -10,7 +10,7 @@ public class HttpService(HttpClient http)
 
     public List<string> Error { get; set; } = new List<string>();
 
-    public async Task<ResponseApi<TResponse?>> PostAsync<TResquest, TResponse>(string endpoint, TResquest request)
+    public async Task<ResponseApi<TResponse?>> PostAsync<TResquest, TResponse>(string endpoint, TResquest? request)
     {
         Error.Clear();
         try

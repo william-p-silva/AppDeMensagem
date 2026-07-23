@@ -4,7 +4,9 @@ using AppDeMensagem.Application.DTOs.User.Request;
 using AppDeMensagem.Application.DTOs.User.Response;
 using AppDeMensagem.Application.UseCases.User;
 using AppDeMensagem.Domain.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AppDeMensagem.WebApi.Controllers.User;
 
@@ -49,6 +51,27 @@ public class UserController(
                 Name = user.Name,
                 Email = user.Email,
                 Profile = user.Profile,
+            }
+        });
+    }
+
+
+    [HttpPost("me")]
+    [Authorize]
+    public IActionResult Me()
+    {
+        var email = User.FindFirst(ClaimTypes.Email)?.Value;
+        var name = User.FindFirst(ClaimTypes.Name)?.Value;
+        var profile = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        return Ok(new SuccessResponse<Object>
+        {
+            Success = true,
+            Data = new
+            {
+                Name = name,
+                Email = email,
+                Profile = profile,
             }
         });
     }

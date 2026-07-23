@@ -1,8 +1,7 @@
 ﻿
+namespace AppDeMensagem.Core.Model.User;
 
-namespace AppDeMensagem.Feature.Auth.Models;
-
-public sealed record ResponseLoginUserModel
+public class UserModel
 {
     public string Profile { get; set; }
     public string Name { get; set; }

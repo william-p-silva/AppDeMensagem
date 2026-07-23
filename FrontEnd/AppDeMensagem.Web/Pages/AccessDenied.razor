@@ -1,0 +1,17 @@
+﻿@layout SimpleLayout
+
+<div class="flex min-h-screen min-w-full flex-col items-center justify-center bg-zinc-100 p-6 text-center">
+    <span class="mb-4 text-6xl">👑🚫</span>
+    <h1 class="mb-2 text-4xl font-extrabold text-zinc-800">Acesso Negado</h1>
+    <p class="mb-6 max-w-md text-zinc-600">
+        Você precisa estar logado (ou ter a permissão necessária) para acessar esta área.
+    </p>
+    <div class="flex gap-4">
+        <NavLink href="/login" class="rounded-xl bg-blue-500 px-5 py-2.5 font-bold text-white shadow transition-all hover:bg-blue-600">
+            Ir para o Login
+        </NavLink>
+        <NavLink href="/" class="rounded-xl bg-zinc-300 px-5 py-2.5 font-semibold text-zinc-700 transition-all hover:bg-zinc-400">
+            Home
+        </NavLink>
+    </div>
+</div>
