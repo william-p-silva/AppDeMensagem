@@ -3,6 +3,7 @@ using AppDeMensagem.Application.DTOs.ResponseApi;
 using AppDeMensagem.Application.DTOs.User.Request;
 using AppDeMensagem.Application.DTOs.User.Response;
 using AppDeMensagem.Application.UseCases.User;
+using AppDeMensagem.Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppDeMensagem.WebApi.Controllers.User;
@@ -29,10 +30,26 @@ public class UserController(
     public async Task<IActionResult> LoginUser(RequestLogin request)
     {
         var user = await loginUseCase.ExecuteAsync(request);
-        return Ok(new SuccessResponse<ResponseLogin>
+
+        var cookiesOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddHours(3)
+        };
+
+        Response.Cookies.Append("AuthToken", user.Token, cookiesOptions);
+
+        return Ok(new SuccessResponse<Object>
         {
             Success = true,
-            Data = user
+            Data = new 
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Profile = user.Profile,
+            }
         });
     }
 }

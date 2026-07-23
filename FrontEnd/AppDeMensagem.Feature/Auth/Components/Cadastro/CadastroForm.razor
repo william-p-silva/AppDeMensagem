@@ -5,83 +5,105 @@
 @inject CadastroService CadastroService
 @inject NavigationManager Navigation
 
-<EditForm Model="CadastroService.CadastroModel"
-		  OnValidSubmit="HandleSubmit" class="flex h-screen w-full flex-col items-center justify-center"
-		  OnInvalidSubmit="@(() =>
-				  {
-					  CadastroService.ErrorCadastro.Clear();
-					  CadastroService.ErrorCadastro.Add("Campos inválidos. ");
-				  })">
+<div class="w-full max-w-lg rounded-2xl border border-zinc-200 bg-white p-8 shadow-xl">
 
-	<div class="text-md flex w-[90%] flex-col justify-center gap-6 p-2 md:w-[80%]">
+	<!-- Cabeçalho do Card -->
+	<div class="mb-6 flex flex-col gap-1 text-center md:text-left">
+		<h2 class="text-2xl font-extrabold text-zinc-800">Crie sua conta 🚀</h2>
+		<p class="text-sm text-zinc-500">Preencha os dados abaixo para se cadastrar.</p>
+	</div>
+
+	<EditForm Model="CadastroService.CadastroModel"
+			  OnValidSubmit="HandleSubmit"
+			  class="flex flex-col gap-5"
+			  OnInvalidSubmit="@(() =>
+								{
+									CadastroService.ErrorCadastro.Clear();
+									CadastroService.ErrorCadastro.Add("Por favor, preencha todos os campos corretamente.");
+								})">
+
 		<DataAnnotationsValidator />
 
-		<div class="flex items-center justify-between">
-
-			<div class="flex w-[60%] flex-col gap-2 text-zinc-500 md:w-[70%]">
-				<label class="font-bold text-zinc-500">Nome: </label>
-				<InputText @bind-Value="CadastroService.CadastroModel.Name" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
-				<ValidationMessage For="@(() => CadastroService.CadastroModel.Name)" class="text-red-500" />
+		<!-- Linha 1: Nome e Perfil -->
+		<div class="flex flex-col gap-4 sm:flex-row">
+			<!-- Campo Nome -->
+			<div class="flex flex-1 flex-col gap-1.5">
+				<label class="text-sm font-bold text-zinc-700">Nome:</label>
+				<InputText @bind-Value="CadastroService.CadastroModel.Name"
+						   placeholder="Seu nome completo"
+						   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm text-zinc-800 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
+				<ValidationMessage For="@(() => CadastroService.CadastroModel.Name)" class="text-xs text-red-500 font-medium" />
 			</div>
 
-			<div class="flex w-[30%] flex-col gap-2 text-zinc-500 md:w-[20%]">
-				<label class="font-bold">Perfil: </label>
-				<InputSelect @bind-Value="CadastroService.CadastroModel.Profile" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500">
-					<option>@ProfileUser.User.ToString()</option>
-					<option>@ProfileUser.Admin.ToString()</option>
+			<!-- Campo Perfil -->
+			<div class="flex w-full flex-col gap-1.5 sm:w-32">
+				<label class="text-sm font-bold text-zinc-700">Perfil:</label>
+				<InputSelect @bind-Value="CadastroService.CadastroModel.Profile"
+							 class="w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+					<option value="@ProfileUser.User">User</option>
+					<option value="@ProfileUser.Admin">Admin</option>
 				</InputSelect>
-				<ValidationMessage For="@(() => CadastroService.CadastroModel.Profile)" class="text-red-500" />
+				<ValidationMessage For="@(() => CadastroService.CadastroModel.Profile)" class="text-xs text-red-500 font-medium" />
+			</div>
+		</div>
+
+		<!-- Campo E-mail -->
+		<div class="flex flex-col gap-1.5">
+			<label class="text-sm font-bold text-zinc-700">E-mail:</label>
+			<InputText @bind-Value="CadastroService.CadastroModel.Email"
+					   placeholder="seu@email.com"
+					   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm text-zinc-800 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
+			<ValidationMessage For="@(() => CadastroService.CadastroModel.Email)" class="text-xs text-red-500 font-medium" />
+		</div>
+
+		<!-- Linha 2: Senha e Confirmação (Com type="password") -->
+		<div class="flex flex-col gap-4 sm:flex-row">
+			<div class="flex flex-1 flex-col gap-1.5">
+				<label class="text-sm font-bold text-zinc-700">Senha:</label>
+				<InputText type="password"
+						   @bind-Value="CadastroService.CadastroModel.PassWord"
+						   placeholder="••••••••"
+						   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm text-zinc-800 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
+				<ValidationMessage For="@(() => CadastroService.CadastroModel.PassWord)" class="text-xs text-red-500 font-medium" />
 			</div>
 
-		</div>
-
-		<div class="flex flex-col gap-2 text-zinc-500">
-			<label class="font-bold text-zinc-500">E-mail: </label>
-			<InputText @bind-Value="CadastroService.CadastroModel.Email" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
-			<ValidationMessage For="@(() => CadastroService.CadastroModel.Email)" class="text-red-500" />
-		</div>
-
-		<div class="flex w-full flex-col items-center justify-between gap-6 md:flex-row">
-
-			<div class="flex w-full flex-col gap-2 text-zinc-500 md:w-[45%]">
-				<label class="font-bold">Senha: </label>
-				<InputText @bind-Value="CadastroService.CadastroModel.PassWord" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
-				<ValidationMessage For="@(() => CadastroService.CadastroModel.PassWord)" class="text-red-500" />
+			<div class="flex flex-1 flex-col gap-1.5">
+				<label class="text-sm font-bold text-zinc-700">Confirmar Senha:</label>
+				<InputText type="password"
+						   @bind-Value="CadastroService.CadastroModel.ConfirmPassword"
+						   placeholder="••••••••"
+						   class="w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm text-zinc-800 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
+				<ValidationMessage For="@(() => CadastroService.CadastroModel.ConfirmPassword)" class="text-xs text-red-500 font-medium" />
 			</div>
+		</div>
 
-			<div class="flex w-full flex-col gap-2 text-zinc-500 md:w-[45%]">
-				<label class="font-bold">Confirmar Senha: </label>
-				<InputText @bind-Value="CadastroService.CadastroModel.ConfirmPassword" class="rounded-lg border border-zinc-300 p-1 outline-none focus:border-2 focus:border-blue-500" />
-				<ValidationMessage For="@(() => CadastroService.CadastroModel.ConfirmPassword)" class="text-red-500" />
+		<!-- Exibição de Erros Globais -->
+		@if (CadastroService.ErrorCadastro.Count > 0)
+		{
+			<div class="flex flex-col gap-1 rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-600">
+				@foreach (string erro in CadastroService.ErrorCadastro)
+				{
+					<p>⚠️ @erro</p>
+				}
 			</div>
+		}
 
+		<!-- Botão Submeter -->
+		<button type="submit"
+				class="mt-2 w-full cursor-pointer rounded-xl bg-blue-500 py-3 text-sm font-bold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:bg-blue-600 active:scale-95">
+			Criar Minha Conta
+		</button>
+
+		<!-- Links Úteis -->
+		<div class="mt-2 flex flex-col gap-2 text-center text-xs text-zinc-500">
+			<p>Já possui uma conta? <NavLink href="/login" class="font-bold text-blue-500 hover:underline">Faça login aqui!</NavLink></p>
+			<NavLink href="/" class="text-zinc-400 transition-colors hover:text-zinc-600">Voltar para a página inicial</NavLink>
 		</div>
 
-
-
-		<div class="flex w-full justify-center">
-			<button type="submit" class="w-full cursor-pointer rounded-lg bg-zinc-500 p-2 transition-all duration-300 hover:bg-zinc-600">
-				Salvar
-			</button>
-		</div>
-		<div class="flex flex-col justify-center text-center text-zinc-500">
-			<p>Já tem uma conta? <NavLink href="/login" class="text-blue-300">Faça login aqui!</NavLink></p>
-			<NavLink href="/" class="text-blue-300">Voltar a tela home</NavLink>
-		</div>
-	</div>
-
-	<div>
-		<div class="text-red-500">
-			@foreach (string erro in CadastroService.ErrorCadastro)
-			{
-				<p>@erro</p>
-			}
-		</div>
-	</div>
-</EditForm>
+	</EditForm>
+</div>
 
 @code {
-
 	private async Task HandleSubmit()
 	{
 		CadastroService.ErrorCadastro.Clear();
@@ -92,8 +114,7 @@
 		}
 		else
 		{
-			CadastroService.ErrorCadastro.Add("Erro ao cadastrar");
+			CadastroService.ErrorCadastro.Add("Erro ao cadastrar. Verifique os dados e tente novamente.");
 		}
-
 	}
 }

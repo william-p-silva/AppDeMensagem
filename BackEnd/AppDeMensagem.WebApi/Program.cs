@@ -52,6 +52,19 @@ builder.Services.AddAuthentication(options =>
 
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
+
+    op.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // Se o token estiver gravado no Cookie "AuthToken", usa ele
+            if (context.Request.Cookies.ContainsKey("AuthToken"))
+            {
+                context.Token = context.Request.Cookies["AuthToken"];
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 builder.Services.AddAuthorization();
@@ -60,9 +73,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazor", policy =>
     {
-        policy.AllowAnyOrigin()
+        // 1. A URL do Blazor DEVE ser a origem exata (sem barra no final)
+        // 2. NUNCA use .AllowAnyOrigin() com .AllowCredentials()!
+        policy.WithOrigins("https://localhost:7276")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials(); // <-- OBRIGATÓRIO quando usa CookieHandler
     });
 });
 

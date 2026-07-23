@@ -1,8 +1,33 @@
-﻿
+﻿@using Microsoft.AspNetCore.Components.Routing
 
-<section class="flex h-screen w-full">
-	<div class="hidden h-screen bg-blue-500 md:flex md:w-[50%] lg:w-[60%]" />
-	<article class="flex w-full justify-center md:w-[50%] lg:w-[40%]">
-		<CadastroForm></CadastroForm>
+
+<section class="flex min-h-screen w-full bg-zinc-100">
+	<!-- Painel Ilustrativo Esquerdo (Visível em telas médias e grandes) -->
+	<div class="bg-gradient-to-br hidden min-h-screen flex-col justify-between from-blue-600 to-blue-500 p-12 text-white md:flex md:w-[45%] lg:w-[55%]">
+		<NavLink href="/" class="group flex w-max items-center gap-2">
+			<div class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-lg font-extrabold text-blue-600 shadow-md transition-transform group-hover:scale-105">
+				K
+			</div>
+			<span class="text-xl font-extrabold tracking-wide">King of Zap Zap</span>
+		</NavLink>
+
+		<div class="flex max-w-md flex-col gap-4">
+			<span class="text-4xl">👑</span>
+			<h1 class="text-4xl leading-tight font-extrabold">
+				Junte-se ao Reino das Mensagens!
+			</h1>
+			<p class="text-lg text-blue-100">
+				Crie sua conta em poucos segundos e comece a trocar mensagens com velocidade de rei.
+			</p>
+		</div>
+
+		<footer class="text-xs text-blue-200">
+			© @DateTime.Now.Year King of Zap Zap. Todos os direitos reservados.
+		</footer>
+	</div>
+
+	<!-- Formulário Direito -->
+	<article class="flex w-full items-center justify-center p-6 md:w-[55%] lg:w-[45%]">
+		<CadastroForm />
 	</article>
 </section>
