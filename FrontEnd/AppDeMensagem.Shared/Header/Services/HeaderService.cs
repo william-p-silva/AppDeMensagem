@@ -18,6 +18,8 @@ public class HeaderService(UserSessionService userSessionService)
     public string? Profile { get; private set; }
     public string? Email { get; private set; }
     public string? Name { get; private set; }
+    public bool IsAdmin { get; private set; } = false;
+    public bool IsUser { get; private set; } = false;
 
     public async Task GetUser()
     {
@@ -27,6 +29,8 @@ public class HeaderService(UserSessionService userSessionService)
             Name = await userSessionService.GetNameUserAsync();
             Email = await userSessionService.GetEmailUserAsync();
             Profile = await userSessionService.GetProfileUserAsync();
+            IsAdmin = await userSessionService.IsInRoleAsync("Admin");
+            IsUser = await userSessionService.IsInRoleAsync("User");
         }
         IsLoading = false;
     }

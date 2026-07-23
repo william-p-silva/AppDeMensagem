@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppDeMensagem.Core\AppDeMensagem.Core.csproj" />
+    <ProjectReference Include="..\AppDeMensagem.Shared\AppDeMensagem.Shared.csproj" />
   </ItemGroup>
 
 </Project>

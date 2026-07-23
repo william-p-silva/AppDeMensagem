@@ -39,6 +39,24 @@
 			</ul>
 		</nav>
 	}
+	else if (HeaderService.IsAdmin)
+	{
+		<NavLink href="/admin/home"
+				 Match="NavLinkMatch.All"
+				 class="inline-block rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
+				 activeClass="!bg-blue-500 !text-white shadow-md">
+			Área do Admin
+		</NavLink>
+	}
+	else if (HeaderService.IsUser)
+	{
+		<NavLink href="/user/home"
+				 Match="NavLinkMatch.All"
+				 class="inline-block rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
+				 activeClass="!bg-blue-500 !text-white shadow-md">
+			Área do Usuário
+		</NavLink>
+	}
 
 </header>
 
