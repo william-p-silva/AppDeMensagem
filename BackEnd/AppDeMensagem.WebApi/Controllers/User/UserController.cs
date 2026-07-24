@@ -75,4 +75,16 @@ public class UserController(
             }
         });
     }
+
+    [HttpPost("logout")] 
+    [Authorize]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("AuthToken");
+        return Ok(new SuccessResponse<string>
+        {
+            Success = true,
+            Data = "Logout realizado com sucesso"
+        });
+    }
 }

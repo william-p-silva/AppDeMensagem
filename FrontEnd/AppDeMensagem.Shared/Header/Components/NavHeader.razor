@@ -1,0 +1,93 @@
+@using AppDeMensagem.Shared.Header.Models
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Header.Services
+@inject HeaderService HeaderService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider authStateProvider
+
+
+<nav class="flex items-center gap-3">
+	@if (HeaderService.IsLoading)
+	{
+		<!-- Skeleton Loader / Estado de carregamento silencioso -->
+		<div class="h-9 w-24 animate-pulse rounded-xl bg-zinc-300"></div>
+	}
+	else if (!HeaderService.IsLogged)
+	{
+		<!-- Links para Visitantes (Login / Cadastro) -->
+		<ul class="flex items-center gap-2">
+			@foreach (LinksHeader link in HeaderService.AuthLinks)
+			{
+				<li>
+					<NavLink href="@link.route"
+							 Match="NavLinkMatch.All"
+							 class="inline-block rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
+							 activeClass="!bg-blue-500 !text-white shadow-md">
+						@link.label
+					</NavLink>
+				</li>
+			}
+		</ul>
+	}
+	else
+	{
+		<!-- Links para Usuário Logado -->
+		<ul class="flex items-center gap-3">
+			@if (HeaderService.IsAdmin)
+			{
+				<li>
+					<NavLink href="/admin/home"
+							 Match="NavLinkMatch.Prefix"
+							 class="flex items-center gap-1.5 rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
+							 activeClass="!bg-blue-500 !text-white shadow-md">
+						<span>👑</span> Área do Admin
+					</NavLink>
+				</li>
+			}
+			else if (HeaderService.IsUser)
+			{
+				<li>
+					<NavLink href="/user/home"
+							 Match="NavLinkMatch.Prefix"
+							 class="flex items-center gap-1.5 rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
+							 activeClass="!bg-blue-500 !text-white shadow-md">
+						<span>💬</span> Área do Usuário
+					</NavLink>
+				</li>
+			}
+
+			<!-- Botão de Sair (Opcional, mas muito útil no Header) -->
+			<li>
+				<button @onclick="HandleLogout"
+						title="Encerrar sessão"
+						class="flex items-center justify-center rounded-xl bg-red-100 p-2 text-red-600 transition-all duration-300 hover:bg-red-500 hover:text-white active:scale-95">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+					</svg>
+				</button>
+			</li>
+		</ul>
+	}
+</nav>
+
+@code{
+	private async void HandleLogout()
+	{
+		bool result = await HeaderService.Logout();
+		if (result)
+		{
+			if (authStateProvider is CustomAuthStateProvider customAuth)
+			{
+				customAuth.NotifyUserAuthenticationState();
+			}
+
+			NavigationManager.NavigateTo("/");
+		}
+	}
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		await HeaderService.GetUser();
+	}
+}

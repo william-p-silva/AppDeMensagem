@@ -103,5 +103,16 @@ public class Authentication
 
         var identity = new ClaimsIdentity(claims, "ApiAuth");
         return new ClaimsPrincipal(identity);
-    } 
+    }
+
+    public async Task<bool> Logout()
+    {
+        if(_http is null) return false;
+
+        var result = await _http.PostAsync<Object, string>("User/logout", request: null);
+
+        if (result.Data is null || !result.Success) return false;
+
+        return result.Success;
+    }
 }

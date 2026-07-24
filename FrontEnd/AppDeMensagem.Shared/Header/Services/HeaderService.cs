@@ -1,10 +1,14 @@
 ﻿
+using AppDeMensagem.Core.Configuration;
 using AppDeMensagem.Core.Services;
 using AppDeMensagem.Shared.Header.Models;
 
 namespace AppDeMensagem.Shared.Header.Services;
 
-public class HeaderService(UserSessionService userSessionService)
+public class HeaderService(
+    UserSessionService userSessionService,
+    Authentication authentication
+    )
 {
     public List<LinksHeader> AuthLinks { get; set; } = 
         new List<LinksHeader>()
@@ -33,5 +37,12 @@ public class HeaderService(UserSessionService userSessionService)
             IsUser = await userSessionService.IsInRoleAsync("User");
         }
         IsLoading = false;
+    }
+
+    public async Task<bool> Logout()
+    {
+        var response = await authentication.Logout();
+
+        return response;
     }
 }

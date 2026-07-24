@@ -31,5 +31,6 @@ builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<CadastroService>();
 builder.Services.AddScoped<UserSessionService>();
 builder.Services.AddScoped<HeaderService>();
+builder.Services.AddScoped<Authentication>();
 
 await builder.Build().RunAsync();
