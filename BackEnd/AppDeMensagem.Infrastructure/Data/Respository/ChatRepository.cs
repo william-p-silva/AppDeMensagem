@@ -14,19 +14,55 @@ public class ChatRepository(AppDbContext context) : IChatRepository
         await context.Chats.AddAsync(chat);
     }
 
-    public async Task<List<Chat>> GetAllAsync(bool ativo)
+    public async Task<List<Chat>> GetAllAsync(bool? ativo)
     {
-        return await context.Chats.Where(c => c.Ativo == ativo).ToListAsync();
+        if (ativo is null)
+        {
+            return await context.Chats
+                .Include(x => x.UsersChat)
+                .ThenInclude(x => x.Usuario)
+                .ToListAsync();
+
+        }
+        return await context.Chats
+                .Where(c => c.Ativo == ativo)
+                .Include(x => x.UsersChat)
+                .ThenInclude(x => x.Usuario)
+                .ToListAsync();
     }
 
-    public async Task<List<ChatGroup>> GetByGroupAsync(bool ativo)
+    public async Task<List<ChatGroup>> GetByGroupAsync(bool? ativo)
     {
-        return await context.ChatsGroup.Where(c => c.Ativo == ativo).ToListAsync();
+        if (ativo is null)
+        {
+            return await context.ChatsGroup
+                .Include(x => x.UsersChat)
+                .ThenInclude(x => x.Usuario)
+                .ToListAsync();
+
+        }
+        return await context.ChatsGroup
+                .Where(c => c.Ativo == ativo)
+                .Include(x => x.UsersChat)
+                .ThenInclude(x => x.Usuario)
+                .ToListAsync();
     }
 
-    public async Task<List<ChatPrivate>> GetByPrivateAsync(bool ativo)
+    public async Task<List<ChatPrivate>> GetByPrivateAsync(bool? ativo)
     {
-        return await context.ChatsPrivate.Where(c => c.Ativo == ativo).ToListAsync();
+        if (ativo is null)
+        {
+            return await context.ChatsPrivate
+                .Include(x => x.UsersChat)
+                .ThenInclude(x => x.Usuario)
+                .ToListAsync();
+
+        }
+        return await context.ChatsPrivate
+            .Where(c => c.Ativo == ativo)
+            .Include(x => x.UsersChat)
+            .ThenInclude(x => x.Usuario)
+            .ToListAsync();
     }
 
     public Task<Chat?> GetByIdWithParticipantsAsync(Guid chatId)

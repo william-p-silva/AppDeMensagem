@@ -1,7 +1,9 @@
 ﻿using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Application.Interfaces.Security;
 using AppDeMensagem.Application.Interfaces.Services;
+using AppDeMensagem.Application.UseCases.Chat;
 using AppDeMensagem.Application.UseCases.Chat.Create;
+using AppDeMensagem.Application.UseCases.Chat.List;
 using AppDeMensagem.Application.UseCases.User;
 using AppDeMensagem.Infrastructure.Data.Respository;
 using AppDeMensagem.Infrastructure.Data.Security;
@@ -28,6 +30,10 @@ internal static class DependencyInjectionConfig
         services.AddScoped<LoginUseCase>();
         // Chat
         services.AddScoped<CreateChatPrivateUseCase>();
+        services.AddScoped<ListAllChatUseCase>();
+        services.AddScoped<ListChatGroupUseCase>();
+        services.AddScoped<ListChatPrivateUseCase>();
+        services.AddScoped<SendMessageUseCase>();
 
 
         return services;

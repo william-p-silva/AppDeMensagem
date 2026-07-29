@@ -7,7 +7,7 @@ public interface IChatRepository
 {
     Task AddAsync(Chat chat);
     Task<Chat?> GetByIdWithParticipantsAsync(Guid chatId);
-    Task<List<Chat>> GetAllAsync(bool ativo);
-    Task<List<ChatPrivate>> GetByPrivateAsync(bool ativo);
-    Task<List<ChatGroup>> GetByGroupAsync(bool ativo);
+    Task<List<Chat>> GetAllAsync(bool? ativo = null);
+    Task<List<ChatPrivate>> GetByPrivateAsync(bool? ativo = null);
+    Task<List<ChatGroup>> GetByGroupAsync(bool? ativo = null);
  }
