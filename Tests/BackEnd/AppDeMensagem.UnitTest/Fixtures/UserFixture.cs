@@ -34,7 +34,7 @@ internal class UserFixture
         {
             Email = email,
             Name = userName,
-            PassoWord = password,
+            PassWord = password,
             Profile = profile
         };
     }
