@@ -14,6 +14,21 @@ public class ChatRepository(AppDbContext context) : IChatRepository
         await context.Chats.AddAsync(chat);
     }
 
+    public async Task<List<Chat>> GetAllAsync(bool ativo)
+    {
+        return await context.Chats.Where(c => c.Ativo == ativo).ToListAsync();
+    }
+
+    public async Task<List<ChatGroup>> GetByGroupAsync(bool ativo)
+    {
+        return await context.ChatsGroup.Where(c => c.Ativo == ativo).ToListAsync();
+    }
+
+    public async Task<List<ChatPrivate>> GetByPrivateAsync(bool ativo)
+    {
+        return await context.ChatsPrivate.Where(c => c.Ativo == ativo).ToListAsync();
+    }
+
     public Task<Chat?> GetByIdWithParticipantsAsync(Guid chatId)
     {
         return context.Chats
