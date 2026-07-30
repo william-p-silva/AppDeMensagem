@@ -8,7 +8,7 @@ public interface IUserRepository
 {
     Task<Usuario?> FindById(Guid user_id);
     Task<Usuario?> FindByEmail(string email);
-    Task<List<Usuario>> ListAsync(PerfilUser? profile = PerfilUser.User);
+    Task<List<Usuario>> ListAsync(PerfilUser? profile = null);
     Task AddAsync(Usuario user);
     void Delete(Usuario user);
 }

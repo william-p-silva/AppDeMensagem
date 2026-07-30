@@ -32,4 +32,26 @@ public class HttpService(HttpClient http)
             return null;
         }
     }
+
+    public async Task<ResponseApi<TResponse?>> GetAsync<TResponse>(string endpoint)
+    {
+        Error.Clear();
+        try
+        {
+            var response = await _http.GetAsync(endpoint);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadFromJsonAsync<ErrorResponseApi>();
+                Error.Add(json?.Message ?? "Erro interno. ");
+                return null;
+            }
+            return await response.Content.ReadFromJsonAsync<ResponseApi<TResponse>>();
+        }
+        catch (Exception ex)
+        {
+            Error.Add("Erro interno do servidor. ");
+            return null;
+        }
+    }
 }

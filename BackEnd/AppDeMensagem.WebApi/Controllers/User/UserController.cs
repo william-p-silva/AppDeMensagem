@@ -3,6 +3,7 @@ using AppDeMensagem.Application.DTOs.ResponseApi;
 using AppDeMensagem.Application.DTOs.User.Request;
 using AppDeMensagem.Application.DTOs.User.Response;
 using AppDeMensagem.Application.UseCases.User;
+using AppDeMensagem.Application.UseCases.User.List;
 using AppDeMensagem.Domain.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ namespace AppDeMensagem.WebApi.Controllers.User;
 [Route("[controller]")]
 public class UserController(
     RegisterUseCase registerUseCase,
-    LoginUseCase loginUseCase
+    LoginUseCase loginUseCase,
+    ListAllUsers listAllUsers
     ) : ControllerBase
 {
     [HttpPost("post")]
@@ -85,6 +87,19 @@ public class UserController(
         {
             Success = true,
             Data = "Logout realizado com sucesso"
+        });
+    }
+
+
+    [HttpGet("get/all")]
+    public async Task<IActionResult> ListAll()
+    {
+        var users = await listAllUsers.ExecuteAsync();
+
+        return Ok(new SuccessResponse<List<ResponseUser>>
+        {
+            Success = true,
+            Data = users
         });
     }
 }

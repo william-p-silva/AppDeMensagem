@@ -21,20 +21,15 @@ public class UserRepository(AppDbContext context) : IUserRepository
         context.Users.Remove(user);
     }
 
-    public async Task<List<Usuario>> ListAsync(PerfilUser? profile = PerfilUser.User)
+    public async Task<List<Usuario>> ListAsync(PerfilUser? profile = null)
     {
         var query = context.Users.AsNoTracking().AsQueryable();
 
         if (profile is null)
-            query = query.Where(u => u.UserProfile != PerfilUser.Deleted);
-        else if (profile == PerfilUser.User)
-            query = query.Where(u => u.UserProfile != profile);
-        else if (profile == PerfilUser.Admin)
-            query = query.Where(u => u.UserProfile != profile);
-        else if (profile == PerfilUser.Deleted)
-            query = query.Where(u => u.UserProfile != profile);
+            return await query.Where(u => u.UserProfile != PerfilUser.Deleted).ToListAsync();
 
-        return await query.ToListAsync();
+        return await query.Where(u => u.UserProfile == profile).ToListAsync();
+
     }
 
     public async Task<Usuario?> FindById(Guid user_id)

@@ -25,6 +25,9 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
             .IsRequired()
             .HasMaxLength(250);
 
+        builder.HasIndex(u => u.EmailAddress)
+            .IsUnique();
+
         builder.Property(u => u.UserName)
             .HasConversion(
                 nameVo => nameVo.TextName,
