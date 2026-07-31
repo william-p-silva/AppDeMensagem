@@ -16,6 +16,7 @@ public class ListChatPrivateUseCase(
         {
             Ativo = x.Ativo,
             Chat_ID = x.Chat_ID,
+            Name = x.Name,
             Created = x.Created,
             Participants = x.UsersChat.Select(u => new ResponseParticipantsInChat
             {

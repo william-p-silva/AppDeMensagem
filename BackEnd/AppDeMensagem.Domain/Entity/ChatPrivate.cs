@@ -23,6 +23,8 @@ public class ChatPrivate : Chat
 
         AddParticipant(userChat1);
         AddParticipant(userChat2);
+
+        this.Name = userSecond.UserName.TextName;
     }
 
 }

@@ -3,6 +3,7 @@ using AppDeMensagem.Core.Http;
 using AppDeMensagem.Core.Services;
 using AppDeMensagem.Feature.Admin.Services.Dashboard;
 using AppDeMensagem.Feature.Auth.Services;
+using AppDeMensagem.Feature.User.Services;
 using AppDeMensagem.Shared.Header.Services;
 using AppDeMensagem.Web;
 using AppDeMensagem.Web.Configuration;
@@ -34,5 +35,6 @@ builder.Services.AddScoped<UserSessionService>();
 builder.Services.AddScoped<HeaderService>();
 builder.Services.AddScoped<Authentication>();
 builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<ViewContatoService>();
 
 await builder.Build().RunAsync();

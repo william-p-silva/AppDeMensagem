@@ -32,7 +32,7 @@ public class ChatTest()
             profile: profile
             );
 
-        ChatGroup chat = new ChatGroup(user);
+        ChatGroup chat = new ChatGroup(user, "teste");
         var senderDeOutroChat = new UserChat(userFalse, chat, false);
 
         // Act
@@ -56,7 +56,7 @@ public class ChatTest()
             password: passwordFake,
             profile: profile
             );
-        ChatGroup chat = new ChatGroup(user);
+        ChatGroup chat = new ChatGroup(user, "teste");
 
         Assert.NotEqual(Guid.Empty, chat.Chat_ID);
         Assert.NotEqual(default, chat.Created);

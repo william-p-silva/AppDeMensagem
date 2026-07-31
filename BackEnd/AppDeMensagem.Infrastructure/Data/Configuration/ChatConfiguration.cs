@@ -17,6 +17,9 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
         builder.Property(c => c.Ativo)
             .IsRequired();
 
+        builder.Property(c => c.Name)
+            .HasMaxLength(150);
+
         builder.HasDiscriminator<string>("ChatType")
             .HasValue<ChatPrivate>("Private")
             .HasValue<ChatGroup>("Group");

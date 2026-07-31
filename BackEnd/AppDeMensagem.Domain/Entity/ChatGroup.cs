@@ -5,10 +5,11 @@ namespace AppDeMensagem.Domain.Entity;
 public class ChatGroup : Chat
 {
     protected ChatGroup() { }
-    public ChatGroup(Usuario user) : base(ativo: true)
+    public ChatGroup(Usuario user, string name) : base(ativo: true)
     {
         UserChat userChat = new UserChat(user, this, isAdmin: true);
         AddParticipant(userChat);
+        this.Name = name ?? "Sem nome";
     }
 
     public void AddPeopleInChat(Usuario user)

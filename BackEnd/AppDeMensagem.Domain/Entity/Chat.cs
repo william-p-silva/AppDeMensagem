@@ -6,6 +6,7 @@ public abstract class Chat
 {
     public Guid Chat_ID { get; private set; }
     public DateTime Created { get; private set; }
+    public string Name { get; protected set; }
     public bool Ativo { get; private set; }
 
     private readonly List<Message> _messages = new List<Message>();

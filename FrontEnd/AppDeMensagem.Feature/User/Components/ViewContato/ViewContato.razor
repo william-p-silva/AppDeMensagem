@@ -1,0 +1,61 @@
+﻿@using Feature.User.Services
+@inject ViewContatoService ViewContatoService
+@inject Authentication Authentication
+
+<section class="w-[25vw] bg-gray-950 p-4">
+	<article class="flex w-full flex-col gap-6">
+
+		<HeaderViewContato />
+
+		<section>
+			@if (ViewContatoService.IsLoading)
+			{
+				<div>
+					Carregando ...
+				</div>
+			}
+			else
+			{
+				@if (ViewContatoService.Chats.Count > 0)
+				{
+					@foreach (var chat in ViewContatoService.Chats)
+					{
+						<div class="my-2">
+							<CardContato Chat="@chat" />
+						</div>
+					}
+				}
+				else
+				{
+					<div>
+						<!--Sem contatos-->
+					</div>
+				}
+			}
+		</section>
+		@if (ViewContatoService.ErrorChats.Count > 0)
+		{
+			<div>
+				@foreach (string error in ViewContatoService.ErrorChats)
+				{
+					<p>@error</p>
+				}
+			</div>
+		}
+		<footer>
+			<!--Infos finais-->
+		</footer>
+	</article>
+</section>
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		await LoadChats();
+	}
+
+	private async Task LoadChats()
+	{
+		await ViewContatoService.SetChats();
+	}
+}
