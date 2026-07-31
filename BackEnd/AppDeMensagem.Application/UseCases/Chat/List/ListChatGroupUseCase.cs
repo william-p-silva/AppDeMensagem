@@ -9,9 +9,9 @@ public class ListChatGroupUseCase(
         IChatRepository chatRepository
     )
 {
-    public async Task<List<ResponseChat>> ExecuteAsync()
+    public async Task<List<ResponseChat>> ExecuteAsync(Guid userId)
     {
-        var chats = await chatRepository.GetByGroupAsync();
+        var chats = await chatRepository.GetByGroupAsync(userId);
 
         return chats.Select(x => new ResponseChat
         {

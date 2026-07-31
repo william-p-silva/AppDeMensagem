@@ -26,5 +26,9 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
             .WithMany(c => c.UsersChat)
             .HasForeignKey(uc => uc.Chat_ID)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Navigation(uc => uc.Messages)
+            .HasField("_messages")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

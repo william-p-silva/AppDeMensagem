@@ -28,8 +28,6 @@ public class Message
         SendTime = DateTime.UtcNow; 
         Status = StatusMessage.Sent;
         Chat_ID = chat.Chat_ID;
-        Sender_ID = sender.User_ID;
-        Sender = sender;
-        Chat = chat;
+        Sender_ID = sender.UserChat_ID;
     }
 }

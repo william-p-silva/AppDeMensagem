@@ -26,6 +26,8 @@ public class SendMessageUseCase(
 
         var message = chat.Messages.Last();
 
+        chatRepository.TrackNewMessage(message);
+
         await unitOfWork.CommitAsync();
 
         await chatNotificationService.NotifyMessageSentAsync(chat.Chat_ID, userId, request.TextMessage);

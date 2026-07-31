@@ -10,9 +10,9 @@ public class ListAllChatUseCase(
     )
 {
 
-    public async Task<List<ResponseChat>> ExecuteAsync()
+    public async Task<List<ResponseChat>> ExecuteAsync(Guid userId)
     {
-        var chats = await chatRepository.GetAllAsync();
+        var chats = await chatRepository.GetAllAsync(userId);
 
         return chats.Select(x => new ResponseChat
         {

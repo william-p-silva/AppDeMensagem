@@ -1,5 +1,7 @@
-﻿using AppDeMensagem.Application.DTOs.Chat.Response;
+﻿using AppDeMensagem.Application.DTOs.Chat.Request;
+using AppDeMensagem.Application.DTOs.Chat.Response;
 using AppDeMensagem.Application.DTOs.ResponseApi;
+using AppDeMensagem.Application.UseCases.Chat;
 using AppDeMensagem.Application.UseCases.Chat.Create;
 using AppDeMensagem.Application.UseCases.Chat.List;
 using Microsoft.AspNetCore.Authorization;
@@ -10,19 +12,27 @@ namespace AppDeMensagem.WebApi.Controllers.Chat;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class ChatController(
     CreateChatPrivateUseCase createChatPrivateUseCase,
+    SendMessageUseCase sendMessageUseCase,
     ListChatPrivateUseCase listChatPrivateUseCase,
     ListChatGroupUseCase listChatGroupUseCase,
     ListAllChatUseCase listAllChatUseCase
     ) : ControllerBase
 {
+    private Guid GetCurrentUserId()
+    {
+        var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            ?? throw new UnauthorizedAccessException("Token inválido ou sem identificação de usuário. ");
+
+        return Guid.Parse(claim);
+    }
 
     [HttpPost("post/private")]
-    [Authorize]
-    public async Task<IActionResult> CreateChatPrivate(Guid userSecond_id)
+    public async Task<IActionResult> CreateChatPrivate([FromBody] Guid userSecond_id)
     {
-        var userPrimary_ID = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        Guid userPrimary_ID = GetCurrentUserId();
         var result = await createChatPrivateUseCase.ExecuteAsync(userPrimary_Id: userPrimary_ID, userSecond_Id: userSecond_id);
 
         return Ok( new SuccessResponse<string>
@@ -32,11 +42,26 @@ public class ChatController(
         });
     }
 
+    [HttpPost("post/send-message")]
+    public async Task<IActionResult> SendMessage([FromBody] RequestSendMessage request)
+    {
+        Guid userId = GetCurrentUserId();
+
+        var result = await sendMessageUseCase.ExecuteAsync(request: request, userId: userId);
+
+        return Ok(new SuccessResponse<ResponseSendMessage>
+        {
+            Success = true,
+            Data = result
+        });
+    }
+
     [HttpGet("get/all")]
-    [Authorize]
     public async Task<IActionResult> ListAll()
     {
-        var chats = await listAllChatUseCase.ExecuteAsync();
+        Guid userId = GetCurrentUserId();
+
+        var chats = await listAllChatUseCase.ExecuteAsync(userId);
 
         return Ok(new SuccessResponse<List<ResponseChat>>
         {
@@ -46,10 +71,11 @@ public class ChatController(
     }
 
     [HttpGet("get/private")]
-    [Authorize]
     public async Task<IActionResult> ListPrivate()
     {
-        var chats = await listChatPrivateUseCase.ExecuteAsync();
+        Guid userId = GetCurrentUserId();
+
+        var chats = await listChatPrivateUseCase.ExecuteAsync(userId);
 
         return Ok(new SuccessResponse<List<ResponseChat>>
         {
@@ -59,10 +85,11 @@ public class ChatController(
     }
 
     [HttpGet("get/group")]
-    [Authorize]
     public async Task<IActionResult> ListGroup()
     {
-        var chats = await listChatGroupUseCase.ExecuteAsync();
+        Guid userId = GetCurrentUserId();
+
+        var chats = await listChatGroupUseCase.ExecuteAsync(userId);
 
         return Ok(new SuccessResponse<List<ResponseChat>>
         {

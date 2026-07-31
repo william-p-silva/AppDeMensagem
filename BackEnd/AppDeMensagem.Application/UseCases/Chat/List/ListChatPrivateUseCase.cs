@@ -8,9 +8,9 @@ public class ListChatPrivateUseCase(
     IChatRepository chatRepository
     )
 {
-    public async Task<List<ResponseChat>> ExecuteAsync()
+    public async Task<List<ResponseChat>> ExecuteAsync(Guid userId)
     {
-        var chats = await chatRepository.GetByPrivateAsync();
+        var chats = await chatRepository.GetByPrivateAsync(userId);
 
         return chats.Select(x => new ResponseChat
         {

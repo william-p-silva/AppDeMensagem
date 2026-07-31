@@ -1,7 +1,121 @@
-﻿@page "/user/home"
-@attribute [Authorize]
+﻿@page "/teste-signalr"
+@using Microsoft.AspNetCore.SignalR.Client
+@implements IAsyncDisposable
 
-<PageTitle>Home do Usuário</PageTitle>
+<div class="mx-auto max-w-2xl p-6 text-gray-900">
+    <h3 class="mb-4 text-xl font-bold">Teste SignalR - ChatHub</h3>
 
-<h3>Home</h3>
+    <div class="mb-4">
+        <label class="mb-1 block font-semibold">Token JWT</label>
+        <input @bind="token"
+               class="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900"
+               placeholder="cole o token aqui (sem 'Bearer ')" />
+    </div>
 
+    <div class="mb-4">
+        <label class="mb-1 block font-semibold">Chat ID</label>
+        <input @bind="chatId"
+               class="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900"
+               placeholder="guid do chat" />
+    </div>
+
+    <div class="mb-4 flex gap-2">
+        <button @onclick="Conectar"
+                disabled="@(hubConnection is not null && hubConnection.State == HubConnectionState.Connected)"
+                class="rounded bg-blue-600 px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50">
+            Conectar
+        </button>
+
+        <button @onclick="EntrarNoGrupo"
+                disabled="@(hubConnection is null || hubConnection.State != HubConnectionState.Connected)"
+                class="rounded bg-green-600 px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50">
+            Entrar no grupo
+        </button>
+    </div>
+
+    <p class="mb-2"><strong>Status:</strong> @status</p>
+
+    <div class="h-72 overflow-y-auto rounded bg-neutral-900 p-3 font-mono text-sm whitespace-pre-wrap text-green-400">
+        @foreach (var linha in logs)
+        {
+            <div>@linha</div>
+        }
+    </div>
+</div>
+
+@code {
+    private HubConnection? hubConnection;
+    private string token = "";
+    private string chatId = "";
+    private string status = "Desconectado";
+    private List<string> logs = new();
+
+    private void Log(string mensagem)
+    {
+        logs.Add($"[{DateTime.Now:HH:mm:ss}] {mensagem}");
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task Conectar()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:7140/hubs/chat", options =>
+            {
+                options.AccessTokenProvider = () => Task.FromResult<string?>(token);
+            })
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<object>("ReceiveMessage", (data) =>
+        {
+            Log("MENSAGEM RECEBIDA: " + System.Text.Json.JsonSerializer.Serialize(data));
+        });
+
+        hubConnection.Closed += (error) =>
+        {
+            status = "Desconectado";
+            Log("Conexão encerrada" + (error is not null ? $": {error.Message}" : ""));
+            InvokeAsync(StateHasChanged);
+            return Task.CompletedTask;
+        };
+
+        try
+        {
+            await hubConnection.StartAsync();
+            status = $"Conectado ({hubConnection.ConnectionId})";
+            Log("Conectado com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            status = "Erro ao conectar";
+            Log("ERRO: " + ex.Message);
+        }
+    }
+
+    private async Task EntrarNoGrupo()
+    {
+        if (hubConnection is null || hubConnection.State != HubConnectionState.Connected)
+        {
+            Log("Conecte-se primeiro.");
+            return;
+        }
+
+        try
+        {
+            await hubConnection.InvokeAsync("JoinChatGroup", chatId);
+            Log("Entrou no grupo: " + chatId);
+        }
+        catch (Exception ex)
+        {
+            Log("ERRO ao entrar no grupo: " + ex.Message);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}
