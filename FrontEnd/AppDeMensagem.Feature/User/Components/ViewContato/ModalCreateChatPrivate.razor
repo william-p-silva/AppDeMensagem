@@ -1,0 +1,70 @@
+﻿@using Feature.User.Services.ViewContato
+@inject HeaderViewContatoService HeaderService
+@implements IDisposable
+
+<div class="@HeaderService.HiddenModalClass fixed inset-0 z-10 flex flex-col items-center justify-center bg-black/30" @onclick="HandleCancel">
+
+	<EditForm Model="HeaderService.RequestChat" @onclick:stopPropagation OnValidSubmit="HandleSubmit" class="flex min-h-[45%] w-[30%] flex-col items-center justify-center gap-6 rounded-3xl bg-black p-4">
+
+		<DataAnnotationsValidator />
+
+		@if (HeaderService.ErrorHeader?.Count > 0)
+		{
+			<div class="w-full rounded-lg bg-red-100 p-4 text-sm text-red-700" role="alert">
+				<ul class="list-disc pl-5">
+					@foreach (var error in HeaderService.ErrorHeader)
+					{
+						<li>@error</li>
+					}
+				</ul>
+			</div>
+		}
+
+		<div class="flex w-full flex-col justify-start">
+
+			<label for="email" class="mb-2 block text-start text-lg font-medium text-gray-900 dark:text-white">
+				Email do usuário
+			</label>
+			<InputText @bind-Value="HeaderService.RequestChat.Email" class="w-full rounded-lg border border-gray-300 bg-gray-700 p-2 text-white placeholder-gray-400 focus:ring-opacity-50 focus:border-blue-500 focus:ring focus:ring-blue-500"
+					   placeholder="Digite o email do usuário " />
+			<ValidationMessage For="@(() => HeaderService.RequestChat.Email)" class="text-red-500" />
+
+		</div>
+
+		<div class="mt-2 flex w-full flex-col gap-3">
+
+			<input type="submit"
+				   value="Criar Chat" class="mt-2 w-full cursor-pointer rounded-lg bg-blue-500 p-2 text-white hover:bg-blue-600 focus:ring-opacity-50 focus:ring focus:ring-blue-500 focus:outline-none" />
+
+			<button type="button" class="mt-2 w-full cursor-pointer rounded-lg bg-gray-500 p-2 text-white hover:bg-gray-600 focus:ring-opacity-50 focus:ring focus:ring-blue-500 focus:outline-none" @onclick="HandleCancel">
+				Cancelar
+			</button>
+
+		</div>
+
+	</EditForm>
+
+</div>
+
+@code
+{
+	protected override void OnInitialized()
+	{
+		HeaderService.OnChange += StateHasChanged;
+	}
+
+	private async Task HandleSubmit()
+	{
+		await HeaderService.CreateNewChat();
+	}
+
+	private void HandleCancel()
+	{
+		HeaderService.CloseModalCreateChatPrivate();
+	}
+
+	public void Dispose()
+	{
+		HeaderService.OnChange -= StateHasChanged;
+	}
+}

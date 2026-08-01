@@ -1,13 +1,13 @@
-﻿@using Feature.User.Services
+﻿@using Feature.User.Services.ViewContato
 @inject ViewContatoService ViewContatoService
 @inject Authentication Authentication
 
-<section class="w-[25vw] bg-gray-950 p-4">
-	<article class="flex w-full flex-col gap-6">
+<section class="h-full w-[25vw] bg-gray-950 p-4">
+	<article class="flex h-full w-full flex-col gap-6">
 
 		<HeaderViewContato />
 
-		<section>
+		<section class="h-full overflow-y-auto">
 			@if (ViewContatoService.IsLoading)
 			{
 				<div>
@@ -18,12 +18,12 @@
 			{
 				@if (ViewContatoService.Chats.Count > 0)
 				{
-					@foreach (var chat in ViewContatoService.Chats)
-					{
-						<div class="my-2">
+					<div class="my-2 flex flex-col gap-4">
+						@foreach (var chat in ViewContatoService.Chats)
+						{
 							<CardContato Chat="@chat" />
-						</div>
-					}
+						}
+					</div>
 				}
 				else
 				{
@@ -47,6 +47,8 @@
 		</footer>
 	</article>
 </section>
+
+<ModalCreateChatPrivate />
 
 @code {
 	protected override async Task OnInitializedAsync()

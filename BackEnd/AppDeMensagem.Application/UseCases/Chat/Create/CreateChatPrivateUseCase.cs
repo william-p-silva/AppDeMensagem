@@ -1,5 +1,6 @@
 ﻿
 
+using AppDeMensagem.Application.DTOs.Chat.Request;
 using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Domain.Entity;
 using AppDeMensagem.Domain.Enum;
@@ -13,7 +14,7 @@ public class CreateChatPrivateUseCase(
     )
 {
 
-    public async Task<string> ExecuteAsync(Guid userPrimary_Id, Guid userSecond_Id)
+    public async Task<string> ExecuteAsync(Guid userPrimary_Id, RequestNewChat request)
     {
         var userPrimary = await userRepository.FindById(userPrimary_Id);
         if (userPrimary is null)
@@ -21,7 +22,7 @@ public class CreateChatPrivateUseCase(
         if (userPrimary.UserProfile == PerfilUser.Deleted)
             throw new ArgumentException("The user deleted. ");
 
-        var userSecond = await userRepository.FindById(userSecond_Id);
+        var userSecond = await userRepository.FindByEmail(request.Email);
         if (userSecond is null)
             throw new ArgumentException("The user second cannot be null. ");
         if (userSecond.UserProfile == PerfilUser.Deleted)

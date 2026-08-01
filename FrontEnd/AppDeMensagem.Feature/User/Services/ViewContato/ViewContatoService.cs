@@ -1,9 +1,7 @@
-﻿
-
-using AppDeMensagem.Core.Http;
+﻿using AppDeMensagem.Core.Http;
 using AppDeMensagem.Feature.User.Model.ViewContato;
 
-namespace AppDeMensagem.Feature.User.Services;
+namespace AppDeMensagem.Feature.User.Services.ViewContato;
 
 public class ViewContatoService(HttpService httpService)
 {

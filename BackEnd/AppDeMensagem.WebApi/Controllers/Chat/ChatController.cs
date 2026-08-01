@@ -30,10 +30,10 @@ public class ChatController(
     }
 
     [HttpPost("post/private")]
-    public async Task<IActionResult> CreateChatPrivate([FromBody] Guid userSecond_id)
+    public async Task<IActionResult> CreateChatPrivate([FromBody] RequestNewChat request)
     {
         Guid userPrimary_ID = GetCurrentUserId();
-        var result = await createChatPrivateUseCase.ExecuteAsync(userPrimary_Id: userPrimary_ID, userSecond_Id: userSecond_id);
+        var result = await createChatPrivateUseCase.ExecuteAsync(userPrimary_Id: userPrimary_ID, request: request);
 
         return Ok( new SuccessResponse<string>
         {

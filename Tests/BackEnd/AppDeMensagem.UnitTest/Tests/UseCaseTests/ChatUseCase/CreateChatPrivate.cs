@@ -1,4 +1,5 @@
 ﻿
+using AppDeMensagem.Application.DTOs.Chat.Request;
 using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Application.UseCases.Chat.Create;
 using AppDeMensagem.Domain.Entity;
@@ -40,7 +41,7 @@ public class CreateChatPrivate
 
         //Act
         _userRepository.Setup(x => x.FindById(user1.User_ID)).ReturnsAsync(user1);
-        _userRepository.Setup(x => x.FindById(user2.User_ID)).ReturnsAsync(user2);
+        _userRepository.Setup(x => x.FindByEmail(user2.EmailAddress.Endereco.ToString())).ReturnsAsync(user2);
 
         CreateChatPrivateUseCase createChatPrivate = new CreateChatPrivateUseCase(
             _chatRepository.Object,
@@ -48,12 +49,13 @@ public class CreateChatPrivate
             _unitOfWork.Object
             );
 
-        string result = await createChatPrivate.ExecuteAsync(user1.User_ID, user2.User_ID);
+        string result = await createChatPrivate.ExecuteAsync(user1.User_ID, new RequestNewChat { Email = user2.EmailAddress.Endereco.ToString() });
 
         //Assert
         Assert.NotNull(result);
         Assert.Equal(result, "Chat criado");
-        _userRepository.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Exactly(2));
+        _userRepository.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Once);
+        _userRepository.Verify(x => x.FindByEmail(It.IsAny<string>()), Times.Once);
         _chatRepository.Verify(x => x.AddAsync(It.IsAny<ChatPrivate>() ), Times.Once);
         _unitOfWork.Verify(x => x.CommitAsync(), Times.Once);
     }
@@ -76,7 +78,7 @@ public class CreateChatPrivate
 
         //Act
         _userRepository.Setup(x => x.FindById(user1.User_ID)).ReturnsAsync(user1);
-        _userRepository.Setup(x => x.FindById(user1.User_ID)).ReturnsAsync(user1);
+        _userRepository.Setup(x => x.FindByEmail(user1.EmailAddress.Endereco.ToString())).ReturnsAsync(user1);
 
         CreateChatPrivateUseCase createChatPrivate = new CreateChatPrivateUseCase(
             _chatRepository.Object,
@@ -84,12 +86,13 @@ public class CreateChatPrivate
             _unitOfWork.Object
             );
 
-        var result = await Assert.ThrowsAsync<InvalidOperationException>(() => createChatPrivate.ExecuteAsync(user1.User_ID, user1.User_ID));
+        var result = await Assert.ThrowsAsync<InvalidOperationException>(() => createChatPrivate.ExecuteAsync(user1.User_ID, new RequestNewChat { Email = user1.EmailAddress.Endereco.ToString() }));
 
         //Assert
         Assert.NotNull(result);
         Assert.Equal(result.Message, "The user cannot create chat with himself. ");
-        _userRepository.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Exactly(2));
+        _userRepository.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Once);
+        _userRepository.Verify(x => x.FindByEmail(It.IsAny<string>()), Times.Once);
         _chatRepository.Verify(x => x.AddAsync(It.IsAny<ChatPrivate>()), Times.Never);
         _unitOfWork.Verify(x => x.CommitAsync(), Times.Never);
     }
@@ -121,7 +124,7 @@ public class CreateChatPrivate
             _unitOfWork.Object
             );
 
-        var result = await Assert.ThrowsAsync<ArgumentException>(() => createChatPrivate.ExecuteAsync(user1.User_ID, userPrimaryFake));
+        var result = await Assert.ThrowsAsync<ArgumentException>(() => createChatPrivate.ExecuteAsync(user1.User_ID, new RequestNewChat { Email = userPrimaryFake.ToString() }));
 
         //Assert
         Assert.NotNull(result);
@@ -147,12 +150,12 @@ public class CreateChatPrivate
             profile: profile
             );
 
-        Guid userSecondFake = Guid.NewGuid();
+        string userSecondFake = "testinvalid@gmail.com";
 
         //Act
         _userRepository.Setup(x => x.FindById(user1.User_ID)).ReturnsAsync(user1);
 
-        _userRepository.Setup(x => x.FindById(userSecondFake)).ReturnsAsync((Usuario?)null);
+        _userRepository.Setup(x => x.FindByEmail(userSecondFake.ToString())).ReturnsAsync((Usuario?)null);
 
         CreateChatPrivateUseCase createChatPrivate = new CreateChatPrivateUseCase(
             _chatRepository.Object,
@@ -160,12 +163,13 @@ public class CreateChatPrivate
             _unitOfWork.Object
             );
 
-        var result = await Assert.ThrowsAsync<ArgumentException>(() => createChatPrivate.ExecuteAsync(user1.User_ID, userSecondFake));
+        var result = await Assert.ThrowsAsync<ArgumentException>(() => createChatPrivate.ExecuteAsync(user1.User_ID, new RequestNewChat { Email = userSecondFake.ToString() }));
 
         //Assert
         Assert.NotNull(result);
         Assert.Equal(result.Message, "The user second cannot be null. ");
-        _userRepository.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Exactly(2));
+        _userRepository.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Once);
+        _userRepository.Verify(x => x.FindByEmail(It.IsAny<string>()), Times.Once);
         _chatRepository.Verify(x => x.AddAsync(It.IsAny<ChatPrivate>()), Times.Never);
         _unitOfWork.Verify(x => x.CommitAsync(), Times.Never);
     }
