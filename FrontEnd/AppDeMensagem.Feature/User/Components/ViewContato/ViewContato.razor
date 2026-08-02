@@ -2,12 +2,12 @@
 @inject ViewContatoService ViewContatoService
 @inject Authentication Authentication
 
-<section class="h-full w-[25vw] bg-gray-950 p-4">
+<section class="h-full w-[25vw] border-r border-r-white/60 bg-gray-950 p-4">
 	<article class="flex h-full w-full flex-col gap-6">
 
 		<HeaderViewContato />
 
-		<section class="h-full overflow-y-auto">
+		<section class="h-full scrollbar-thin overflow-y-auto">
 			@if (ViewContatoService.IsLoading)
 			{
 				<div>

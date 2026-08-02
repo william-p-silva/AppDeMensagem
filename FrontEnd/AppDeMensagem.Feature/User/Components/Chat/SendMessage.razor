@@ -1,0 +1,24 @@
+﻿
+
+<section class="px-6">
+	<EditForm Model="message">
+		<div class="flex w-full items-center justify-between rounded-full bg-white p-2 text-black">
+			<h1>Lupa</h1>
+			<p>Emojis</p>
+			<InputTextArea ValueExpression="@(() => message)" class="w-[80%] border-none outline-none align-center max-h-8 p-1" placeholder="Digite sua mensagem..." />
+			@if (false)
+			{
+				<p>Mic</p>
+			}
+			else
+			{
+				<p>Enviar</p>
+			}
+		</div>
+	</EditForm>
+</section>
+
+
+@code {
+	private string message = string.Empty;
+}
