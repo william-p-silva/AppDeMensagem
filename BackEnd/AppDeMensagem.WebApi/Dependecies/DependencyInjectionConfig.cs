@@ -36,6 +36,7 @@ internal static class DependencyInjectionConfig
         services.AddScoped<ListChatGroupUseCase>();
         services.AddScoped<ListChatPrivateUseCase>();
         services.AddScoped<SendMessageUseCase>();
+        services.AddScoped<GetChatUseCase>();
 
 
         return services;

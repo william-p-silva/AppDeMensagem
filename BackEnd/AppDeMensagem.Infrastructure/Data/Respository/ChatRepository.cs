@@ -68,6 +68,19 @@ public class ChatRepository(AppDbContext context) : IChatRepository
                 .FirstOrDefaultAsync(c => c.Chat_ID == chatId);
     }
 
+    public async Task<Chat?> GetByIdAsync(Guid chatId)
+    {
+        return await context.Chats
+                .AsTracking() // Garante que a busca rastreará explicitamente o tipo concreto
+                .AsSplitQuery()
+                .Include(u => u.UsersChat)
+                    .ThenInclude(u => u.Usuario)
+                .Include(m => m.Messages)
+                    .ThenInclude(m => m.Sender)
+                        .ThenInclude(s => s.Usuario)
+                .FirstOrDefaultAsync(c => c.Chat_ID == chatId);
+    }
+
 
     public void TrackNewMessage(Message message)
     {

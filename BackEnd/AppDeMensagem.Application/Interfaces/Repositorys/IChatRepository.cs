@@ -9,6 +9,7 @@ public interface IChatRepository
     Task<Chat?> GetByIdWithParticipantsAsync(Guid chatId);
     Task<List<Chat>> GetAllAsync(Guid userId, bool? ativo = null);
     Task<List<ChatPrivate>> GetByPrivateAsync(Guid userId, bool? ativo = null);
+    Task<Chat?> GetByIdAsync(Guid chatId);
     Task<List<ChatGroup>> GetByGroupAsync(Guid userId, bool? ativo = null);
     void TrackNewMessage(Message message);
 

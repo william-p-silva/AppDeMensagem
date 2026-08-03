@@ -18,7 +18,8 @@ public class ChatController(
     SendMessageUseCase sendMessageUseCase,
     ListChatPrivateUseCase listChatPrivateUseCase,
     ListChatGroupUseCase listChatGroupUseCase,
-    ListAllChatUseCase listAllChatUseCase
+    ListAllChatUseCase listAllChatUseCase,
+    GetChatUseCase getChatUseCase
     ) : ControllerBase
 {
     private Guid GetCurrentUserId()
@@ -50,6 +51,18 @@ public class ChatController(
         var result = await sendMessageUseCase.ExecuteAsync(request: request, userId: userId);
 
         return Ok(new SuccessResponse<ResponseSendMessage>
+        {
+            Success = true,
+            Data = result
+        });
+    }
+
+    [HttpGet("get")]
+    public async Task<IActionResult> GetChat([FromQuery] RequestGetChat request)
+    {
+        Guid userId = GetCurrentUserId();
+        var result = await getChatUseCase.ExecuteAsync(request: request);
+        return Ok(new SuccessResponse<ResponseGetChat>
         {
             Success = true,
             Data = result
