@@ -1,4 +1,8 @@
-﻿
+﻿@using Feature.User.Services.Chat
+@inject ChatService ChatService
+@implements IDisposable
+
+
 <section class="h-full w-full bg-amber-500">
 	<HeaderChat />
 	<div class="h-[80%]">
@@ -6,3 +10,13 @@
 	</div>
 	<SendMessage />
 </section>
+
+
+@code{
+	public void Dispose()
+	{
+		ChatService.OnChange -= StateHasChanged;
+	}
+
+	protected override async Task OnInitializedAsync() => ChatService.OnChange += StateHasChanged;
+}

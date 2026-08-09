@@ -1,6 +1,37 @@
-﻿
+﻿@using Feature.User.Services.Chat
+@inject ChatService ChatService
+@inject UserSessionService UserSessionService
+@implements IDisposable
+
 <section class="scrollbar-thin overflow-y-auto p-4">
 	<!--Minhas msg-->
 	<!--Msg do usuário-->
-
+	@foreach(var message in ChatService.ChatHistory.Messages)
+	{
+		if (message.Sender.Email == EmailUser)
+		{
+			<ChatSentMessage Message="message" />
+		}
+		else
+		{
+			<ChatReceivedMessage Message="message" />
+		}
+	}
 </section>
+
+@code{
+	private string EmailUser { get; set; } = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		EmailUser = await UserSessionService.GetEmailUserAsync();
+
+		ChatService.OnChange += StateHasChanged;
+	}
+
+
+	public void Dispose()
+	{
+		ChatService.OnChange -= StateHasChanged;
+	}
+}

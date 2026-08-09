@@ -1,0 +1,14 @@
+﻿@using AppDeMensagem.Feature.User.Model.Chat
+
+
+<div class="flex justify-end">
+	<div class="mb-2 max-w-[70%] rounded-lg bg-blue-500 p-4 text-white">
+		<p>@Message.TextMessage</p>
+		<p>@Message.Sender.Email</p>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public MessageChatModel Message { get; set; } = new MessageChatModel();
+}

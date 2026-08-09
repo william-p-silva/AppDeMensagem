@@ -2,6 +2,7 @@
 @inject ViewContatoService ViewContatoService
 @inject Authentication Authentication
 
+
 <section class="h-full w-[25vw] border-r border-r-white/60 bg-gray-950 p-4">
 	<article class="flex h-full w-full flex-col gap-6">
 
@@ -51,6 +52,7 @@
 <ModalCreateChatPrivate />
 
 @code {
+
 	protected override async Task OnInitializedAsync()
 	{
 		await LoadChats();

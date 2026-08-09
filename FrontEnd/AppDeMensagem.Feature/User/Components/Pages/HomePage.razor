@@ -1,10 +1,39 @@
 ﻿@using AppDeMensagem.Feature.User.Components.Chat
 @using AppDeMensagem.Feature.User.Components.ViewContato
+@using AppDeMensagem.Feature.User.Services.Chat;
+@inject ChatService ChatService
+@implements IDisposable 
+
+
 
 <!--SidBar com opções de configs-->
 <!--Barra lateral de contatos-->
 <!--View de contato-->
-<main class="flex h-screen w-screen">
+<main class="flex h-screen w-screen bg-black">
 	<ViewContato />
-	<Chat />
+
+	@if (ChatService.ChatActive)
+	{
+		<Chat />
+	}
+	else
+	{
+		<div class="flex h-full w-full items-center justify-center">
+			<p class="text-2xl text-white/60">Selecione um contato para iniciar a conversa</p>
+		</div>
+
+	}
 </main>
+
+
+@code{
+	protected override void OnInitialized()
+	{
+		ChatService.OnChange += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		ChatService.OnChange -= StateHasChanged;
+	}
+}
