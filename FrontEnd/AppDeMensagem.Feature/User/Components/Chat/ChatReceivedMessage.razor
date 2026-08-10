@@ -1,10 +1,17 @@
 ﻿@using AppDeMensagem.Feature.User.Model.Chat
 
 
-<div class="flex justify-start">
-	<div class="mb-2 max-w-[70%] rounded-lg bg-gray-300 p-4 text-black">
-		<p>@Message.TextMessage</p>
-		<p>@Message.Sender.Email</p>
+<div class="flex justify-start gap-2">
+	<div class="flex h-8 w-8 items-center justify-center rounded-full bg-white font-bold text-black">
+		@(string.IsNullOrWhiteSpace(Message.Sender.Name) ? Message.Sender.Name[0].ToString().ToUpper() : "U")
+	</div>
+	<div class="mt-1 mb-2 max-w-[70%] rounded-r-lg rounded-b-lg bg-gray-300 px-4 text-sm text-black">
+		<div class="py-1 font-bold">
+			<p>@Message.Sender.Name</p>
+		</div>
+		<div class="pb-2">
+			<p>@Message.TextMessage</p>
+		</div>
 	</div>
 </div>
 

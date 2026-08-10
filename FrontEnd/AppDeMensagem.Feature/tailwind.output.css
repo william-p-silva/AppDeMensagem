@@ -247,6 +247,9 @@
   .my-2 {
     margin-block: calc(var(--spacing) * 2);
   }
+  .mt-1 {
+    margin-top: var(--spacing);
+  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -507,11 +510,23 @@
   .rounded-xl {
     border-radius: var(--radius-xl);
   }
+  .rounded-l-lg {
+    border-top-left-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-lg);
+  }
   .rounded-tl-none {
     border-top-left-radius: 0;
   }
+  .rounded-r-lg {
+    border-top-right-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+  }
   .rounded-tr-none {
     border-top-right-radius: 0;
+  }
+  .rounded-b-lg {
+    border-bottom-right-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-lg);
   }
   .rounded-br-none {
     border-bottom-right-radius: 0;
@@ -729,6 +744,9 @@
   }
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
+  }
+  .pb-2 {
+    padding-bottom: calc(var(--spacing) * 2);
   }
   .pl-5 {
     padding-left: calc(var(--spacing) * 5);

@@ -2,9 +2,13 @@
 
 
 <div class="flex justify-end">
-	<div class="mb-2 max-w-[70%] rounded-lg bg-blue-500 p-4 text-white">
-		<p>@Message.TextMessage</p>
-		<p>@Message.Sender.Email</p>
+	<div class="mt-1 mb-2 max-w-[70%] rounded-l-lg rounded-b-lg bg-blue-500 px-4 text-sm text-white">
+		<div class="py-1 font-bold">
+			<p>@Message.Sender.Name</p>
+		</div>
+		<div class="pb-2">
+			<p>@Message.TextMessage</p>
+		</div>
 	</div>
 </div>
 

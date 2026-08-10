@@ -22,6 +22,13 @@ public class ChatService(HttpService httpService)
             Messages = new List<MessageChatModel>()
         };
 
+    public RequestMesageModel RequestSendMessage { get; set; } =
+        new RequestMesageModel()
+        {
+            Chat_ID = Guid.Empty,
+            TextMessage = string.Empty
+        };
+
 
     public async Task SetChatActive(Guid chatId)
     {
@@ -43,5 +50,35 @@ public class ChatService(HttpService httpService)
         }
     }
 
+    public async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(RequestSendMessage.TextMessage))
+        {
+            ErrorChat.Add("O texto da mensagem não pode ser vazio.");
+        }
+
+        RequestSendMessage.Chat_ID = ChatHistory.Chat_ID;
+
+        await SendMessageService();
+
+        RequestSendMessage = new RequestMesageModel()
+        {
+            Chat_ID = Guid.Empty,
+            TextMessage = string.Empty
+        };
+    }
+
+    private async Task SendMessageService()
+    {
+        var response = await httpService.PostAsync<RequestMesageModel, string>("Chat/post/send-message", RequestSendMessage);
+
+        if (httpService.Error.Count > 0)
+            ErrorChat.Add(httpService.Error.Last());
+
+
+    }
+
     private void NotifyStateChanged() => OnChange?.Invoke();
+
+
 }

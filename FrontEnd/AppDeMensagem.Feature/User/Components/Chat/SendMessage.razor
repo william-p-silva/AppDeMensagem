@@ -1,24 +1,53 @@
-﻿
+﻿@using Feature.User.Services.Chat
+@inject ChatService ChatService
+@implements IDisposable
+
 
 <section class="px-6">
-	<EditForm Model="message">
+	<EditForm Model="ChatService.RequestSendMessage" OnValidSubmit="HandleSubmit">
+		<DataAnnotationsValidator />
+
 		<div class="flex w-full items-center justify-between rounded-full bg-white p-2 text-black">
 			<h1>Lupa</h1>
 			<p>Emojis</p>
-			<InputTextArea ValueExpression="@(() => message)" class="w-[80%] border-none outline-none align-center max-h-8 p-1" placeholder="Digite sua mensagem..." />
-			@if (message.Length <= 0)
+
+			<textarea @bind="ChatService.RequestSendMessage.TextMessage"
+					  @bind:event="oninput"
+					  class="align-center max-h-8 w-[80%] border-none p-1 outline-none"
+					  placeholder="Digite sua mensagem...">
+			</textarea>
+
+			<ValidationMessage For="@(() => ChatService.RequestSendMessage.TextMessage)" />
+
+			@if (string.IsNullOrEmpty(ChatService.RequestSendMessage.TextMessage))
 			{
-				<p>Mic</p>
+				<p class="rounded-full bg-blue-500 px-4 py-2 text-white">Mic</p>
 			}
 			else
 			{
-				<button type="submit" class="rounded-full bg-blue-500 px-4 py-2 text-white">Enviar</button>
+				<button type="submit" class="rounded-full bg-blue-500 px-4 py-2 text-white">
+					Enviar
+				</button>
 			}
 		</div>
 	</EditForm>
+
 </section>
 
+@code{
 
-@code {
-	private string message = string.Empty;
+	protected override async Task OnInitializedAsync()
+	{
+		ChatService.OnChange += StateHasChanged;
+	}
+
+	private async Task HandleSubmit()
+	{
+		await ChatService.SendMessage();
+	}
+
+	public void Dispose()
+	{
+		ChatService.OnChange -= StateHasChanged;
+	}
 }

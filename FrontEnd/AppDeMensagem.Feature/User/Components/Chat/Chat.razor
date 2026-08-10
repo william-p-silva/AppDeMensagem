@@ -5,14 +5,12 @@
 
 <section class="h-full w-full bg-amber-500">
 	<HeaderChat />
-	<div class="h-[80%]">
-		<BodyChat />
-	</div>
+	<BodyChat />
 	<SendMessage />
 </section>
 
 
-@code{
+@code {
 	public void Dispose()
 	{
 		ChatService.OnChange -= StateHasChanged;

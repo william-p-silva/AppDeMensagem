@@ -21,7 +21,7 @@ public class ChatRepository(AppDbContext context) : IChatRepository
             .Include(c => c.UsersChat)
                 .ThenInclude(uc => uc.Usuario)
             .Where(x => (ativo == null || x.Ativo == ativo)
-                && context.UsersChat.Any(uc => uc.User_ID == userId))
+            && x.UsersChat.Any(uc => uc.User_ID == userId))
             .ToListAsync();
     }
 
@@ -75,7 +75,7 @@ public class ChatRepository(AppDbContext context) : IChatRepository
                 .AsSplitQuery()
                 .Include(u => u.UsersChat)
                     .ThenInclude(u => u.Usuario)
-                .Include(m => m.Messages)
+                .Include(m => m.Messages.OrderBy(x => x.SendTime))
                     .ThenInclude(m => m.Sender)
                         .ThenInclude(s => s.Usuario)
                 .FirstOrDefaultAsync(c => c.Chat_ID == chatId);
