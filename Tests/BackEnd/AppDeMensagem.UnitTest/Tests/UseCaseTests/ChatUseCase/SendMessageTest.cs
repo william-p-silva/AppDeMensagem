@@ -1,6 +1,7 @@
 ﻿
 
 using AppDeMensagem.Application.DTOs.Chat.Request;
+using AppDeMensagem.Application.DTOs.Chat.Response;
 using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Application.Interfaces.Services;
 using AppDeMensagem.Application.UseCases.Chat;
@@ -60,6 +61,6 @@ public class SendMessageTest
         _chatMock.Verify(x => x.GetByIdWithParticipantsAsync(It.IsAny<Guid>()), Times.Once);
         _unitOfWorkMock.Verify(x => x.CommitAsync(), Times.Once);
         _chatNotificationServiceMock.Verify(x => x.NotifyMessageSentAsync(
-            It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>()), Times.Once);
+            It.IsAny<ResponseMessage>(), It.IsAny<Guid>()), Times.Once);
     }
 }
