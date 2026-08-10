@@ -30,7 +30,22 @@ public class SendMessageUseCase(
 
         await unitOfWork.CommitAsync();
 
-        await chatNotificationService.NotifyMessageSentAsync(chat.Chat_ID, userId, request.TextMessage);
+        var messageResponse = new ResponseMessage
+        {
+            Message_ID = message.Message_ID,
+            TextMessage = message.Text,
+            StatusMessage = message.Status.ToString(),
+            SendTime = message.SendTime,
+            Sender = new ResponseSenderMessage
+            {
+                Email = sender.Usuario.EmailAddress.Endereco,
+                Name = sender.Usuario.UserName.TextName,
+                UserChat_ID = sender.UserChat_ID,
+                User_ID = sender.User_ID
+            }
+        };
+
+        await chatNotificationService.NotifyMessageSentAsync(messageResponse, chatId: chat.Chat_ID);
 
         return new ResponseSendMessage
         {

@@ -39,5 +39,6 @@ builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<ViewContatoService>();
 builder.Services.AddScoped<HeaderViewContatoService>();
 builder.Services.AddScoped<ChatService>();
+builder.Services.AddScoped<ChatHubService>();
 
 await builder.Build().RunAsync();

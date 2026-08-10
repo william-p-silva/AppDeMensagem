@@ -11,11 +11,11 @@
 			<h1>Lupa</h1>
 			<p>Emojis</p>
 
-			<textarea @bind="ChatService.RequestSendMessage.TextMessage"
+			<input type="text" @bind="ChatService.RequestSendMessage.TextMessage"
 					  @bind:event="oninput"
 					  class="align-center max-h-8 w-[80%] border-none p-1 outline-none"
 					  placeholder="Digite sua mensagem...">
-			</textarea>
+			</input>
 
 			<ValidationMessage For="@(() => ChatService.RequestSendMessage.TextMessage)" />
 
