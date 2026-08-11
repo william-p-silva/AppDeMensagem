@@ -1,9 +1,11 @@
 ﻿@using Feature.User.Services.Chat
+@using Microsoft.JSInterop
 @inject ChatService ChatService
 @inject UserSessionService UserSessionService
+@inject IJSRuntime JS
 @implements IDisposable
 
-<section class="h-[80%] scrollbar-thin overflow-y-auto p-4">
+<section id="chat-container" class="h-[80%] scrollbar-thin overflow-y-auto p-4">
 	<!--Minhas msg-->
 	<!--Msg do usuário-->
 	@foreach(var message in ChatService.ChatHistory.Messages)
@@ -20,18 +22,41 @@
 </section>
 
 @code{
-	private string EmailUser { get; set; } = string.Empty;
+    private string EmailUser { get; set; } = string.Empty;
+    private bool _deveRolarParaOFinal = false;
 
-	protected override async Task OnInitializedAsync()
-	{
-		EmailUser = await UserSessionService.GetEmailUserAsync();
+    protected override async Task OnInitializedAsync()
+    {
+        EmailUser = await UserSessionService.GetEmailUserAsync();
 
-		ChatService.OnChange += StateHasChanged;
-	}
+        await RolarParaFinal();
 
+        ChatService.OnChange += OnChatUpdated;
+    }
 
-	public void Dispose()
-	{
-		ChatService.OnChange -= StateHasChanged;
-	}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Rola no primeiro carregamento ou quando houver atualização de mensagens
+        if (firstRender || _deveRolarParaOFinal)
+        {
+            _deveRolarParaOFinal = false;
+            await RolarParaFinal();
+        }
+    }
+
+    private void OnChatUpdated()
+    {
+        _deveRolarParaOFinal = true;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task RolarParaFinal()
+    {
+        await JS.InvokeVoidAsync("eval", "const el = document.getElementById('chat-container'); if(el) el.scrollTop = el.scrollHeight;");
+    }
+
+    public void Dispose()
+    {
+        ChatService.OnChange -= OnChatUpdated;
+    }
 }

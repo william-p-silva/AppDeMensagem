@@ -3,14 +3,14 @@
 @inject ChatService ChatService
 
 
-<div class="flex h-20 items-center justify-center space-y-6 rounded-2xl bg-gray-800" @onclick="() => HandleSetChat()">
+<div class="flex h-20 cursor-pointer items-center justify-center space-y-6 rounded-2xl bg-gray-800 px-4" @onclick="() => HandleSetChat()">
 
 	<div class="flex w-full items-center justify-start gap-6 p-2">
-		<div class="flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg font-bold text-black">
+		<div class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-lg font-bold text-black">
 			@(string.IsNullOrWhiteSpace(Chat?.Name) ? "U" : Chat.Name[0].ToString().ToUpper())
 		</div>
 
-		<div>
+		<div class="text-sm">
 			<p>@(string.IsNullOrWhiteSpace(Chat?.Name) ? "Usuário" : Chat.Name)</p>
 		</div>
 	</div>

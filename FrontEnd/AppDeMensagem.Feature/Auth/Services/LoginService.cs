@@ -3,10 +3,11 @@
 using AppDeMensagem.Core.Configuration;
 using AppDeMensagem.Core.Http;
 using AppDeMensagem.Feature.Auth.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace AppDeMensagem.Feature.Auth.Services;
 
-public class LoginService(HttpService httpService)
+public class LoginService(HttpService httpService, NavigationManager navigation)
 {
     private readonly HttpService _httpService = httpService;
 
@@ -29,6 +30,9 @@ public class LoginService(HttpService httpService)
 
         Authentication auth = new Authentication(
             email: response.Data.Email, name: response.Data.Name, profile: response.Data.Profile);
+
+
+        navigation.NavigateTo("user/home");
 
         return response?.Success ?? false;
     }
