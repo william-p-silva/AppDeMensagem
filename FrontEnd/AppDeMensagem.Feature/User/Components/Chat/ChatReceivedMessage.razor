@@ -1,20 +1,24 @@
 ﻿@using AppDeMensagem.Feature.User.Model.Chat
 
-
-<div class="flex justify-start gap-2">
-	<div class="flex h-8 w-8 items-center justify-center rounded-full bg-white font-bold text-black">
-		@(string.IsNullOrWhiteSpace(Message.Sender.Name) ? Message.Sender.Name[0].ToString().ToUpper() : "U")
+<div class="flex items-start justify-start gap-2">
+	<!-- Círculo do Usuário -->
+	<div class="-mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/40 bg-white/30 text-xs font-bold text-white shadow-sm select-none">
+		@(string.IsNullOrWhiteSpace(Message.Sender?.Name) ? "U" : Message.Sender.Name[0].ToString().ToUpper())
 	</div>
-	<div class="mt-1 mb-2 max-w-[70%] rounded-r-lg rounded-b-lg bg-gray-300 px-4 text-sm text-black">
-		<div class="py-1 font-bold">
-			<p>@Message.Sender.Name</p>
+
+	<!-- Balão da Mensagem -->
+	<div class="mt-1 mb-2 max-w-[70%] rounded-xl rounded-tl-none border border-white/30 bg-white/30 px-3 py-2 text-sm text-white shadow backdrop-blur-sm">
+		<div class="mb-1 text-xs font-semibold text-white/80">
+			<p>@Message.Sender?.Name</p>
 		</div>
-		<div class="pb-2">
-			<p>@Message.TextMessage</p>
+		<div>
+			<p class="leading-relaxed break-words">@Message.TextMessage</p>
+		</div>
+		<div class="flex justify-end pt-1 text-[10px] text-white/70">
+			<p>@Message.SendTime.ToLocalTime().ToString("HH:mm")</p>
 		</div>
 	</div>
 </div>
-
 
 @code {
 	[Parameter]

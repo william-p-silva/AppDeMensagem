@@ -3,22 +3,35 @@
 
 <header class="flex flex-col gap-6">
 	<div class="flex justify-between">
-		<h1>Conversas</h1>
+		<h1 class="text-3xl font-bold">Conversas</h1>
 		<div class="flex gap-6">
 			<button type="button" class="cursor-pointer"
 					@onclick="OpenModal">
-				💬
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-plus-icon lucide-message-square-plus">
+					<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+					<path d="M12 8v6" />
+					<path d="M9 11h6" />
+				</svg>
 			</button>
 			<div>
-				:
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical-icon lucide-ellipsis-vertical">
+					<circle cx="12" cy="12" r="1" />
+					<circle cx="12" cy="5" r="1" />
+					<circle cx="12" cy="19" r="1" />
+				</svg>
 			</div>
 		</div>
 	</div>
 
-	<EditForm Model="SearchChat" class="flex w-full items-center justify-center rounded-full bg-gray-600 p-2 outline-none">
-		🔍
+	<EditForm Model="SearchChat" class="flex w-full items-center justify-center rounded-full border border-white/30 bg-white/30 p-1 outline-none">
+		<p class="text-white/60">
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+			<path d="m21 21-4.34-4.34" />
+			<circle cx="11" cy="11" r="8" />
+		</svg>
+		</p>
 		<InputText @bind-Value="SearchChat"
-				   class="w-full rounded-full bg-gray-600 px-2 py-1 outline-none"
+				   class="w-full rounded-full px-2 py-1 outline-none"
 				   placeholder="Pesquisar conversa" />
 	</EditForm>
 

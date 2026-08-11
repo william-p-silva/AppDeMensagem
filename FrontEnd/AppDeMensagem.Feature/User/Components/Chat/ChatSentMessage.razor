@@ -2,12 +2,12 @@
 
 
 <div class="flex justify-end">
-	<div class="mt-1 mb-2 max-w-[70%] rounded-l-lg rounded-b-lg bg-blue-500 px-4 text-sm text-white">
-		<div class="py-1 font-bold">
-			<p>@Message.Sender.Name</p>
+	<div class="mt-1 mb-2 max-w-[70%] rounded-xl rounded-br-none border border-white/20 bg-blue-400/30 px-3 py-2 text-sm text-white shadow">
+		<div class="">
+			<p class="leading-relaxed break-words">@Message.TextMessage</p>
 		</div>
-		<div class="pb-2">
-			<p class="break-words">@Message.TextMessage</p>
+		<div class="flex justify-end pt-1 text-[10px] text-white/70">
+			<p>@Message.SendTime.ToLocalTime().ToString("HH:mm")</p>
 		</div>
 	</div>
 </div>

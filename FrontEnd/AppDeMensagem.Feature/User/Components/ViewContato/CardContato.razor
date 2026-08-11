@@ -1,24 +1,37 @@
 ﻿@using AppDeMensagem.Feature.User.Model.ViewContato
 @using AppDeMensagem.Feature.User.Services.Chat
 @inject ChatService ChatService
+@implements IDisposable
 
+<!-- A div externa controla o recuo/largura (pr-8 vs pr-0) e faz a transição da esquerda para a direita -->
+<div class="mb-1.5 flex flex-col transition-all duration-300 ease-in-out hover:pr-4 @(isActive ? "pr-0" : "pr-8")">
 
-<div class="flex h-20 cursor-pointer items-center justify-center space-y-6 rounded-2xl bg-gray-800 px-4" @onclick="() => HandleSetChat()">
+	<div class="flex h-20 cursor-pointer items-center justify-center rounded-r-2xl px-4 transition-all duration-300 ease-in-out @(isActive ? "bg-blue-600 shadow-lg ring-1 ring-blue-400/50" : "bg-gradient-to-l from-blue-800/30 to-blue-950/90 hover:from-blue-800/80 hover:to-blue-900/90 ")"
+		 @onclick="HandleSetChat">
 
-	<div class="flex w-full items-center justify-start gap-6 p-2">
-		<div class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-lg font-bold text-black">
-			@(string.IsNullOrWhiteSpace(Chat?.Name) ? "U" : Chat.Name[0].ToString().ToUpper())
+		<div class="flex w-full items-center justify-start gap-4 p-2">
+			<!-- Avatar com transição suave de cores e escala -->
+			<div class="flex h-12 w-12 flex-none items-center justify-center rounded-full text-xl font-bold transition-all duration-300 ease-in-out @(isActive ? "bg-white text-blue-900 shadow-inner scale-105" : "bg-blue-500 text-white shadow-sm")">
+				@(string.IsNullOrWhiteSpace(Chat?.Name) ? "U" : Chat.Name[0].ToString().ToUpper())
+			</div>
+
+			<!-- Informações do contato -->
+			<div class="flex flex-col justify-center overflow-hidden text-sm">
+				<p class="truncate text-base font-semibold text-white">
+					@(string.IsNullOrWhiteSpace(Chat?.Name) ? "Usuário" : Chat.Name)
+				</p>
+			</div>
 		</div>
 
-		<div class="text-sm">
-			<p>@(string.IsNullOrWhiteSpace(Chat?.Name) ? "Usuário" : Chat.Name)</p>
-		</div>
 	</div>
 </div>
 
 @code {
 	[Parameter]
 	public ChatsModel? Chat { get; set; }
+
+	private bool isActive => 
+		Chat != null && ChatService.ChatHistory != null && Chat.Chat_ID == ChatService.ChatHistory.Chat_ID;
 
 	public async Task HandleSetChat()
 	{
@@ -27,5 +40,19 @@
 			await ChatService.SetChatActive(Chat.Chat_ID);
 		}
 	}
-	
+
+	protected override void OnInitialized()
+	{
+		ChatService.OnChange += OnChatStateChanged;
+	}
+
+	private void OnChatStateChanged()
+	{
+		InvokeAsync(StateHasChanged);
+	}
+
+	public void Dispose()
+	{
+		ChatService.OnChange -= OnChatStateChanged;
+	}
 }

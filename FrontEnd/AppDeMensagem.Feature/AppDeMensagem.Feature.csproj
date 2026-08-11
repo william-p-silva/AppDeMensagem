@@ -23,4 +23,8 @@
     <ProjectReference Include="..\AppDeMensagem.Shared\AppDeMensagem.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Assets\" />
+  </ItemGroup>
+
 </Project>

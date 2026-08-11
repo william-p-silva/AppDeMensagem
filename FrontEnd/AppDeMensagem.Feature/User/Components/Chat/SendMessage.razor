@@ -7,34 +7,57 @@
 	<EditForm Model="ChatService.RequestSendMessage" OnValidSubmit="HandleSubmit">
 		<DataAnnotationsValidator />
 
-		<div class="flex w-full items-center justify-between rounded-full bg-white p-2 text-black">
-			<h1>Lupa</h1>
-			<p>Emojis</p>
+		<div class="flex w-full items-center justify-between rounded-full border border-white/30 bg-white/30 p-2 px-4 text-white">
+			<h1>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+					<path d="M5 12h14" />
+					<path d="M12 5v14" />
+				</svg>
+			</h1>
+			<p>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-face-slightly-smiling-plus-icon lucide-face-slightly-smiling-plus">
+					<path d="M13.267 2.08a10 10 0 108.653 8.653" />
+					<path d="M15 10V9" />
+					<path d="M16 5h6" />
+					<path d="M16.472 15a6 6 0 01-8.943 0" />
+					<path d="M19 2v6" />
+					<path d="M9 10V9" />
+				</svg>
+			</p>
 
 			<input type="text" @bind="ChatService.RequestSendMessage.TextMessage"
-					  @bind:event="oninput"
-					  class="align-center max-h-8 w-[80%] border-none p-1 outline-none"
-					  placeholder="Digite sua mensagem...">
-			</input>
+				   @bind:event="oninput"
+				   class="align-center max-h-8 w-[80%] border-none fill-white p-1 outline-none"
+				   placeholder="Digite sua mensagem...">
+		</input>
 
-			<ValidationMessage For="@(() => ChatService.RequestSendMessage.TextMessage)" />
+		<ValidationMessage For="@(() => ChatService.RequestSendMessage.TextMessage)" />
 
-			@if (string.IsNullOrEmpty(ChatService.RequestSendMessage.TextMessage))
-			{
-				<p class="rounded-full bg-blue-500 px-4 py-2 text-white">Mic</p>
-			}
-			else
-			{
-				<button type="submit" class="rounded-full bg-blue-500 px-4 py-2 text-white">
-					Enviar
-				</button>
-			}
-		</div>
-	</EditForm>
+		@if (string.IsNullOrEmpty(ChatService.RequestSendMessage.TextMessage))
+		{
+			<p class="rounded-full bg-blue-500 px-4 py-2 text-white">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic-icon lucide-mic">
+					<path d="M12 19v3" />
+					<path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+					<rect x="9" y="2" width="6" height="13" rx="3" />
+				</svg>
+			</p>
+		}
+		else
+		{
+			<button type="submit" class="rounded-full bg-blue-500 px-4 py-2 text-white">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal-icon lucide-send-horizontal">
+					<path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" />
+					<path d="M6 12h16" />
+				</svg>
+			</button>
+		}
+	</div>
+</EditForm>
 
 </section>
 
-@code{
+@code {
 
 	protected override async Task OnInitializedAsync()
 	{

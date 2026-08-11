@@ -3,12 +3,12 @@
 @inject Authentication Authentication
 
 
-<section class="h-full w-[25vw] border-r border-r-white/60 bg-gray-950 p-4">
+<section class="bg-gradient-to-l h-full w-[25vw] border-r border-r-blue-800/20 from-blue-700 to-blue-950/80 p-4">
 	<article class="flex h-full w-full flex-col gap-6">
 
 		<HeaderViewContato />
 
-		<section class="h-full scrollbar-none overflow-y-auto">
+		<section class="-ml-4 h-full scrollbar-none overflow-y-auto">
 			@if (ViewContatoService.IsLoading)
 			{
 				<div>
@@ -19,12 +19,10 @@
 			{
 				@if (ViewContatoService.Chats.Count > 0)
 				{
-					<div class="my-2 flex flex-col gap-4">
-						@foreach (var chat in ViewContatoService.Chats)
-						{
-							<CardContato Chat="@chat" />
-						}
-					</div>
+					@foreach (var chat in ViewContatoService.Chats)
+					{
+						<CardContato Chat="@chat" />
+					}
 				}
 				else
 				{
