@@ -33,6 +33,18 @@
 	{
 		<!-- Links para Usuário Logado -->
 		<ul class="flex items-center gap-3">
+			@if (HeaderService.IsUser || HeaderService.IsAdmin)
+			{
+				<li>
+					<NavLink href="/user/home"
+							 Match="NavLinkMatch.Prefix"
+							 class="flex items-center gap-1.5 rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
+							 activeClass="!bg-blue-500 !text-white shadow-md">
+						<span>💬</span> Área do Usuário
+					</NavLink>
+				</li>
+				
+			}
 			@if (HeaderService.IsAdmin)
 			{
 				<li>
@@ -41,17 +53,6 @@
 							 class="flex items-center gap-1.5 rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
 							 activeClass="!bg-blue-500 !text-white shadow-md">
 						<span>👑</span> Área do Admin
-					</NavLink>
-				</li>
-			}
-			else if (HeaderService.IsUser)
-			{
-				<li>
-					<NavLink href="/user/home"
-							 Match="NavLinkMatch.Prefix"
-							 class="flex items-center gap-1.5 rounded-xl bg-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-all duration-300 hover:bg-blue-500 hover:text-white active:scale-95"
-							 activeClass="!bg-blue-500 !text-white shadow-md">
-						<span>💬</span> Área do Usuário
 					</NavLink>
 				</li>
 			}

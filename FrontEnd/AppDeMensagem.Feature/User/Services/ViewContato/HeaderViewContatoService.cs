@@ -38,6 +38,7 @@ public class HeaderViewContatoService(HttpService httpService)
         ErrorHeader.Clear();
         await PostNewChat();
         IsLoading = false;
+        CloseModalCreateChatPrivate();
         NotifyStateChanged();
     }
 

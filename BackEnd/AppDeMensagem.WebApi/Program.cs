@@ -75,7 +75,7 @@ builder.Services.AddCors(options =>
     {
         // 1. A URL do Blazor DEVE ser a origem exata (sem barra no final)
         // 2. NUNCA use .AllowAnyOrigin() com .AllowCredentials()!
-        policy.WithOrigins("https://localhost:7276")
+        policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials(); // <-- OBRIGATÓRIO quando usa CookieHandler
@@ -117,6 +117,8 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+
 app.UseCors("AllowBlazor");
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -134,7 +136,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
