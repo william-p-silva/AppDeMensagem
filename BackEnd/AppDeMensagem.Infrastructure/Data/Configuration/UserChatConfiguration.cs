@@ -17,6 +17,9 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
         builder.Property(uc => uc.IsAdmin)
             .IsRequired();
 
+        builder.Property(uc => uc.NameChat)
+            .IsRequired();
+
         builder.HasOne(uc => uc.Usuario)
             .WithMany(u => u.UsersChat)
             .HasForeignKey(uc => uc.User_ID)

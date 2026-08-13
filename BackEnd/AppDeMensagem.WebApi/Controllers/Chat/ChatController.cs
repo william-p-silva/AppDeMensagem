@@ -61,7 +61,7 @@ public class ChatController(
     public async Task<IActionResult> GetChat([FromQuery] RequestGetChat request)
     {
         Guid userId = GetCurrentUserId();
-        var result = await getChatUseCase.ExecuteAsync(request: request);
+        var result = await getChatUseCase.ExecuteAsync(request: request, userId);
         return Ok(new SuccessResponse<ResponseGetChat>
         {
             Success = true,

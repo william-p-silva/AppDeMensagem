@@ -18,8 +18,8 @@ public class ChatPrivate : Chat
             throw new ArgumentException("The user second deleted. ");
         }
 
-        UserChat userChat1 = new UserChat(userPrimary, this, isAdmin: false);
-        UserChat userChat2 = new UserChat(userSecond, this, isAdmin: false);
+        UserChat userChat1 = new UserChat(userPrimary, this, isAdmin: false, nameChat: userSecond.UserName.TextName);
+        UserChat userChat2 = new UserChat(userSecond, this, isAdmin: false, nameChat: userPrimary.UserName.TextName);
 
         AddParticipant(userChat1);
         AddParticipant(userChat2);

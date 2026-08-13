@@ -28,6 +28,13 @@ public class CreateChatPrivateUseCase(
         if (userSecond.UserProfile == PerfilUser.Deleted)
             throw new ArgumentException("The user deleted. ");
 
+        var secondUserChatIDs = userSecond.UsersChat.Select(x => x.Chat_ID);
+
+        var chatExist = userPrimary.UsersChat.Any(c => secondUserChatIDs.Contains(c.Chat_ID) && c.Chat is ChatPrivate);
+
+        if (chatExist)
+            throw new InvalidOperationException("A private chat already exists between these users.");
+
         ChatPrivate chatPrivate = new ChatPrivate(userPrimary, userSecond);
 
         await chatRepository.AddAsync(chatPrivate);

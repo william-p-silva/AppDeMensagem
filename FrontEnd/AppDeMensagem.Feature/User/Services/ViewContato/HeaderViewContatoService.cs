@@ -26,7 +26,7 @@ public class HeaderViewContatoService(HttpService httpService)
         {
             ErrorHeader.Add(httpService.Error.Last());
         }
-        if(response?.Data is null)
+        else if(response?.Data is null)
         {
             ErrorHeader.Add("Nenhum dado retornado");
         }
@@ -38,7 +38,8 @@ public class HeaderViewContatoService(HttpService httpService)
         ErrorHeader.Clear();
         await PostNewChat();
         IsLoading = false;
-        CloseModalCreateChatPrivate();
+        if (ErrorHeader.Count == 0)
+            CloseModalCreateChatPrivate();
         NotifyStateChanged();
     }
 

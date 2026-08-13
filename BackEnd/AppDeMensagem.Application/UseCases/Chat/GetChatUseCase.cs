@@ -8,19 +8,21 @@ namespace AppDeMensagem.Application.UseCases.Chat;
 
 public class GetChatUseCase(IChatRepository chatRepository)
 {
-    public async Task<ResponseGetChat> ExecuteAsync(RequestGetChat request)
+    public async Task<ResponseGetChat> ExecuteAsync(RequestGetChat request, Guid userId)
     {
         var chat = await chatRepository.GetByIdAsync(request.Chat_ID);
 
         if (chat is null)
             throw new ArgumentNullException("Chat not found. ");
 
+        var currentUserChat = chat.UsersChat.FirstOrDefault(uc => uc.User_ID == userId);
+
         return new ResponseGetChat
         {
             Chat_ID = chat.Chat_ID,
             Ativo = chat.Ativo,
             Created = chat.Created,
-            NameChat = chat.Name,
+            NameChat = currentUserChat?.NameChat ?? chat.Name,
             Participants = chat.UsersChat.Select(p => new ResponseParticipantsInChat
             {
                 User_ID = p.User_ID,

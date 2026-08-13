@@ -34,13 +34,19 @@ public class UserRepository(AppDbContext context) : IUserRepository
 
     public async Task<Usuario?> FindById(Guid user_id)
     {
-        return await context.Users.FirstOrDefaultAsync(x => x.User_ID == user_id);
+        return await context.Users
+            .Include(u => u.UsersChat)
+            .ThenInclude(uc => uc.Chat)
+            .FirstOrDefaultAsync(x => x.User_ID == user_id);
     }
 
     public async Task<Usuario?> FindByEmail(string email)
     {
         var emailVo = Email.Create(email);
 
-        return await context.Users.FirstOrDefaultAsync(x => x.EmailAddress == emailVo);
+        return await context.Users
+            .Include(u => u.UsersChat)
+            .ThenInclude(uc => uc.Chat)
+            .FirstOrDefaultAsync(x => x.EmailAddress == emailVo);
     }
 }

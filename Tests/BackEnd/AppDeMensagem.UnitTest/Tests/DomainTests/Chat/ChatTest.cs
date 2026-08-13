@@ -33,7 +33,7 @@ public class ChatTest()
             );
 
         ChatGroup chat = new ChatGroup(user, "teste");
-        var senderDeOutroChat = new UserChat(userFalse, chat, false);
+        var senderDeOutroChat = new UserChat(userFalse, chat, false, "teste");
 
         // Act
         Action act = () => chat.SendMessage(senderDeOutroChat, "oi");

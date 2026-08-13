@@ -14,20 +14,26 @@ public class ListAllChatUseCase(
     {
         var chats = await chatRepository.GetAllAsync(userId);
 
-        return chats.Select(x => new ResponseChat
+        return chats.Select(chat =>
         {
-            Ativo = x.Ativo,
-            Name = x.Name,
-            Chat_ID = x.Chat_ID,
-            Created = x.Created,
-            Participants = x.UsersChat.Select(u => new ResponseParticipantsInChat
+            // Busca a relação do usuário logado neste chat específico
+            var currentUserChat = chat.UsersChat.FirstOrDefault(uc => uc.User_ID == userId);
+
+            return new ResponseChat
             {
-                Email = u.Usuario.EmailAddress.Endereco,
-                IsAdmin = u.IsAdmin,
-                Name = u.Usuario.UserName.TextName,
-                User_ID = u.User_ID
-            }).ToList()
-            
+                Chat_ID = chat.Chat_ID,
+                Created = chat.Created,
+                Ativo = chat.Ativo,
+                // Pega o NameChat customizado do usuário ou usa o nome padrão do Chat se for nulo
+                Name = currentUserChat?.NameChat ?? chat.Name,
+                Participants = chat.UsersChat.Select(u => new ResponseParticipantsInChat
+                {
+                    User_ID = u.User_ID,
+                    Name = u.Usuario.UserName.TextName,
+                    Email = u.Usuario.EmailAddress.Endereco,
+                    IsAdmin = u.IsAdmin
+                }).ToList()
+            };
         }).ToList();
     }
 }

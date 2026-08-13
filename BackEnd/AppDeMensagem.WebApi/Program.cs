@@ -163,7 +163,7 @@ using (var scope = app.Services.CreateScope())
 app.Run();
 
 // Criar uma nova Migration:
-// dotnet ef migrations add update3 --project ..\AppDeMensagem.Infrastructure
+// dotnet ef migrations add adicionandoNomeChat --project ..\AppDeMensagem.Infrastructure
 //
 // Atualizar o banco manualmente (Caso não queira depender do auto-migrate):
 // dotnet ef database update --project ..\AppDeMensagem.Infrastructure
