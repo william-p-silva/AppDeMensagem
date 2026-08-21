@@ -15,6 +15,7 @@ namespace AppDeMensagem.WebApi.Controllers.Chat;
 [Authorize]
 public class ChatController(
     CreateChatPrivateUseCase createChatPrivateUseCase,
+    CreateChatGroupUseCase createChatGroupUseCase,
     SendMessageUseCase sendMessageUseCase,
     ListChatPrivateUseCase listChatPrivateUseCase,
     ListChatGroupUseCase listChatGroupUseCase,
@@ -37,6 +38,19 @@ public class ChatController(
         var result = await createChatPrivateUseCase.ExecuteAsync(userPrimary_Id: userPrimary_ID, request: request);
 
         return Ok( new SuccessResponse<string>
+        {
+            Success = true,
+            Data = result
+        });
+    }
+
+    [HttpPost("post/group")]
+    public async Task<IActionResult> CreateChatGroup([FromBody] RequestNewChatGroup request)
+    {
+        Guid userPrimary_ID = GetCurrentUserId();
+        var result = await createChatGroupUseCase.ExecuteAsync(userPrimary_id: userPrimary_ID, request: request);
+
+        return Ok(new SuccessResponse<Guid>
         {
             Success = true,
             Data = result
