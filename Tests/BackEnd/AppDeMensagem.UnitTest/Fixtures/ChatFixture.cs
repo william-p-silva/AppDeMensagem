@@ -15,11 +15,20 @@ public class ChatFixture
         return chatPrivate;
     }
 
-    public ChatGroup CreateChatGroup(Usuario user, string name = "teste")
+    public ChatGroup CreateChatGroup(Usuario userPrimary, List<Usuario> user, string name = "teste")
     {
-        ChatGroup chatGroup = new ChatGroup(user, name);
+        ChatGroup chatGroup = new ChatGroup(userPrimary, user, name);
 
         return chatGroup;
+    }
+
+    public RequestNewChatGroup CreateRequestChatGroup(string name, List<Guid> users_IDs)
+    {
+        return new RequestNewChatGroup
+        {
+            Name = name,
+            Users_IDs = users_IDs,
+        };
     }
 
     public RequestSendMessage CreateRequestSendMessage(Guid chatId, string text)

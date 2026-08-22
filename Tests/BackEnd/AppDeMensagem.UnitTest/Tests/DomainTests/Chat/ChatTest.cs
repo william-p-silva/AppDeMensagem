@@ -32,7 +32,17 @@ public class ChatTest()
             profile: profile
             );
 
-        ChatGroup chat = new ChatGroup(user, "teste");
+
+        var userPrimary = _userFixture.CreateUserFake(
+            email: emailFake,
+            userName: userNameFake,
+            password: passwordFake,
+            profile: profile
+            );
+
+
+        ChatGroup chat = new ChatGroup(userPrimary, new List<Usuario> { user}, "teste");
+
         var senderDeOutroChat = new UserChat(userFalse, chat, false, "teste");
 
         // Act
@@ -56,7 +66,16 @@ public class ChatTest()
             password: passwordFake,
             profile: profile
             );
-        ChatGroup chat = new ChatGroup(user, "teste");
+
+
+        var userPrimary = _userFixture.CreateUserFake(
+            email: emailFake,
+            userName: userNameFake,
+            password: passwordFake,
+            profile: profile
+            );
+
+        ChatGroup chat = new ChatGroup(userPrimary, new List<Usuario> { user }, "teste");
 
         Assert.NotEqual(Guid.Empty, chat.Chat_ID);
         Assert.NotEqual(default, chat.Created);
