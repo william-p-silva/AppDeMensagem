@@ -1,5 +1,7 @@
 ﻿
 
+using AppDeMensagem.Domain.Exceptions;
+
 namespace AppDeMensagem.Domain.Entity;
 
 public class ChatGroup : Chat
@@ -14,10 +16,7 @@ public class ChatGroup : Chat
             throw new InvalidOperationException("At least one user is required.");
 
         if (users.Any(u => u.User_ID == userPrimary.User_ID))
-            throw new ArgumentException(
-                "The primary user cannot be included in the users list.",
-                nameof(users)
-            );
+            throw new ChatException("The primary user cannot be included in the users list.");
 
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("The name chat group cannot be null. ");
@@ -31,7 +30,7 @@ public class ChatGroup : Chat
         UserChat userChatPrimary = new UserChat(userPrimary, this, isAdmin: true, nameChat: name);
         AddParticipant(userChatPrimary);
 
-        this.Name = name ?? "Sem nome";
+        this.Name = name;
     }
 
     public void AddPeopleInChat(Usuario user)

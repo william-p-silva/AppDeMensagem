@@ -1,6 +1,7 @@
 ﻿
 
 using AppDeMensagem.Application.DTOs.ResponseApi;
+using AppDeMensagem.Domain.Exceptions;
 
 namespace AppDeMensagem.WebApi.Middlewares
 {
@@ -11,6 +12,58 @@ namespace AppDeMensagem.WebApi.Middlewares
             try
             {
                 await next(httpContext);
+            }
+            catch (BusinessRuleException ex)
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+                httpContext.Response.ContentType = "application/json";
+
+                var error = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    Success = false,
+                };
+
+                await httpContext.Response.WriteAsJsonAsync(error);
+            }
+            catch (ValidationException ex)
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                httpContext.Response.ContentType = "application/json";
+
+                var error = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    Success = false,
+                };
+
+                await httpContext.Response.WriteAsJsonAsync(error);
+            }
+            catch (NotFoundException ex)
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                httpContext.Response.ContentType = "application/json";
+
+                var error = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    Success = false,
+                };
+
+                await httpContext.Response.WriteAsJsonAsync(error);
+            }
+            catch (DomainException ex)
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                httpContext.Response.ContentType = "application/json";
+
+                var error = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    Success = false,
+                };
+
+                await httpContext.Response.WriteAsJsonAsync(error);
             }
             catch (InvalidOperationException ex)
             {
@@ -47,7 +100,7 @@ namespace AppDeMensagem.WebApi.Middlewares
                 {
                     Message = ex.Message,
                     Success = false,
-                }; 
+                };
 
                 await httpContext.Response.WriteAsJsonAsync(error);
             }

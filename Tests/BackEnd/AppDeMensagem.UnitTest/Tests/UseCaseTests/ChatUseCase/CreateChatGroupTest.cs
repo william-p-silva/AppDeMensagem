@@ -4,6 +4,7 @@ using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Application.UseCases.Chat.Create;
 using AppDeMensagem.Domain.Entity;
 using AppDeMensagem.Domain.Enum;
+using AppDeMensagem.Domain.Exceptions;
 using AppDeMensagem.UnitTest.Fixtures;
 using Moq;
 
@@ -72,4 +73,127 @@ public class CreateChatGroupTest
         _chatRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Chat>()), Times.Once);
         _unitOfWorkMock.Verify(x => x.CommitAsync(), Times.Once);
     }
+
+
+    [Fact]
+    public async Task QuandoUserPrimaryNaListaDeUsers_DeveLancarExcption()
+    {
+        //Arrange
+        var userPimary = _userFixture.CreateUserFake(
+                            email: "userprimary@domus.com",
+                            userName: "User Primary",
+                            password: "123123",
+                            profile: PerfilUser.User
+                            );
+
+        var userSecond = _userFixture.CreateUserFake(
+                            email: "usersecond@domus.com",
+                            userName: "User Second",
+                            password: "123123",
+                            profile: PerfilUser.User
+                            );
+
+        var userThird = _userFixture.CreateUserFake(
+                            email: "userthird@domus.com",
+                            userName: "User Third",
+                            password: "123123",
+                            profile: PerfilUser.User
+                            );
+
+        var request = _chatFixture.CreateRequestChatGroup("Teste", 
+            new List<Guid> { 
+                userPimary.User_ID, userSecond.User_ID, userThird.User_ID 
+            });
+
+        var listUsers = new List<Usuario> { userPimary, userSecond, userThird };
+
+        //Act
+        _userRepositoryMock.Setup(x => x.FindById(userPimary.User_ID)).ReturnsAsync(userPimary);
+        foreach (var user in listUsers)
+        {
+            _userRepositoryMock.Setup(x => x.FindById(user.User_ID)).ReturnsAsync(user);
+        }
+
+        var useCase = new CreateChatGroupUseCase(
+                        _chatRepositoryMock.Object,
+                        _userRepositoryMock.Object,
+                        _unitOfWorkMock.Object
+                        );
+
+        var response = await Assert.ThrowsAsync<ChatException>(() => useCase.ExecuteAsync(
+            userPimary.User_ID,
+            request
+            ));
+
+        //Asserts
+        int totalIds = request.Users_IDs.Count + 1;
+
+        Assert.NotNull(response);
+        Assert.Equal(response.Message, "The primary user cannot be included in the users list.");
+        _userRepositoryMock.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Exactly(totalIds));
+        _chatRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Chat>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.CommitAsync(), Times.Never);
+    }
+
+    [Fact]
+    public async Task QuandoUserPrimaryNull_DeveLancarExcption()
+    {
+        //Arrange
+        var userPimary = _userFixture.CreateUserFake(
+                            email: "userprimary@domus.com",
+                            userName: "User Primary",
+                            password: "123123",
+                            profile: PerfilUser.User
+                            );
+
+        var userSecond = _userFixture.CreateUserFake(
+                            email: "usersecond@domus.com",
+                            userName: "User Second",
+                            password: "123123",
+                            profile: PerfilUser.User
+                            );
+
+        var userThird = _userFixture.CreateUserFake(
+                            email: "userthird@domus.com",
+                            userName: "User Third",
+                            password: "123123",
+                            profile: PerfilUser.User
+                            );
+
+        var request = _chatFixture.CreateRequestChatGroup("Teste",
+            new List<Guid> {
+                userSecond.User_ID, userThird.User_ID
+            });
+
+        var listUsers = new List<Usuario> { userSecond, userThird };
+
+        //Act
+        _userRepositoryMock.Setup(x => x.FindById(userPimary.User_ID)).ReturnsAsync((Usuario?) null);
+        foreach (var user in listUsers)
+        {
+            _userRepositoryMock.Setup(x => x.FindById(user.User_ID)).ReturnsAsync(user);
+        }
+
+        var useCase = new CreateChatGroupUseCase(
+                        _chatRepositoryMock.Object,
+                        _userRepositoryMock.Object,
+                        _unitOfWorkMock.Object
+                        );
+
+        var response = await Assert.ThrowsAsync<ArgumentNullException>(() => useCase.ExecuteAsync(
+            userPimary.User_ID,
+            request
+            ));
+
+        //Asserts
+        int totalIds = request.Users_IDs.Count + 1;
+
+        Assert.NotNull(response);
+        Assert.Contains("On or more of the user was null. ", response.Message);
+        _userRepositoryMock.Verify(x => x.FindById(It.IsAny<Guid>()), Times.Once);
+        _chatRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Chat>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.CommitAsync(), Times.Never);
+    }
+
+
 }

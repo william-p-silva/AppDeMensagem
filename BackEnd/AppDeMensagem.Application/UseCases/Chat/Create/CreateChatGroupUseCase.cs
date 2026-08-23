@@ -18,10 +18,6 @@ public class CreateChatGroupUseCase(
                     .Distinct()
                     .ToList();
 
-        var userPrimaryInListIds = usersIds.Contains(userPrimary_id );
-        if (userPrimaryInListIds)
-            throw new ArgumentException("The primary user cannot be included in Users_IDs.");
-
         var userPrimary = await userRepository.FindById(userPrimary_id);
         if (userPrimary is null)
             throw new ArgumentNullException(nameof(userPrimary), "On or more of the user was null. ");

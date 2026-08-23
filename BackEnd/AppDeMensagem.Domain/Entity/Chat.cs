@@ -1,5 +1,7 @@
 ﻿
 
+using AppDeMensagem.Domain.Exceptions;
+
 namespace AppDeMensagem.Domain.Entity;
 
 public abstract class Chat
@@ -26,17 +28,21 @@ public abstract class Chat
     protected void AddParticipant(UserChat userChat)
     {
         if(userChat.Chat_ID != Chat_ID)
-            throw new InvalidOperationException("The chat does not match");
+            throw new BusinessRuleException("The chat does not match");
 
         _usersChat.Add(userChat);
     }
 
     public void SendMessage(UserChat sender, string text)
     {
+        if (sender is null)
+            throw new ValidationException("The user cannot be null. ");
         if(!UsersChat.Any(uc => uc.User_ID == sender.User_ID))
-            throw new InvalidOperationException("The user or the chat does not match");
+            throw new BusinessRuleException("The user or the chat does not match. ");
         if (!UsersChat.Any(uc => uc.Chat_ID == sender.Chat_ID))
-            throw new InvalidOperationException("The user or the chat does not match");
+            throw new BusinessRuleException("The user or the chat does not match. ");
+        if (string.IsNullOrWhiteSpace(text))
+            throw new ValidationException("The text menssage cannot be empty. ");
 
         Message msg = new Message(this, sender, text);
         _messages.Add(msg);
