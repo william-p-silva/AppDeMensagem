@@ -33,14 +33,21 @@ public abstract class Chat
         _usersChat.Add(userChat);
     }
 
+    protected void RemoveParticipant(UserChat userChat)
+    {
+        _usersChat.Remove(userChat);
+    }
+
     public void SendMessage(UserChat sender, string text)
     {
         if (sender is null)
             throw new ValidationException("The user cannot be null. ");
+
         if(!UsersChat.Any(uc => uc.User_ID == sender.User_ID))
             throw new BusinessRuleException("The user or the chat does not match. ");
         if (!UsersChat.Any(uc => uc.Chat_ID == sender.Chat_ID))
             throw new BusinessRuleException("The user or the chat does not match. ");
+
         if (string.IsNullOrWhiteSpace(text))
             throw new ValidationException("The text menssage cannot be empty. ");
 

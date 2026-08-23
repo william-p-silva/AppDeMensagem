@@ -120,7 +120,7 @@ public class CreateChatGroupTest
                         _unitOfWorkMock.Object
                         );
 
-        var response = await Assert.ThrowsAsync<ChatException>(() => useCase.ExecuteAsync(
+        var response = await Assert.ThrowsAsync<BusinessRuleException>(() => useCase.ExecuteAsync(
             userPimary.User_ID,
             request
             ));

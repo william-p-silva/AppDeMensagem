@@ -11,6 +11,7 @@ public interface IChatRepository
     Task<List<ChatPrivate>> GetByPrivateAsync(Guid userId, bool? ativo = null);
     Task<Chat?> GetByIdAsync(Guid chatId);
     Task<List<ChatGroup>> GetByGroupAsync(Guid userId, bool? ativo = null);
+    Task<ChatGroup?> FindChatGroupByIdAsync(Guid chat_id, Guid user_id, bool? ativo = null);
     void TrackNewMessage(Message message);
 
 

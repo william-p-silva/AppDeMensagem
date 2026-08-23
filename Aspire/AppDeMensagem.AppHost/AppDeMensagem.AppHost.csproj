@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MessagePack" Version="2.5.301" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\AppDeMensagem.WebApi\AppDeMensagem.WebApi.csproj" />
     <ProjectReference Include="..\..\FrontEnd\AppDeMensagem.Web\AppDeMensagem.Web.csproj" />
   </ItemGroup>
