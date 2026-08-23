@@ -1,4 +1,6 @@
 ﻿
+using AppDeMensagem.Domain.Exceptions;
+
 namespace AppDeMensagem.Domain.Entity;
 
 public class UserChat 
@@ -32,5 +34,13 @@ public class UserChat
         NameChat = nameChat;
         Chat = chat;
         Usuario = user;
+    }
+
+    public void PromoverAdmin()
+    {
+        if (IsAdmin)
+            throw new ValidationException("The user is already an admin. ");
+
+        IsAdmin = true;
     }
 }
