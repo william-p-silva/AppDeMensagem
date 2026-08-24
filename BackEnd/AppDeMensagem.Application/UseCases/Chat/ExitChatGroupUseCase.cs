@@ -8,11 +8,10 @@ namespace AppDeMensagem.Application.UseCases.Chat;
 
 public class ExitChatGroupUseCase(
     IChatRepository chatRepository,
-    IUserRepository userRepository,
     IUnitOfWork unitOfWork
     )
 {
-    public async Task<bool> ExecuteAsync(RequestExiteChatGroup request, Guid user_id)
+    public async Task<string> ExecuteAsync(RequestExiteChatGroup request, Guid user_id)
     {
         var chatGroup = await chatRepository.FindChatGroupByIdAsync(
             chat_id: request.Chat_ID, user_id: user_id, ativo: true);
@@ -27,6 +26,8 @@ public class ExitChatGroupUseCase(
 
         chatGroup.Exit(userChat);
 
-        return true;
+        await unitOfWork.CommitAsync();
+
+        return "Removido com sucesso.";
     }
 }

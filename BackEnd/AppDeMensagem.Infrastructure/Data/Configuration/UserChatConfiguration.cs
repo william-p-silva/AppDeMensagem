@@ -20,6 +20,11 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
         builder.Property(uc => uc.NameChat)
             .IsRequired();
 
+        builder.Property(uc => uc.Ativo)
+            .IsRequired();
+        builder.HasQueryFilter(uc => uc.Ativo);
+
+
         builder.HasOne(uc => uc.Usuario)
             .WithMany(u => u.UsersChat)
             .HasForeignKey(uc => uc.User_ID)
@@ -33,5 +38,7 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
         builder.Navigation(uc => uc.Messages)
             .HasField("_messages")
             .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+
     }
 }

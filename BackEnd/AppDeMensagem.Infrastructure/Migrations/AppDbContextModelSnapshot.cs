@@ -92,6 +92,9 @@ namespace AppDeMensagem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("Chat_ID")
                         .HasColumnType("uniqueidentifier");
 

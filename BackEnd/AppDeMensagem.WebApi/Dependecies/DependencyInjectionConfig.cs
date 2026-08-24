@@ -22,6 +22,7 @@ internal static class DependencyInjectionConfig
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IChatRepository, ChatRepository>();
+        services.AddScoped<IUserChatRepository, UserChatRepository>();
         services.AddScoped<IChatNotificationService, SignalRChatNotificationService>();
         services.AddScoped<ITokenService, TokenService>();
 
@@ -38,6 +39,8 @@ internal static class DependencyInjectionConfig
         services.AddScoped<ListChatPrivateUseCase>();
         services.AddScoped<SendMessageUseCase>();
         services.AddScoped<GetChatUseCase>();
+        services.AddScoped<ExitChatGroupUseCase>();
+
 
 
         return services;

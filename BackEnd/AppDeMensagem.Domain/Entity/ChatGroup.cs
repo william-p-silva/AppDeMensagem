@@ -44,23 +44,13 @@ public class ChatGroup : Chat
 
     public void Exit(UserChat userChat)
     {
-        if (userChat is null || !UsersChat.Any(uc => uc.User_ID == userChat.User_ID && uc.Chat_ID == Chat_ID))
-            throw new BusinessRuleException("The user is not in the chat. ");
-
-        if (UsersChat.Count <= 1)
-            throw new BusinessRuleException("The chat has only one user, and they cannot leave the chat.");
-
-        if (userChat.IsAdmin)
+        if (userChat.IsAdmin && UsersChat.Count(a => a.IsAdmin) <= 1)
         {
-            if (UsersChat.Count(a => a.IsAdmin) <= 1)
-            {
-                var userChatNewAdmin = UsersChat.FirstOrDefault(u => u.User_ID != userChat.User_ID);
-                if (userChatNewAdmin is null)
-                    throw new NotFoundException("There is no user to replace the admin. ");
+            var userChatNewAdmin = UsersChat.FirstOrDefault(u => u.User_ID != userChat.User_ID);
+            if (userChatNewAdmin is null)
+                throw new NotFoundException("There is no user to replace the admin. ");
 
-                userChatNewAdmin.PromoverAdmin();
-
-            }
+            userChatNewAdmin.PromoverAdmin();
         }
 
         RemoveParticipant(userChat);

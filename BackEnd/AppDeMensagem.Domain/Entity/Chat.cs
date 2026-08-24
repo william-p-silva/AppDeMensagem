@@ -17,7 +17,7 @@ public abstract class Chat
     public IReadOnlyCollection<Message> Messages => _messages.AsReadOnly();
     public IReadOnlyCollection<UserChat> UsersChat => _usersChat.AsReadOnly();
 
-    protected Chat () { }
+    protected Chat() { }
     public Chat(bool ativo = true)
     {
         Chat_ID = Guid.NewGuid();
@@ -27,7 +27,7 @@ public abstract class Chat
 
     protected void AddParticipant(UserChat userChat)
     {
-        if(userChat.Chat_ID != Chat_ID)
+        if (userChat.Chat_ID != Chat_ID)
             throw new BusinessRuleException("The chat does not match");
 
         _usersChat.Add(userChat);
@@ -35,7 +35,13 @@ public abstract class Chat
 
     protected void RemoveParticipant(UserChat userChat)
     {
-        _usersChat.Remove(userChat);
+        if (userChat is null || !UsersChat.Any(uc => uc.User_ID == userChat.User_ID && uc.Chat_ID == Chat_ID))
+            throw new BusinessRuleException("The user is not in the chat. ");
+
+        if (UsersChat.Count <= 1)
+            throw new BusinessRuleException("The chat has only one user, and they cannot leave the chat.");
+
+        userChat.Desativar();
     }
 
     public void SendMessage(UserChat sender, string text)
@@ -43,7 +49,7 @@ public abstract class Chat
         if (sender is null)
             throw new ValidationException("The user cannot be null. ");
 
-        if(!UsersChat.Any(uc => uc.User_ID == sender.User_ID))
+        if (!UsersChat.Any(uc => uc.User_ID == sender.User_ID))
             throw new BusinessRuleException("The user or the chat does not match. ");
         if (!UsersChat.Any(uc => uc.Chat_ID == sender.Chat_ID))
             throw new BusinessRuleException("The user or the chat does not match. ");
