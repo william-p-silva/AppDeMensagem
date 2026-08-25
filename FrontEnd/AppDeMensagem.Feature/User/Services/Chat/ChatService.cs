@@ -93,8 +93,6 @@ public class ChatService
 
         if (_httpService.Error.Count > 0)
             ErrorChat.Add(_httpService.Error.Last());
-
-
     }
 
     private void HandleMessageReceived(MessageChatModel message)

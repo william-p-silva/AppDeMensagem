@@ -1,5 +1,6 @@
 ﻿
 using AppDeMensagem.Domain.Enum;
+using AppDeMensagem.Domain.Exceptions;
 
 namespace AppDeMensagem.Domain.Entity;
 
@@ -29,5 +30,25 @@ public class Message
         Status = StatusMessage.Sent;
         Chat_ID = chat.Chat_ID;
         Sender_ID = sender.UserChat_ID;
+    }
+
+    public void MaskASDelivered()
+    {
+        if (Status == StatusMessage.Delivered || Status == StatusMessage.Sent)
+            throw new ValidationException("The message cannot be change to delivered. ");
+        if (Status == StatusMessage.Deleted)
+            throw new ValidationException("The message is deleted. ");
+
+        Status = StatusMessage.Delivered;
+    }
+
+    public void MaskAsRead()
+    {
+        if (Status == StatusMessage.Delivered || Status == StatusMessage.Read)
+            throw new ValidationException("The message has already been deliverd. ");
+        if (Status == StatusMessage.Deleted)
+            throw new ValidationException("The message is deleted. ");
+
+        Status = StatusMessage.Read;
     }
 }
