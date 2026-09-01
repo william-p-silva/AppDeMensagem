@@ -34,6 +34,7 @@ public class ChatController(
     }
 
     [HttpPost("post/private")]
+    [ProducesResponseType<SuccessResponse<string>>(StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateChatPrivate([FromBody] RequestNewChat request)
     {
         Guid userPrimary_ID = GetCurrentUserId();
@@ -47,6 +48,7 @@ public class ChatController(
     }
 
     [HttpPost("post/group")]
+    [ProducesResponseType<SuccessResponse<Guid>>(StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateChatGroup([FromBody] RequestNewChatGroup request)
     {
         Guid userPrimary_ID = GetCurrentUserId();
@@ -60,6 +62,7 @@ public class ChatController(
     }
 
     [HttpPost("post/send-message")]
+    [ProducesResponseType<SuccessResponse<ResponseSendMessage>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> SendMessage([FromBody] RequestSendMessage request)
     {
         Guid userId = GetCurrentUserId();
@@ -74,6 +77,7 @@ public class ChatController(
     }
 
     [HttpGet("get")]
+    [ProducesResponseType<SuccessResponse<ResponseGetChat>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetChat([FromQuery] RequestGetChat request)
     {
         Guid userId = GetCurrentUserId();
@@ -86,6 +90,7 @@ public class ChatController(
     }
 
     [HttpGet("get/all")]
+    [ProducesResponseType<SuccessResponse<List<ResponseChat>>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> ListAll()
     {
         Guid userId = GetCurrentUserId();
@@ -100,6 +105,7 @@ public class ChatController(
     }
 
     [HttpGet("get/private")]
+    [ProducesResponseType<SuccessResponse<List<ResponseChat>>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> ListPrivate()
     {
         Guid userId = GetCurrentUserId();
@@ -114,6 +120,7 @@ public class ChatController(
     }
 
     [HttpGet("get/group")]
+    [ProducesResponseType<SuccessResponse<List<ResponseChat>>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> ListGroup()
     {
         Guid userId = GetCurrentUserId();
@@ -128,6 +135,7 @@ public class ChatController(
     }
 
     [HttpDelete("delete/exit-chat/{chatId:guid}")]
+    [ProducesResponseType<SuccessResponse<string>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> ExitChatGroup([FromRoute] Guid chatId)
     {
         var userId = GetCurrentUserId();

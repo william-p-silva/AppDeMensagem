@@ -41,8 +41,6 @@ internal static class DependencyInjectionConfig
         services.AddScoped<GetChatUseCase>();
         services.AddScoped<ExitChatGroupUseCase>();
 
-
-
         return services;
     }
 }

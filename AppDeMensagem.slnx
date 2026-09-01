@@ -9,7 +9,8 @@
     <Project Path="BackEnd/AppDeMensagem.Infrastructure/AppDeMensagem.Infrastructure.csproj" />
     <Project Path="BackEnd/AppDeMensagem.WebApi/AppDeMensagem.WebApi.csproj" />
   </Folder>
-  <Folder Name="/FrontEnd/">
+  <Folder Name="/FrontEnd/" />
+  <Folder Name="/FrontEnd/Blazor/">
     <Project Path="FrontEnd/AppDeMensagem.Core/AppDeMensagem.Core.csproj" Id="b3af2f61-1c09-4c9d-9d78-a8bd476c845f" />
     <Project Path="FrontEnd/AppDeMensagem.Feature/AppDeMensagem.Feature.csproj" Id="05957a4a-d1e1-4a0e-8f05-e6620caac437" />
     <Project Path="FrontEnd/AppDeMensagem.Shared/AppDeMensagem.Shared.csproj" Id="6d1f9f78-4c53-4c1e-9b88-4fa2f57ed127" />

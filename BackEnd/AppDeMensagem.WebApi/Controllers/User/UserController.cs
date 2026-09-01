@@ -1,4 +1,5 @@
 ﻿
+using AppDeMensagem.Application.DTOs.Chat.Response;
 using AppDeMensagem.Application.DTOs.ResponseApi;
 using AppDeMensagem.Application.DTOs.User.Request;
 using AppDeMensagem.Application.DTOs.User.Response;
@@ -20,6 +21,7 @@ public class UserController(
     ) : ControllerBase
 {
     [HttpPost("post")]
+    [ProducesResponseType<SuccessResponse<string>>(StatusCodes.Status201Created)]
     public async Task<IActionResult> RegisterUser(RequestRegister request)
     {
         var user = await registerUseCase.Execute(request);
@@ -31,6 +33,7 @@ public class UserController(
     }
 
     [HttpPost("post/login")]
+    [ProducesResponseType<SuccessResponse<ResponseProfileUser>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> LoginUser(RequestLogin request)
     {
         var user = await loginUseCase.ExecuteAsync(request);
@@ -45,10 +48,10 @@ public class UserController(
 
         Response.Cookies.Append("AuthToken", user.Token, cookiesOptions);
 
-        return Ok(new SuccessResponse<Object>
+        return Ok(new SuccessResponse<ResponseProfileUser>
         {
             Success = true,
-            Data = new 
+            Data = new ResponseProfileUser
             {
                 Name = user.Name,
                 Email = user.Email,
@@ -60,16 +63,17 @@ public class UserController(
 
     [HttpPost("me")]
     [Authorize]
+    [ProducesResponseType<SuccessResponse<ResponseProfileUser>>(StatusCodes.Status200OK)]
     public IActionResult Me()
     {
         var email = User.FindFirst(ClaimTypes.Email)?.Value;
         var name = User.FindFirst(ClaimTypes.Name)?.Value;
         var profile = User.FindFirst(ClaimTypes.Role)?.Value;
 
-        return Ok(new SuccessResponse<Object>
+        return Ok(new SuccessResponse<ResponseProfileUser>
         {
             Success = true,
-            Data = new
+            Data = new ResponseProfileUser
             {
                 Name = name,
                 Email = email,
@@ -80,6 +84,7 @@ public class UserController(
 
     [HttpPost("logout")] 
     [Authorize]
+    [ProducesResponseType<SuccessResponse<string>>(StatusCodes.Status200OK)]
     public IActionResult Logout()
     {
         Response.Cookies.Delete("AuthToken");
@@ -92,6 +97,7 @@ public class UserController(
 
 
     [HttpGet("get/all")]
+    [ProducesResponseType<SuccessResponse<List<ResponseUser>>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> ListAll()
     {
         var users = await listAllUsers.ExecuteAsync();
