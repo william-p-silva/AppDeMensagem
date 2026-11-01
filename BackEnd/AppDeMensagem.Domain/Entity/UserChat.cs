@@ -1,4 +1,5 @@
 ﻿
+using AppDeMensagem.Domain.Enum;
 using AppDeMensagem.Domain.Exceptions;
 
 namespace AppDeMensagem.Domain.Entity;
@@ -10,7 +11,7 @@ public class UserChat
     public Guid Chat_ID { get; private set; }
     public bool IsAdmin { get; private set; }
     public string NameChat { get; private set; }
-    public bool Ativo { get; private set; }
+    public StatusUserChat Status { get; private set; }
 
     private readonly List<Message> _messages = new List<Message>();
 
@@ -33,14 +34,14 @@ public class UserChat
         Chat_ID = chat.Chat_ID;
         IsAdmin = isAdmin;
         NameChat = nameChat;
-        Ativo = true;
         Chat = chat;
         Usuario = user;
+        Status = StatusUserChat.Ativo;
     }
 
     public void PromoverAdmin()
     {
-        if (!Ativo)
+        if (Status != StatusUserChat.Ativo)
             throw new BusinessRuleException("A deleted user cannot be an admin.");
         if (IsAdmin)
             throw new ValidationException("The user is already an admin.");
@@ -50,20 +51,20 @@ public class UserChat
 
     public void Desativar()
     {
-        if (!Ativo)
+        if (Status == StatusUserChat.Excluido)
             throw new BusinessRuleException("The user already deleted.");
 
         IsAdmin = false;
-        Ativo = false;
+        Status = StatusUserChat.Excluido;
     }
 
     public void Ativar()
     {
-        if (Ativo)
+        if (Status == StatusUserChat.Ativo)
             throw new BusinessRuleException($"The chat already active. {NameChat}");
         if (!Chat.Ativo && Chat is ChatPrivate)
             Chat.Ativar();
 
-        Ativo = true;
+        Status = StatusUserChat.Ativo;
     }
 }

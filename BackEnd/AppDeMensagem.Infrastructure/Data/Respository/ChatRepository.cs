@@ -42,7 +42,7 @@ public class ChatRepository(AppDbContext context) : IChatRepository
                 .Include(x => x.Chat)
                 .Include(x => x.Usuario)
                 .Where(x => x.User_ID == userId
-                         && x.Chat is ChatGroup 
+                         && x.Chat is ChatGroup
                          && (ativo == null || x.Chat.Ativo == ativo))
                 .ToListAsync();
     }
@@ -81,7 +81,6 @@ public class ChatRepository(AppDbContext context) : IChatRepository
                 .FirstOrDefaultAsync(c => c.Chat_ID == chatId);
     }
 
-
     public void TrackNewMessage(Message message)
     {
         context.Messages.Add(message);
@@ -100,7 +99,9 @@ public class ChatRepository(AppDbContext context) : IChatRepository
                     );
     }
 
-    public async Task<UserChat?> FindPrivateChatBetweenUsersAsync(Guid primaryUserId, Guid secondUserId)
+    public async Task<UserChat?> FindPrivateChatBetweenUsersAsync(
+        Guid primaryUserId, 
+        Guid secondUserId)
     {
         return await context.UsersChat
             .AsTracking()
@@ -112,5 +113,14 @@ public class ChatRepository(AppDbContext context) : IChatRepository
                 uc.Chat is ChatPrivate &&
                 uc.Chat.UsersChat.Any(other => other.User_ID == secondUserId))
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<UserChat?> FindByIdWithUserId(Guid chatId, Guid userId)
+    {
+        return await context.UsersChat
+            .AsTracking()
+            .Include(uc => uc.Chat)
+            .Include(uc => uc.Usuario)
+            .FirstOrDefaultAsync(uc => uc.Chat_ID == chatId && uc.User_ID == userId);
     }
 }

@@ -17,6 +17,7 @@ public interface IChatRepository
         Guid primaryUserId,
         Guid secondUserId );
     void TrackNewMessage(Message message);
+    Task<UserChat?> FindByIdWithUserId(Guid chatId, Guid userId);
 
 
     Task<List<UserChat>> GetByGroupUserChatAsync(Guid userId, bool? ativo = null);

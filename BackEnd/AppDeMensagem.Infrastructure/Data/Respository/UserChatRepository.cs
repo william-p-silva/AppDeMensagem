@@ -1,6 +1,7 @@
 ﻿
 using AppDeMensagem.Application.Interfaces.Repositorys;
 using AppDeMensagem.Domain.Entity;
+using AppDeMensagem.Domain.Enum;
 using AppDeMensagem.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,6 @@ public class UserChatRepository(AppDbContext context) : IUserChatRepository
 
     public async Task<List<UserChat>> GetAllAsync()
     {
-        return await context.UsersChat.Where(c => !c.Ativo).ToListAsync();
+        return await context.UsersChat.Where(c => c.Status == StatusUserChat.Ativo).ToListAsync();
     }
 }

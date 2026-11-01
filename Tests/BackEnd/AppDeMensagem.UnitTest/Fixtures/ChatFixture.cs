@@ -15,9 +15,9 @@ public class ChatFixture
         return chatPrivate;
     }
 
-    public ChatGroup CreateChatGroup(Usuario userPrimary, List<Usuario> user, string name = "teste")
+    public ChatGroup CreateChatGroup(Usuario userPrimary, List<Usuario> users, string name = "teste")
     {
-        ChatGroup chatGroup = new ChatGroup(userPrimary, user, name);
+        ChatGroup chatGroup = new ChatGroup(userPrimary, users, name);
 
         return chatGroup;
     }

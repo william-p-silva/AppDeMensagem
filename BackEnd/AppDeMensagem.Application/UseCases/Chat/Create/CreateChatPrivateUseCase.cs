@@ -33,7 +33,7 @@ public class CreateChatPrivateUseCase(
 
         if (chatExist is not null)
         {
-            if (chatExist.Ativo)
+            if (chatExist.Status == StatusUserChat.Ativo)
                 return "Chat já existe";
 
             chatExist.Ativar();

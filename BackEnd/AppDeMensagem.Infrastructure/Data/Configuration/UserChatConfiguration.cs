@@ -1,6 +1,7 @@
 ﻿
 
 using AppDeMensagem.Domain.Entity;
+using AppDeMensagem.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,10 +21,9 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
         builder.Property(uc => uc.NameChat)
             .IsRequired();
 
-        builder.Property(uc => uc.Ativo)
+        builder.Property(uc => uc.Status)
+            .HasConversion<string>()
             .IsRequired();
-        builder.HasQueryFilter(uc => uc.Ativo);
-
 
         builder.HasOne(uc => uc.Usuario)
             .WithMany(u => u.UsersChat)
@@ -39,6 +39,6 @@ public class UserChatConfiguration : IEntityTypeConfiguration<UserChat>
             .HasField("_messages")
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
-
+        builder.HasQueryFilter(uc => uc.Status == StatusUserChat.Ativo);
     }
 }

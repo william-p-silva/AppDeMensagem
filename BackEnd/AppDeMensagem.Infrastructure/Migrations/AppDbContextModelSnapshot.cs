@@ -92,9 +92,6 @@ namespace AppDeMensagem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("Chat_ID")
                         .HasColumnType("uniqueidentifier");
 
@@ -102,6 +99,10 @@ namespace AppDeMensagem.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NameChat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

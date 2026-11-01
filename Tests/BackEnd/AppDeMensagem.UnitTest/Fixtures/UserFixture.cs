@@ -7,10 +7,10 @@ namespace AppDeMensagem.UnitTest.Fixtures;
 internal class UserFixture
 {
     public Usuario CreateUserFake(
-        string email,
-        string userName,
-        string password,
-        PerfilUser profile
+        string email = "teste@gmail.com",
+        string userName = "Usuário Teste da Silva",
+        string password = "123",
+        PerfilUser profile = PerfilUser.User
         )
     {
         Usuario user = new Usuario(
