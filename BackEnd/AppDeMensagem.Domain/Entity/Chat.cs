@@ -23,6 +23,7 @@ public abstract class Chat
         Chat_ID = Guid.NewGuid();
         Created = DateTime.UtcNow;
         Ativo = ativo;
+        Name = "";
     }
 
     protected void AddParticipant(UserChat userChat)
@@ -59,5 +60,13 @@ public abstract class Chat
 
         Message msg = new Message(this, sender, text);
         _messages.Add(msg);
+    }
+
+    public void Ativar()
+    {
+        if (Ativo)
+            throw new BusinessRuleException($"The chat already active. {Name}");
+
+        Ativo = true;
     }
 }

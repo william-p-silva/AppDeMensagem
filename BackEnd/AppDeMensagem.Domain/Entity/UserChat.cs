@@ -41,9 +41,9 @@ public class UserChat
     public void PromoverAdmin()
     {
         if (!Ativo)
-            throw new BusinessRuleException("A deleted user cannot be an admin. ");
+            throw new BusinessRuleException("A deleted user cannot be an admin.");
         if (IsAdmin)
-            throw new ValidationException("The user is already an admin. ");
+            throw new ValidationException("The user is already an admin.");
 
         IsAdmin = true;
     }
@@ -51,7 +51,7 @@ public class UserChat
     public void Desativar()
     {
         if (!Ativo)
-            throw new BusinessRuleException("The user already deleted. ");
+            throw new BusinessRuleException("The user already deleted.");
 
         IsAdmin = false;
         Ativo = false;
@@ -60,7 +60,9 @@ public class UserChat
     public void Ativar()
     {
         if (Ativo)
-            throw new BusinessRuleException("The user already active. ");
+            throw new BusinessRuleException($"The chat already active. {NameChat}");
+        if (!Chat.Ativo && Chat is ChatPrivate)
+            Chat.Ativar();
 
         Ativo = true;
     }
