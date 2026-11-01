@@ -1,6 +1,7 @@
 ﻿
 
 using AppDeMensagem.Domain.Enum;
+using AppDeMensagem.Domain.Exceptions;
 
 namespace AppDeMensagem.Domain.Entity;
 
@@ -24,7 +25,22 @@ public class ChatPrivate : Chat
         AddParticipant(userChat1);
         AddParticipant(userChat2);
 
-        this.Name = userSecond.UserName.TextName;
+        Name = userSecond.UserName.TextName;
     }
 
+    public override void Exit(UserChat userChat)
+    {
+        if (userChat is null)
+            throw new ValidationException("The user cannot be null.");
+
+        if (!UsersChat.Any(uc 
+            => uc.User_ID == userChat.User_ID && uc.Chat_ID == Chat_ID))
+            throw new ValidationException("The user is not in the chat.");
+
+        if (!Ativo)
+            throw new BusinessRuleException("The chat is not active.");
+
+        RemoveParticipant(userChat);
+        Ativo = false;
+    }
 }

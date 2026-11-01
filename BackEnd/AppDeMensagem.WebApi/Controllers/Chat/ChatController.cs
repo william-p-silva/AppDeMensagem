@@ -1,6 +1,7 @@
 ﻿using AppDeMensagem.Application.DTOs.Chat.Request;
 using AppDeMensagem.Application.DTOs.Chat.Response;
 using AppDeMensagem.Application.DTOs.ResponseApi;
+using AppDeMensagem.Application.DTOs.UserChat.Response;
 using AppDeMensagem.Application.UseCases;
 using AppDeMensagem.Application.UseCases.Chat;
 using AppDeMensagem.Application.UseCases.Chat.Create;
@@ -21,7 +22,7 @@ public class ChatController(
     ListChatPrivateUseCase listChatPrivateUseCase,
     ListChatGroupUseCase listChatGroupUseCase,
     ListAllChatUseCase listAllChatUseCase,
-    ExitChatGroupUseCase exitChatGroupUseCase,
+    DeleteChatUseCase deleteChatUseCase,
     GetChatUseCase getChatUseCase
     ) : ControllerBase
 {
@@ -135,16 +136,15 @@ public class ChatController(
     }
 
     [HttpDelete("delete/exit-chat/{chatId:guid}")]
-    [ProducesResponseType<SuccessResponse<string>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<SuccessResponse<ResponseUserChat>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> ExitChatGroup([FromRoute] Guid chatId)
     {
         var userId = GetCurrentUserId();
 
-        var request = new RequestExiteChatGroup { Chat_ID = chatId };
+        var response = await deleteChatUseCase.ExecuteAsync(
+            chatId: chatId, userId: userId);
 
-        var response = await exitChatGroupUseCase.ExecuteAsync(request: request, user_id: userId);
-
-        return Ok(new SuccessResponse<string>
+        return Ok(new SuccessResponse<ResponseUserChat>
         {
             Success = true,
             Data = response

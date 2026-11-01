@@ -2,6 +2,7 @@
 
 using AppDeMensagem.Domain.Entity;
 using AppDeMensagem.Domain.Enum;
+using AppDeMensagem.Domain.Exceptions;
 using AppDeMensagem.UnitTest.Fixtures;
 
 namespace AppDeMensagem.UnitTest.Tests.DomainTests.Chat;
@@ -49,7 +50,7 @@ public class ChatTest()
         Action act = () => chat.SendMessage(senderDeOutroChat, "oi");
 
         // Assert
-        Assert.Throws<InvalidOperationException>(act);
+        Assert.Throws<BusinessRuleException>(act);
     }
 
     [Fact]

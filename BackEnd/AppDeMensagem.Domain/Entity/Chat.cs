@@ -1,5 +1,6 @@
 ﻿
 
+using AppDeMensagem.Domain.Enum;
 using AppDeMensagem.Domain.Exceptions;
 
 namespace AppDeMensagem.Domain.Entity;
@@ -7,9 +8,12 @@ namespace AppDeMensagem.Domain.Entity;
 public abstract class Chat
 {
     public Guid Chat_ID { get; private set; }
-    public DateTime Created { get; private set; }
+    public DateTime Created { get; protected set; }
     public string Name { get; protected set; }
-    public bool Ativo { get; private set; }
+    public bool Ativo { get; protected set; }
+
+    public int ActiveParticipantsCount =>
+        UsersChat.Count(uc => uc.Status == StatusUserChat.Ativo);
 
     private readonly List<Message> _messages = new List<Message>();
     private readonly List<UserChat> _usersChat = new List<UserChat>();
@@ -34,13 +38,14 @@ public abstract class Chat
         _usersChat.Add(userChat);
     }
 
+    public abstract void Exit(UserChat userChat);
+
     protected void RemoveParticipant(UserChat userChat)
     {
-        if (userChat is null || !UsersChat.Any(uc => uc.User_ID == userChat.User_ID && uc.Chat_ID == Chat_ID))
+        if (userChat is null || !UsersChat.Any(uc => 
+            uc.User_ID == userChat.User_ID 
+            && uc.Chat_ID == Chat_ID))
             throw new BusinessRuleException("The user is not in the chat. ");
-
-        if (UsersChat.Count <= 1)
-            throw new BusinessRuleException("The chat has only one user, and they cannot leave the chat.");
 
         userChat.Desativar();
     }

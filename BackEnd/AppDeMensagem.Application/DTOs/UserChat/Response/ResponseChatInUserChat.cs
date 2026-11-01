@@ -8,5 +8,5 @@ public sealed record ResponseChatInUserChat
     public DateTime Created { get; set; }
     public string Name { get; set; } = string.Empty;
     public bool Ativo { get; set; }
-    public List<ResponseUserChat> UsersChat { get; set; } = new List<ResponseUserChat>();
+    public List<ResponseUserChatSimplificado> UsersChat { get; set; } = new List<ResponseUserChatSimplificado>();
 }

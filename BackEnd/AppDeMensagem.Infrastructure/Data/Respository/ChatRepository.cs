@@ -20,8 +20,10 @@ public class ChatRepository(AppDbContext context) : IChatRepository
             .AsNoTracking()
             .Include(c => c.UsersChat)
                 .ThenInclude(uc => uc.Usuario)
-            .Where(x => (ativo == null || x.Ativo == ativo)
-            && x.UsersChat.Any(uc => uc.User_ID == userId))
+            .Where(x => (ativo == null 
+                || x.Ativo == ativo)
+                && x.UsersChat.Any(uc => 
+                    uc.User_ID == userId))
             .ToListAsync();
     }
 
@@ -120,6 +122,7 @@ public class ChatRepository(AppDbContext context) : IChatRepository
         return await context.UsersChat
             .AsTracking()
             .Include(uc => uc.Chat)
+                .ThenInclude(c => c.UsersChat)
             .Include(uc => uc.Usuario)
             .FirstOrDefaultAsync(uc => uc.Chat_ID == chatId && uc.User_ID == userId);
     }

@@ -38,18 +38,12 @@ public class DeleteChatUseCaseTests
                 )
             );
 
-        _userRepository
-            .Setup(x => x.FindById(
-                userPrimary.User_ID))
-            .ReturnsAsync(userPrimary);
-
         _unitOfWork
             .Setup(x => x.CommitAsync())
             .Returns(Task.CompletedTask);
 
         //Act
         var deleteChatUseCase = new DeleteChatUseCase(
-            _userRepository.Object,
             _chatRepository.Object,
             _unitOfWork.Object);
 
@@ -104,18 +98,12 @@ public class DeleteChatUseCaseTests
                 )
             );
 
-        _userRepository
-            .Setup(x => x.FindById(
-                userPrimary.User_ID))
-            .ReturnsAsync(userPrimary);
-
         _unitOfWork
             .Setup(x => x.CommitAsync())
             .Returns(Task.CompletedTask);
 
         //Act
         var deleteChatUseCase = new DeleteChatUseCase(
-            _userRepository.Object,
             _chatRepository.Object,
             _unitOfWork.Object);
 
@@ -176,18 +164,12 @@ public class DeleteChatUseCaseTests
                 )
             );
 
-        _userRepository
-            .Setup(x => x.FindById(
-                userPrimary.User_ID))
-            .ReturnsAsync(userPrimary);
-
         _unitOfWork
             .Setup(x => x.CommitAsync())
             .Returns(Task.CompletedTask);
 
         //Act
         var deleteChatUseCase = new DeleteChatUseCase(
-            _userRepository.Object,
             _chatRepository.Object,
             _unitOfWork.Object);
 
@@ -244,7 +226,6 @@ public class DeleteChatUseCaseTests
 
         //Act
         var deleteChatUseCase = new DeleteChatUseCase(
-            _userRepository.Object,
             _chatRepository.Object,
             _unitOfWork.Object);
 
@@ -262,11 +243,6 @@ public class DeleteChatUseCaseTests
                 chatFake.Chat_ID,
                 userPrimary.User_ID),
                 Times.Once);
-
-        _userRepository.Verify(
-            x => x.FindById(It.IsAny<Guid>()),
-            Times.Never
-        );
 
         _unitOfWork
             .Verify(x => x.CommitAsync(),
@@ -296,18 +272,12 @@ public class DeleteChatUseCaseTests
                 )
             );
 
-        _userRepository
-            .Setup(x => x.FindById(
-                userPrimary.User_ID))
-            .ReturnsAsync(userPrimary);
-
         _unitOfWork
             .Setup(x => x.CommitAsync())
             .Returns(Task.CompletedTask);
 
         //Act
         var deleteChatUseCase = new DeleteChatUseCase(
-            _userRepository.Object,
             _chatRepository.Object,
             _unitOfWork.Object);
 

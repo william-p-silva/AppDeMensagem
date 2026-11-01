@@ -51,7 +51,7 @@ public class UserChat
 
     public void Desativar()
     {
-        if (Status == StatusUserChat.Excluido)
+        if (Status != StatusUserChat.Ativo)
             throw new BusinessRuleException("The user already deleted.");
 
         IsAdmin = false;

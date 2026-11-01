@@ -1,5 +1,6 @@
 ﻿
 
+using AppDeMensagem.Domain.Enum;
 using AppDeMensagem.Domain.Exceptions;
 
 namespace AppDeMensagem.Domain.Entity;
@@ -42,17 +43,43 @@ public class ChatGroup : Chat
         AddParticipant(userChat);
     }
 
-    public void Exit(UserChat userChat)
+    public override void Exit(UserChat userChat)
     {
-        if (userChat.IsAdmin && UsersChat.Count(a => a.IsAdmin) <= 1)
-        {
-            var userChatNewAdmin = UsersChat.FirstOrDefault(u => u.User_ID != userChat.User_ID);
-            if (userChatNewAdmin is null)
-                throw new NotFoundException("There is no user to replace the admin. ");
+        if (userChat is null)
+            throw new ValidationException("The user cannot be null.");
+        if (!UsersChat.Any(uc =>
+            uc.UserChat_ID == userChat.UserChat_ID &&
+            uc.Status == StatusUserChat.Ativo))        
+            throw new BusinessRuleException("The user is not an active participant.");
+        
 
-            userChatNewAdmin.PromoverAdmin();
+        if (!Ativo)
+            throw new BusinessRuleException("The chat is not active.");
+
+        if (
+            userChat.IsAdmin
+            && UsersChat.Count(uc =>
+                uc.IsAdmin &&
+                uc.Status == StatusUserChat.Ativo) <= 1
+            && ActiveParticipantsCount > 1
+        )
+        {
+            var newAdmin = UsersChat.FirstOrDefault(
+                uc => uc.User_ID != userChat.User_ID
+                    && uc.Status == StatusUserChat.Ativo
+            );
+
+            if (newAdmin is null)
+                throw new NotFoundException(
+                    "There is no active user to replace the admin."
+                );
+
+            newAdmin.PromoverAdmin();
         }
 
         RemoveParticipant(userChat);
+
+        if (ActiveParticipantsCount <= 0)
+            Ativo = false;
     }
 }
