@@ -41,6 +41,5 @@ public class ChatPrivate : Chat
             throw new BusinessRuleException("The chat is not active.");
 
         RemoveParticipant(userChat);
-        Ativo = false;
     }
 }
