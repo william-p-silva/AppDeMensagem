@@ -16,20 +16,16 @@ public class HeaderViewContatoService(HttpService httpService)
 
     private async Task PostNewChat()
     {
-        var response = await httpService.PostAsync<RequestNewChatModel, string>
-            ("Chat/post/private", RequestChat);
-        if (response is null || !response.Success)
+        try
         {
-            ErrorHeader.Add("Erro ao criar chat");
+            var response = await httpService.PostAsync<RequestNewChatModel, string>
+           ("Chat/post/private", RequestChat);
         }
-        if (httpService.Error?.Count > 0)
+        catch (Exception ex)
         {
-            ErrorHeader.Add(httpService.Error.Last());
+            ErrorHeader.Add(ex.Message);
         }
-        else if(response?.Data is null)
-        {
-            ErrorHeader.Add("Nenhum dado retornado");
-        }
+
     }
 
     public async Task CreateNewChat()

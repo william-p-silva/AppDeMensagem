@@ -15,25 +15,27 @@ public class LoginService(HttpService httpService, NavigationManager navigation)
     public List<string> ErrorLogin { get; set; } = new List<string>();
 
     public async Task<bool> LogarUser()
-    {        
-        var response = await _httpService.PostAsync<LoginUserModel, ResponseLoginUserModel>("User/post/login", ModelUser);
+    {
+        try
+        {
+            var response = await _httpService.PostAsync<LoginUserModel, ResponseLoginUserModel>("User/post/login", ModelUser);
 
-        if (_httpService.Error.Count > 0)
+            if (response.Data == null)
+            {
+                ErrorLogin.Add("Erro ao logar usuário");
+                return false;
+            }
+
+            Authentication auth = new Authentication(
+                email: response.Data.Email, name: response.Data.Name, profile: response.Data.Profile);
+
+            navigation.NavigateTo("user/home");
+
+            return response?.Success ?? false;
+        }catch(HttpError ex)
         {
-            ErrorLogin.Add(_httpService.Error.Last());
-        }
-        if (response.Data is null)
-        {
-            ErrorLogin.Add("Ocorreu um erro no login. ");
+            ErrorLogin.Add(ex.Message);
             return false;
         }
-
-        Authentication auth = new Authentication(
-            email: response.Data.Email, name: response.Data.Name, profile: response.Data.Profile);
-
-
-        navigation.NavigateTo("user/home");
-
-        return response?.Success ?? false;
     }
 }

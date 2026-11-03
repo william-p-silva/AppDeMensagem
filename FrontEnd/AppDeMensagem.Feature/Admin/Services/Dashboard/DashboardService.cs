@@ -22,19 +22,17 @@ public class DashboardService(HttpService httpService)
 
     private async Task<List<UserModel>> ListAllUser()
     {
-        var users = await httpService.GetAsync<List<UserModel>>("user/get/all");
-        if (users?.Data is null || !users.Success)
+        try
         {
-            if (httpService.Error?.Any() == true)
-            {
-                ErrorDashboard.Add(httpService.Error.Last());
-            }
-            else
-            {
-                ErrorDashboard.Add("Erro ao carregar a lista de usuários.");
-            }
-            return null;
+            var users = await httpService.GetAsync<List<UserModel>>("user/get/all");
+
+            return users.Data ?? new List<UserModel>();
         }
-        return users.Data;
+        catch (Exception ex)
+        {
+            ErrorDashboard.Add(ex.Message);
+            return new List<UserModel>();
+        }
+
     }
 }

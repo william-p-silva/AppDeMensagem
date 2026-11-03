@@ -43,7 +43,7 @@ public class ChatService
 
     public async Task SetChatActive(Guid chatId)
     {
-        if(ChatHistory.Chat_ID != Guid.Empty && ChatHistory.Chat_ID != chatId)
+        if (ChatHistory.Chat_ID != Guid.Empty && ChatHistory.Chat_ID != chatId)
         {
             await _chatHubService.LeaveChatAsync(ChatHistory.Chat_ID);
         }
@@ -57,15 +57,18 @@ public class ChatService
 
     private async Task GetChatHistory(Guid chatId)
     {
-        var response = await _httpService.GetAsync<ChatHistoryModel>($"Chat/get?Chat_ID={chatId}");
-        if (response.Data is not null && _httpService.Error.Count == 0)
+        try
         {
-            ChatHistory = response.Data;
-            NotifyStateChanged();
+            var response = await _httpService.GetAsync<ChatHistoryModel>($"Chat/get?Chat_ID={chatId}");
+            if (response.Data is not null)
+            {
+                ChatHistory = response.Data;
+                NotifyStateChanged();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            ErrorChat.Add(_httpService.Error.Last());
+            ErrorChat.Add(ex.Message);
         }
     }
 
@@ -89,10 +92,14 @@ public class ChatService
 
     private async Task SendMessageService()
     {
-        var response = await _httpService.PostAsync<RequestMesageModel, string>("Chat/post/send-message", RequestSendMessage);
-
-        if (_httpService.Error.Count > 0)
-            ErrorChat.Add(_httpService.Error.Last());
+        try
+        {
+            var response = await _httpService.PostAsync<RequestMesageModel, string>("Chat/post/send-message", RequestSendMessage);
+        }
+        catch (Exception ex)
+        {
+            ErrorChat.Add(ex.Message);
+        }
     }
 
     private void HandleMessageReceived(MessageChatModel message)

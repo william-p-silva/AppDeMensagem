@@ -13,14 +13,17 @@ public class CadastroService(HttpService httpService)
 
     public async Task<bool> RegisterUser()
     {
-        var response = await _httpService.PostAsync<CadastroUserModel, string>("User/post", CadastroModel);
-
-        if (_httpService.Error.Count > 0)
+        try
         {
-            ErrorCadastro.Add(_httpService.Error.Last());
-        }
+            var response = await _httpService.PostAsync<CadastroUserModel, string>("User/post", CadastroModel);
 
-        return response?.Success ?? false;
+            return response.Success;
+        }
+        catch (HttpError ex)
+        {
+            ErrorCadastro.Add(ex.Message);
+            return false;
+        }
     }
 
 }

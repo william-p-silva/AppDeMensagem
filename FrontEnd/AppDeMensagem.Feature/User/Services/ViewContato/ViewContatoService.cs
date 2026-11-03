@@ -11,22 +11,18 @@ public class ViewContatoService(HttpService httpService)
 
     private async Task<List<ChatsModel>> GetChats()
     {
-        var response = await httpService.GetAsync<List<ChatsModel>>("Chat/get/all");
-
-        if (!response.Success)
+        try
         {
-            ErrorChats.Add(httpService.Error.Last());
+            var response = await httpService.GetAsync<List<ChatsModel>>("Chat/get/all");
+
+            return response.Data ?? new List<ChatsModel>();
+        }
+        catch (Exception ex)
+        {
+            ErrorChats.Add(ex.Message);
             return new List<ChatsModel>();
         }
-        if (ErrorChats.Count > 0)
-            return new List<ChatsModel>();
-        if (response.Data is null)
-        {
-            ErrorChats.Add("Erro na busca de conversas. Tente novamente. ");
-            return new List<ChatsModel>();
-        }
-
-        return response.Data;
+        
     }
 
     public async Task SetChats()
