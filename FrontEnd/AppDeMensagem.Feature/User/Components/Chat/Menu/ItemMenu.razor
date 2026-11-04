@@ -1,0 +1,21 @@
+@using AppDeMensagem.Feature.User.Components.Chat.Models
+
+<button type="button"
+		@onclick="Props.OnClick"
+		class="flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-left text-sm text-zinc-200 transition-colors duration-150 hover:border-l-3 hover:border-blue-400 hover:bg-zinc-700 hover:text-white">
+
+	<DynamicComponent Type="Props.Icone" />
+
+	<span>@Props.Text</span>
+</button>
+
+@code {
+	[Parameter, EditorRequired]
+	public OpcoesChatProps Props { get; set; } = default!;
+
+	private IDictionary<string, object> ParametrosIcone => new Dictionary<string, object>
+	{
+		{ "Size", Props.IconSize },
+		{ "Stroke", Props.IconStroke }
+	};
+}

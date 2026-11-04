@@ -1,4 +1,6 @@
-﻿@using Feature.User.Services.Chat
+﻿@using AppDeMensagem.Feature.User.Components.Chat.Menu
+@using AppDeMensagem.Feature.User.Components.Chat.Models
+@using Feature.User.Services.Chat
 @inject ChatService ChatService
 @implements IDisposable
 
@@ -19,8 +21,16 @@
 			<div>
 				<IconLupa Size="24" />
 			</div>
-			<div>
-				<IconPontos Size="24"  />
+			<div class="relative">
+				<span @onclick="ToggleMenu" class="cursor-pointer">
+					<IconPontos Size="24" />
+				</span>
+
+				@if (OpenMenu)
+				{
+					<OpcoesChat Opcoes="@Opcoes" />
+				}
+
 			</div>
 		</div>
 
@@ -29,8 +39,42 @@
 
 @code {
 
+	private List<OpcoesChatProps> Opcoes = new List<OpcoesChatProps>();
+
+	private bool OpenMenu { get; set; } = false;
+
+	private void ToggleMenu()
+	{
+		OpenMenu = !OpenMenu;
+	}
+
+	private async Task DeletarChat()
+	{
+		await ChatService.DeleteChat();
+	}
+
 	protected override void OnInitialized()
 	{
+		Opcoes =
+		[
+			new OpcoesChatProps(
+				Text: "Deletar",
+				OnClick: EventCallback.Factory.Create(this, DeletarChat),
+				Icone: typeof(IconLixeira),
+				IconSize: 20,
+				IconStroke: 2
+			),
+			new OpcoesChatProps(
+				Text: "Sair",
+				OnClick: EventCallback.Factory.Create(this, DeletarChat),
+				Icone: typeof(IconPerfil),
+				IconSize: 20,
+				IconStroke: 2
+			)
+		];
+
+		OpenMenu = false;
+
 		ChatService.OnChange += StateHasChanged;
 	}
 

@@ -90,11 +90,33 @@ public class ChatService
         };
     }
 
+    public async Task DeleteChat()
+    {
+        try
+        {
+            if (ChatHistory.Chat_ID == Guid.Empty || !ChatActive)
+            {
+                ErrorChat.Add("Não é possível deletar um chat vazio.");
+                return;
+            }
+
+            var respone = await _httpService.DeleteAsync<string>(
+                $"chat/delete/exit-chat/{ChatHistory.Chat_ID}");
+
+            NotifyStateChanged();
+        }
+        catch (Exception ex)
+        {
+            ErrorChat.Add(ex.Message);
+        }
+    }
+
     private async Task SendMessageService()
     {
         try
         {
             var response = await _httpService.PostAsync<RequestMesageModel, string>("Chat/post/send-message", RequestSendMessage);
+            NotifyStateChanged();
         }
         catch (Exception ex)
         {

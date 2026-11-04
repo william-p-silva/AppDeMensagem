@@ -1,0 +1,13 @@
+@using AppDeMensagem.Feature.User.Components.Chat.Models
+
+<div class="absolute top-full right-0 z-50 mt-2 w-48 overflow-hidden rounded-lg border border-zinc-700 bg-zinc-800 py-1 shadow-xl">
+    @foreach (var op in Opcoes)
+    {
+        <ItemMenu Props="@op" />
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public IEnumerable<OpcoesChatProps> Opcoes { get; set; } = default!;
+}
