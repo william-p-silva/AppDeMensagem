@@ -1,0 +1,15 @@
+
+
+
+
+<section class="@ClassName
+	w-full overflow-hidden rounded-2xl shadow-xl">
+	@ChildContent
+</section>
+
+
+@code {
+	[Parameter, EditorRequired] public RenderFragment ChildContent { get; set; }
+
+	[Parameter] public string ClassName { get; set; } = string.Empty;
+}

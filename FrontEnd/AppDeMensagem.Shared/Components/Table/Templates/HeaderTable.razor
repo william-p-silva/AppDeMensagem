@@ -1,0 +1,28 @@
+﻿
+
+<div class="bg-table-header flex items-center gap-3 p-5 text-2xl @ClassName">
+	<DynamicComponent Type="@HeaderProps.Icon" Parameters="@ParametrosIcone" />
+	<h2 className=" font-bold text-text tracking-wide">@HeaderProps.Title</h2>
+</div>
+
+
+
+@code {
+	[Parameter, EditorRequired]
+	public TableHeaderProps HeaderProps { get; set; }
+
+	[Parameter] public string ClassName { get; set; } = string.Empty;
+
+	public sealed record TableHeaderProps(
+		string Title,
+		Type Icon,
+		int IconStroke,
+		int IconSize = 20
+	);
+
+	private IDictionary<string, object> ParametrosIcone => new Dictionary<string, object>
+	{
+		{ "Size", HeaderProps.IconSize },
+		{ "Stroke", HeaderProps.IconStroke }
+	};
+}
