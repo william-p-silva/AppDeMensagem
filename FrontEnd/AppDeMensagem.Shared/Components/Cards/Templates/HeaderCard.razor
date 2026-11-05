@@ -1,0 +1,13 @@
+﻿
+
+<div class="flex w-full items-center justify-center gap-4 rounded-t-2xl border-b-2 border-zinc-600 bg-zinc-800 p-2">
+	<DynamicComponent Type="@Icon" />
+	<h2 >@Title</h2>
+</div>
+
+@code {
+	[Parameter, EditorRequired]
+	public string Title { get; set; }
+	[Parameter]
+	public Type? Icon { get; set; }
+}

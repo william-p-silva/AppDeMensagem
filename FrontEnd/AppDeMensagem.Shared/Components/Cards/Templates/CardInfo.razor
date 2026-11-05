@@ -1,0 +1,35 @@
+﻿
+<BaseCard>
+	<HeaderCard Title="@TitleHeader" Icon="@IconHeader"/>
+
+	<div class="flex w-full flex-col justify-start px-4 py-2">
+		<h3 class="text-center text-lg font-bold">@Title</h3>
+		<p>@SubTitle</p>
+	</div>
+
+	<FooterCard Icon="@IconFooter" OnClick="@OnClickFooter" Text="@TextFooter" />
+</BaseCard>
+
+@code {
+	[Parameter, EditorRequired]
+	public string Title{ get; set; }
+
+	[Parameter, EditorRequired]
+	public string SubTitle{ get; set; }
+
+	[Parameter, EditorRequired]
+	public string TitleHeader { get; set; }
+
+	[Parameter, EditorRequired]
+	public Type IconHeader { get; set; }
+
+	[Parameter, EditorRequired]
+	public string TextFooter { get; set; }
+
+	[Parameter, EditorRequired]
+	public Type IconFooter { get; set; }
+
+	[Parameter]
+	public EventCallback OnClickFooter { get; set; }
+
+}

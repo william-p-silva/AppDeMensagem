@@ -1,0 +1,12 @@
+
+
+
+<article class="flex w-full flex-col rounded-2xl border-2 border-zinc-600 bg-zinc-900">
+	@ChildContent
+</article>
+
+
+@code {
+	[Parameter, EditorRequired]
+	public RenderFragment ChildContent { get; set; }
+}

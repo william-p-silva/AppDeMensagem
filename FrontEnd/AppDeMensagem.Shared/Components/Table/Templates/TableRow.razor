@@ -1,114 +1,127 @@
 ﻿@using AppDeMensagem.Shared.Components.Table.Templates.Models
 @using AppDeMensagem.Shared.UI.Icons.Chat
 
-<tr aria-selected="@Selected" class="@ClassName">
-	@{
-		var firstFilledIndex = Array.FindIndex(Cells, c => c != null);
-	}
-	@foreach (var cell in Cells)
-	{
-		var padding = firstFilledIndex == Array.IndexOf(Cells, cell) ? "pl-4" : "px-4";
+<tr aria-selected="@Selected"
+    class="border-b border-zinc-800 transition-colors duration-200
+    @(Selected
+        ? "bg-zinc-700/70"
+        : "bg-zinc-900 hover:bg-zinc-800/80")
+    @ClassName">
 
-		if (cell is not null)
-		{
-			@RenderCell(cell, padding, firstFilledIndex == Array.IndexOf(Cells, cell))
-		}
-		else
-		{
-			<td class="@padding"></td>
-		}
-	}
-	@if (ShowAction)
-	{
-		<td class="p-4 pr-6 @ActionAlign.ToAlingText()">
-			<button type="button"
-					@onclick="OnActionClick"
-					class="bg-card-border border-card/60 text-text-muted inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-2 transition-colors hover:bg-difficulty-info hover:text-text @(Selected ? "bg-difficulty-info" : "")">
+    @{
+        var firstFilledIndex = Array.FindIndex(Cells, c => c != null);
+    }
 
-				<!-- Aqui você chama o seu componente diretamente sem precisar injetar por parâmetro -->
-				<IconEnviar />
+    @foreach (var cell in Cells)
+    {
+        var padding = firstFilledIndex == Array.IndexOf(Cells, cell) ? "pl-4" : "px-4";
 
-			</button>
-		</td>
-	}
+        if (cell is not null)
+        {
+            @RenderCell(cell, padding, firstFilledIndex == Array.IndexOf(Cells, cell))
+        }
+        else
+        {
+            <td class="@padding"></td>
+        }
+    }
+
+    @if (ShowAction)
+    {
+        <td class="p-4 pr-6 @ActionAlign.ToAlingText()">
+            <button type="button"
+                    @onclick="OnActionClick"
+                    class="inline-flex size-9 cursor-pointer items-center justify-center rounded-lg
+                text-zinc-400 transition-colors duration-200
+                hover:bg-zinc-700 hover:text-white">
+
+                <DynamicComponent Type="ActionIcon" />
+
+            </button>
+        </td>
+    }
 </tr>
 
-
 @code {
-	[Parameter, EditorRequired]
-	public TableCellModel?[] Cells { get; set; } = Array.Empty<TableCellModel?>();
+    [Parameter, EditorRequired]
+    public TableCellModel?[] Cells { get; set; } = Array.Empty<TableCellModel?>();
 
-	[Parameter] public bool ShowAction { get; set; } = true;
+    [Parameter] public bool ShowAction { get; set; } = true;
 
-	[Parameter] public EventCallback OnActionClick { get; set; }
+    [Parameter] public EventCallback OnActionClick { get; set; }
 
-	[Parameter] public RenderFragment? ActionIcon { get; set; }
+    [Parameter] public Type? ActionIcon { get; set; }
 
-	[Parameter] public CellAlign ActionAlign { get; set; } = CellAlign.Right;
+    [Parameter] public CellAlign ActionAlign { get; set; } = CellAlign.Right;
 
-	[Parameter] public string ClassName { get; set; } = string.Empty;
+    [Parameter] public string ClassName { get; set; } = string.Empty;
 
-	[Parameter] public bool Selected { get; set; } = false;
+    [Parameter] public bool Selected { get; set; } = false;
 
-	private RenderFragment RenderCell(
-		TableCellModel cell,
-		string padding,
-		bool isFirst) => __builder =>
-	{
-		var align = cell.Align;
-		switch (cell)
-		{
-			case TitleCell titleCell:
-				<td class="@align.ToAlingText()">
-					<div title="@titleCell.Title" class="text-lg/snug truncate font-bold
-						@titleCell.MaxWidth
-						@align.ToAlingMargin()
-						@titleCell.ClassName">
+    private RenderFragment RenderCell(
+        TableCellModel cell,
+        string padding,
+        bool isFirst) => __builder =>
+    {
+        var align = cell.Align;
 
-						@titleCell.Title
-					</div>
-					@if (!string.IsNullOrWhiteSpace(titleCell.SubTitle))
-					{
-						<div title="@titleCell.SubTitle" class="font-sofia truncate
-							@titleCell.MaxWidth
-							@align.ToAlingMargin()">
+        switch (cell)
+        {
+            case TitleCell titleCell:
+                <td class="@align.ToAlingText() px-4 py-4">
+                    <div title="@titleCell.Title" class="truncate text-base font-semibold text-zinc-100
+                        @titleCell.MaxWidth
+                        @align.ToAlingMargin()
+                        @titleCell.ClassName">
 
-							@titleCell.SubTitle
-						</div>
-					}
-				</td>
-				break;
+                        @titleCell.Title
+                    </div>
 
-			case TextCell textCell:
-				<td class="@padding font-jet text-xs font-bold uppercase @align.ToAlingText()">
-					<span title="@textCell.Text" class="block truncate @textCell.MaxWidth @align.ToAlingMargin() @textCell.ClassName">
-						@textCell.Text
-					</span>
-				</td>
-				break;
+                    @if (!string.IsNullOrWhiteSpace(titleCell.SubTitle))
+                    {
+                        <div title="@titleCell.SubTitle" class="truncate text-sm text-zinc-400
+                            @titleCell.MaxWidth
+                            @align.ToAlingMargin()">
 
-			case BadgeCell badgeCell:
-				<td class="@padding">
-					<div class="flex @align.ToAlingJustify()">
-						<span class="inline-flex items-center justify-center
-							gap-1.5 text-xs font-bold
-							@badgeCell.Color
-							@badgeCell.ClassName">
-							@if (badgeCell.Icon != null)
-							{
-								@badgeCell.Icon
-							}
-							<span>@badgeCell.Label</span>
-						</span>
-					</div>
-				</td>
-				break;
+                            @titleCell.SubTitle
+                        </div>
+                    }
+                </td>
+                break;
 
-			case CustomCell customCell:
-				<td class="@padding @align.ToAlingText() @customCell.ClassName">
-					@customCell.Content
-				</td>
-				break;
-		}
-	};
+            case TextCell textCell:
+                <td class="@padding font-jet py-4 text-xs font-semibold tracking-wide text-zinc-300 uppercase @align.ToAlingText()">
+                    <span title="@textCell.Text" class="block truncate @textCell.MaxWidth @align.ToAlingMargin() @textCell.ClassName">
+                        @textCell.Text
+                    </span>
+                </td>
+                break;
+
+            case BadgeCell badgeCell:
+                <td class="@padding py-4">
+                    <div class="flex @align.ToAlingJustify()">
+                        <span class="inline-flex items-center justify-center gap-1.5
+                            rounded-md border border-zinc-600 bg-zinc-800
+                            px-2.5 py-1 text-xs font-semibold text-zinc-200
+                            @badgeCell.Color
+                            @badgeCell.ClassName">
+
+                            @if (badgeCell.Icon != null)
+                            {
+                                @badgeCell.Icon
+                            }
+
+                            <span>@badgeCell.Label</span>
+                        </span>
+                    </div>
+                </td>
+                break;
+
+            case CustomCell customCell:
+				<td class="p-4 text-zinc-200 @align.ToAlingText() @customCell.ClassName">
+                    @customCell.Content
+                </td>
+                break;
+        }
+    };
 }

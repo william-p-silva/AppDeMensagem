@@ -1,0 +1,33 @@
+﻿@if (!OnClick.HasDelegate)
+{
+	<div class="flex w-full items-center justify-center gap-4">
+		@if (Icon is not null)
+		{
+			<DynamicComponent Type="@Icon" />
+		}
+		<h2>@Text</h2>
+	</div>
+}
+else
+{
+	<div class="flex w-full cursor-pointer items-center justify-center pb-1" >
+		<button class="flex cursor-pointer items-center justify-center rounded-lg bg-zinc-800 p-2 hover:bg-zinc-600" @onclick="OnClick">
+			@if (Icon is not null)
+			{
+				<DynamicComponent Type="@Icon" />
+			}
+			<h2>@Text</h2>
+		</button>
+	</div>
+}
+
+@code {
+	[Parameter, EditorRequired]
+	public string Text { get; set; } = string.Empty;
+
+	[Parameter]
+	public Type? Icon { get; set; }
+
+	[Parameter]
+	public EventCallback OnClick { get; set; }
+}

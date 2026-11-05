@@ -1,73 +1,75 @@
 ﻿@using AppDeMensagem.Shared.Components.Table.Templates.Models
 
+<thead class="border-b border-zinc-700 bg-zinc-800 @ClassName">
+    <tr class="text-xs font-bold tracking-widest text-zinc-400 uppercase">
 
-<thead class="@ClassName">
-	<tr class="tracking-wider uppercase">
-		@{
-			var formattedColumns = FormatColumns(Columns ?? DefaultColumns);
-		}
-		@for (int idx = 0; idx < formattedColumns.Count; idx++)
-		{
-			var col = formattedColumns[idx];
-			var isFirst = idx == 0;
-			var isLast = idx == formattedColumns.Count - 1;
+        @{
+            var formattedColumns = FormatColumns(Columns ?? DefaultColumns);
+        }
 
-			var alignClass = col.Align switch
-			{
-				CellAlign.Right => "text-right",
-				CellAlign.Center => "text-center",
-				_ => "text-left"
-			};
+        @for (int idx = 0; idx < formattedColumns.Count; idx++)
+        {
+            var col = formattedColumns[idx];
+            var isFirst = idx == 0;
+            var isLast = idx == formattedColumns.Count - 1;
 
-			var paddingClass = isFirst
-				? "pl-6 pr-4 py-4"
-				: isLast
-				? "pr-6 pl-4 py-4"
-				: "p-4";
+            var alignClass = col.Align switch
+            {
+                CellAlign.Right => "text-right",
+                CellAlign.Center => "text-center",
+                _ => "text-left"
+            };
 
-			<th key="@(col.Key ?? col.Label)" class="@paddingClass @alignClass">
-				@col.Label
-			</th>
-		}
-	</tr>
+            var paddingClass = isFirst
+                ? "pl-6 pr-4 py-4"
+                : isLast
+                ? "pr-6 pl-4 py-4"
+                : "p-4";
+
+            <th key="@(col.Key ?? col.Label)" class="@paddingClass @alignClass">
+                @col.Label
+            </th>
+        }
+    </tr>
 </thead>
 
 @code {
-	[Parameter]
-	public object[] Columns { get; set; }
+    [Parameter]
+    public object[] Columns { get; set; }
 
-	[Parameter] public string ClassName { get; set; } = string.Empty;
+    [Parameter] public string ClassName { get; set; } = string.Empty;
 
-	private static readonly object[] DefaultColumns = new object[]
-	{
-		new TableColumnModel { Label = "ID", Align = CellAlign.Left },
-		new TableColumnModel { Label = "Nome", Align = CellAlign.Left },
-		new TableColumnModel { Label = "Email", Align = CellAlign.Left },
-		new TableColumnModel { Label = "Ação", Align = CellAlign.Right },
-	};
+    private static readonly object[] DefaultColumns = new object[]
+    {
+        new TableColumnModel { Label = "ID", Align = CellAlign.Left },
+        new TableColumnModel { Label = "Nome", Align = CellAlign.Left },
+        new TableColumnModel { Label = "Email", Align = CellAlign.Left },
+        new TableColumnModel { Label = "Ação", Align = CellAlign.Right },
+    };
 
-	private List<TableColumnModel> FormatColumns(object[] inputColumns)
-	{
-		var result = new List<TableColumnModel>();
+    private List<TableColumnModel> FormatColumns(object[] inputColumns)
+    {
+        var result = new List<TableColumnModel>();
 
-		for (int i = 0; i < inputColumns.Length; i++)
-		{
-			var item = inputColumns[i];
-			var isLast = i == inputColumns.Length - 1;
-			if (item is string strLabel)
-			{
-				result.Add(new TableColumnModel
-				{
-					Label = strLabel,
-					Align = isLast ? CellAlign.Right : CellAlign.Left
-				});
-			}
-			else if (item is TableColumnModel colModel)
-			{
-				result.Add(colModel);
-			}
-		}
+        for (int i = 0; i < inputColumns.Length; i++)
+        {
+            var item = inputColumns[i];
+            var isLast = i == inputColumns.Length - 1;
 
-		return result;
-	}
+            if (item is string strLabel)
+            {
+                result.Add(new TableColumnModel
+                {
+                    Label = strLabel,
+                    Align = isLast ? CellAlign.Right : CellAlign.Left
+                });
+            }
+            else if (item is TableColumnModel colModel)
+            {
+                result.Add(colModel);
+            }
+        }
+
+        return result;
+    }
 }

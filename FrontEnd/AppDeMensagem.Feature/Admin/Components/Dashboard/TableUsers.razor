@@ -1,30 +1,59 @@
-﻿@using AppDeMensagem.Shared.Components.Table.Templates
+﻿
+@using AppDeMensagem.Feature.Admin.Models.User
+@using AppDeMensagem.Shared.Components.Table.Templates
 @using Feature.Admin.Services.Dashboard
 @using Shared.Components.Table.Templates.Models
 @inject DashboardService DashboardService
 
-<BaseTable>
-	<HeaderTable HeaderProps="@(new HeaderTable.TableHeaderProps(
-						 "Usuários", typeof(IconPerfil), 2))" ClassName="text-black" />
-	<TableColumnHeader ClassName="text-black" />
-	@if (DashboardService.Users.Any())
-	{
-		@foreach (var user in DashboardService.Users)
-		{
-			<TableRow Cells="new TableCellModel?[]{
-		  new TitleCell {Title = user.Name, Align = CellAlign.Left},
-		  new TextCell {Text = user.Email, Align = CellAlign.Left},
-		  new TextCell {Text = user.User_ID.ToString(), Align = CellAlign.Left},
-		  }"
-		  ClassName="text-black"
-		  OnActionClick="Teste" />
-		}
-	}
+<div class="space-y-5">
+	<BaseTable ClassName="">
+		<HeaderTable HeaderProps="@(new HeaderTable.TableHeaderProps(
+												"Usuários", typeof(IconPerfil), 2))" ClassName="text-black" />
 
-</BaseTable>
+		<div className="overflow-x-auto">
+			<table className="w-full text-left border-collapse">
+
+				<TableColumnHeader ClassName="text-black w-full" />
+				<tbody>
+					@if (Usuarios.Any())
+					{
+						@foreach (var user in Usuarios)
+						{
+							<TableRow Cells="new TableCellModel?[]{
+									new TextCell {
+										  Text = user.User_ID.ToString(),
+										  Align = CellAlign.Left
+										},
+									new TitleCell {Title = user.Name, Align = CellAlign.Left},
+									new TextCell {Text = user.Email, Align = CellAlign.Left},
+									}"
+						  ClassName="text-black"
+						  OnActionClick="Teste"
+						  ActionIcon="typeof(IconEnviar)" />
+							}
+					}
+					else
+					{
+						<tr>
+							<td colSpan="4"
+								class="font-grotesk text-text-muted p-8 text-center text-sm">
+								Nenhuma questão encontrada para esta aba.
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</BaseTable>
+
+</div>
+
 
 @code {
-	protected async override Task OnInitializedAsync()
+	[Parameter, EditorRequired]
+	public List<UserModel> Usuarios { get; set; }
+
+    protected async override Task OnInitializedAsync()
 	{
 		await CarregarDados();
 	}

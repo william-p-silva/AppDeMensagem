@@ -1,11 +1,35 @@
-﻿
+﻿@using AppDeMensagem.Feature.Admin.Services.Dashboard
+@using AppDeMensagem.Shared.Components.Cards.Templates
+@inject DashboardService DashboardService
 
 
-<main class="min-h-screen">
-	<TableUsers />
+<main class="flex min-h-screen w-screen flex-col items-center gap-4 p-4">
+	<div class="grid w-full grid-cols-3">
+		<CardInfo IconFooter="typeof(IconEmojiPlus)"
+				  IconHeader="typeof(IconPerfil)"
+				  TextFooter="Este é o total de usuários."
+				  TitleHeader="Total de Usuários"
+				  Title="@DashboardService.Users.Count.ToString()"
+				  SubTitle="Todos estão ativos"
+				  OnClickFooter="teste" />
+	</div>
+	<TableUsers Usuarios="@DashboardService.Users" />
 </main>
 
 
 @code {
+	protected async override Task OnInitializedAsync()
+	{
+		await CarregarDados();
+	}
 
+	private async Task CarregarDados()
+	{
+		await DashboardService.GetAllUsers();
+	}
+
+	private void teste()
+	{
+		
+	}
 }
